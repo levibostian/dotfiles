@@ -1,0 +1,22 @@
+- defaults:
+    link:
+      create: true
+      relink: true
+
+- clean: ['~']
+
+- link:
+    ~/.bashrc:
+    # ~/.emacs.d: # I tried installing my .emacs.d, but it was far too large. Switch to using git submodules probably or a package manager? Then use config file. 
+    # ~/.emacs:
+    ~/.git-completion.bash:
+    ~/.gitconfig:
+    ~/.gitignore_global:
+    ~/.vimrc:    
+
+- create:
+  - ~/.ssh
+  - ~/code
+
+- shell:
+  - [git submodule update --init --recursive, Installing submodules]

@@ -6,6 +6,8 @@ This project should be all that I need in order to setup a new Mac.
 
 # Setup Mac
 
+* When you first startup terminal, it may be set to zsh instead of bash as your shell. Run `chsh -s /bin/bash` to change the shell to bash for your user.
+
 * Run the scripts in `./setup_mac` in this order:
 
 1. `brew.sh`

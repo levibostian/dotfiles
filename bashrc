@@ -13,12 +13,6 @@ fi
 alias git=hub
 alias gwd='hub browse' # open the current directory repo in browser
 
-### Java, Help: https://gist.github.com/levibostian/3c70bd7e78d76454c165a8f32f1ff6e9
-export JAVA_11_HOME=$(/usr/libexec/java_home -v11)
-alias java11='export JAVA_HOME=$JAVA_11_HOME'
-java11 # default to Java 11
-### end of java
-
 # rbenv stuff
 ## This script below initializes rbenv for the current session. we will 'eval' it so that every shell session has rbenv setup and ready to go. 
 export PATH="$HOME/.rbenv/bin:$PATH"
@@ -26,9 +20,8 @@ eval "$(rbenv init -)"
 
 # NVM stuff
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-export PATH="/usr/local/share/rsi/idl/bin:/home/username/anaconda/bin:$PATH"
+[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
 # homebrew stuff, https://docs.brew.sh/Shell-Completion
 if type brew &>/dev/null; then

@@ -7,6 +7,7 @@
 
 - link:
     ~/.bashrc:
+    ~/.bash_profile:
     # ~/.emacs.d: # I tried installing my .emacs.d, but it was far too large. Switch to using git submodules probably or a package manager? Then use config file. 
     # ~/.emacs:
     ~/.git-completion.bash:

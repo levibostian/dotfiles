@@ -13,13 +13,14 @@ This project should be all that I need in order to setup a new Mac.
 1. `brew.sh`
 2. `langs.sh`
 3. `brew_install.sh`
-* Setup SSH on this machine. Open 1Password and download files `~/.ssh/id_rsa` and `~/.ssh/id_rsa.pub`
 4. `manual.sh`
 5. `brew_cask.sh`
 6. `xcode.sh`
 7. `appstore.sh`
 8. `mac_settings.sh`
 9. `clean.sh`
+
+* Setup SSH on this machine. Open 1Password and download files `~/.ssh/id_rsa` and `~/.ssh/id_rsa.pub`
 
 * Go into 1Password and follow instructions for New mac install. There are more private keys in there to install. 
 

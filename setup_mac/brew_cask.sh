@@ -12,6 +12,7 @@ log_header "BREW CASK"
 if test ! $(brew cask help); then
   log "INFO" "Installing homebrew cask."
   brew install caskroom/cask/brew-cask
+  brew tap homebrew/cask-versions # allow you to `brew cask ...` older versions of software. Mostly used for java. 
 fi
 
 # Install apps to /Applications (The default is: /Users/$user/Applications)

@@ -49,3 +49,6 @@
 # UPDATE: 7-17-20 I commented this out because https://stackoverflow.com/a/61049144/1486374 XCode doesn't like this when using SPM
 #[includeIf "gitdir:~/code/"]
 #  path = .gitconfig_code_dir
+
+[pull]
+	rebase = false

@@ -20,3 +20,6 @@ rbenv install $(rbenv install -l | grep -v - | tail -1) # thanks, https://stacko
 rbenv global $(rbenv install -l | grep -v - | tail -1)
 log "INFO" "Open a new terminal and try 'irb' and 'ruby' commands to see if they work. Continue when it does."
 wait_for_keypress
+
+log "INFO" "Install java: https://gist.github.com/levibostian/3c70bd7e78d76454c165a8f32f1ff6e9"
+wait_for_keypress

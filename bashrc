@@ -51,3 +51,6 @@ export PATH="$PATH:${GOPATH}/bin:${GOROOT}/bin"
 test -d "${GOPATH}" || mkdir "${GOPATH}"
 test -d "${GOPATH}/src/github.com" || mkdir -p "${GOPATH}/src/github.com"
 
+# iterm2 integration. https://iterm2.com/documentation-shell-integration.html
+source ~/.iterm2_shell_integration.bash
+

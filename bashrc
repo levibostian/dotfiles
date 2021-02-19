@@ -43,6 +43,8 @@ fi
 ## autocomplete
 source <(kubectl completion bash)
 alias k='kubectl'
+alias kc='kubectx'
+alias kn='kubens'
 
 # go dev
 export GOPATH="${HOME}/.go"
@@ -61,3 +63,9 @@ tmpfile=$( mktemp -t transferXXX ); if tty -s; then basefile=$(basename "$1" | s
 # Add `adb` to path for using as a CLI
 export ANDROID_HOME=/Users/$USER/Library/Android/sdk
 export PATH=${PATH}:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
+
+# helm
+helm completion bash | bash
+
+# pip
+export PATH="$HOME/Library/Python/3.9/bin:$PATH"

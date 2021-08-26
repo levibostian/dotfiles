@@ -46,7 +46,7 @@ alias javals='ls /Library/Java/JavaVirtualMachines/'
 # use `brew search adoptopenjdk` to find all of the versions of java you *can* install.
 #
 # can set default if you want by uncommenting below:
-# java15
+java11
 # 
 alias javav='java --version' 
 
@@ -78,6 +78,8 @@ alias kn='kubens'
 helm completion bash | bash
 
 # go dev
+# From: https://ahmadawais.com/install-go-lang-on-macos-with-homebrew/
+# Assumes that you install go with `brew install go`
 export GOPATH="${HOME}/.go"
 export GOROOT="$(brew --prefix golang)/libexec"
 export PATH="$PATH:${GOPATH}/bin:${GOROOT}/bin"
@@ -97,3 +99,26 @@ export PATH=${PATH}:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
 
 # pip
 export PATH="$HOME/Library/Python/3.9/bin:$PATH"
+
+# gcloud SDK adding to path 
+# install gcloud: https://gist.github.com/levibostian/8e578cee23ed6b8c078561f8302660e5
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f "$HOME/apps/google-cloud-sdk/path.bash.inc" ]; then . "$HOME/apps/google-cloud-sdk/path.bash.inc"; fi
+# The next line enables shell command completion for gcloud.
+if [ -f "$HOME/apps/google-cloud-sdk/completion.bash.inc" ]; then . "$HOME/apps/google-cloud-sdk/completion.bash.inc"; fi
+
+# sed 
+# the default sed CLI that's installed with macos isn't the same as linux so you might have some weird behavior. 
+# to fix this problem, install gnu sed and set it as the default sed program on the machine. 
+# Install gnu sed from homebrew and the install script gives you instructions on how to make gnu sed the default. 
+# From: https://gist.github.com/andre3k1/e3a1a7133fded5de5a9ee99c87c6fa0d
+PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
+
+# bat (a more powerful cat)
+# https://github.com/sharkdp/bat
+if ! [ -x "$(command -v bat)" ]; then
+  echo "Install bat if you want a more powerful cat https://github.com/sharkdp/bat#installation"
+else
+  alias cat='bat'
+fi
+

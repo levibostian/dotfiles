@@ -1,5 +1,14 @@
 # colors and styles the $ prompt. 
-export PS1='\[\e[1;32m\]\u@\h:\[\e[0;31m\]\w$\[\e[m\] '
+# Designed specifically for item theme: https://draculatheme.com/iterm
+RED='\033[1;31m'
+GREEN='\033[1;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[1;34m'
+PURPLE='\033[1;35m'
+CYAN='\033[1;36m'
+WHITE='\033[1;37m'
+RESET='\033[0m'
+export PS1="$BLUE\u:$CYAN\w $GREEN\$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/')\[$(tput sgr0)\] $BLUE$ $RESET"
 
 # Add ssh keys to agent to not have to have you type in your password when using SSH keys anymore
 ssh-add -A
@@ -122,3 +131,9 @@ else
   alias cat='bat'
 fi
 
+# allow using a private bashrc file, if you wish. 
+# thanks, https://stackoverflow.com/a/32107680
+if [ -f $HOME/.bashrc_private ]; then
+    . $HOME/.bashrc_private
+    echo ".bashrc_private loaded"
+fi

@@ -1,5 +1,6 @@
 [core]
 	excludesfile = /Users/levibostian/.gitignore_global
+	autocrlf = false
 [push]
 	default = simple
 [user]

@@ -7,8 +7,8 @@ BLUE='\[\e[1;34m\]'
 PURPLE='\[\e[1;35m\]'
 CYAN='\[\e[1;36m\]'
 WHITE='\[\e[1;37m\]'
-source "dependencies/git-prompt.sh" # to use __git_ps1
-export PS1="$BLUE\u:$CYAN\w $GREEN$(__git_ps1 " (%s) ")$BLUE$\[\e[m\] "
+GIT_BRANCH='`git branch 2> /dev/null | grep -e ^* | sed -E  s/^\\\\\*\ \(.+\)$/\(\\\\\1\)\ /`'
+export PS1="$BLUE\u:$CYAN\w $GREEN$GIT_BRANCH$BLUE$\[\e[m\] "
 
 # Add ssh keys to agent to not have to have you type in your password when using SSH keys anymore
 ssh-add -A

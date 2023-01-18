@@ -32,18 +32,19 @@
     la = "!git config -l | grep alias | cut -c 7-"
 
     i = init
-    ie = "!git init && git config user.email"
-    rao = remote add origin
+    ra = remote add origin
     p = "!git push; git push --tags"
     pf = push -f
     ac = "!f() { git add .; echo $1; git commit; }; f"
     pushall = push -u origin --all
 
     branch-name = "!git rev-parse --abbrev-ref HEAD"
+    # Updates this branch from another remote branch 
+    # Thanks, https://stackoverflow.com/questions/29895560/how-to-pull-a-git-branch-without-checking-it-out
+    merge-branch = "!git fetch && git merge \"$1\" && echo 'merged in changes from $1'"
     mim = "!f() { branch=$(git branch-name); git checkout master && git merge \"$branch\"; }; f"
 #    mim = !sh -c 'git checkout master && git merge $(git branch-name)' -
     po = "!git push -u origin $(git branch-name)"
-    local = "!git co master && git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
 
 [pull]
 	rebase = false

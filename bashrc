@@ -102,9 +102,14 @@ source ~/.iterm2_shell_integration.bash
 transfer() { if [ $# -eq 0 ]; then echo -e "No arguments specified. Usage:\necho transfer /tmp/test.md\ncat /tmp/test.md | transfer test.md"; return 1; fi
 tmpfile=$( mktemp -t transferXXX ); if tty -s; then basefile=$(basename "$1" | sed -e 's/[^a-zA-Z0-9._-]/-/g'); curl --progress-bar --upload-file "$1" "https://transfer.sh/$basefile" >> $tmpfile; else curl --progress-bar --upload-file "-" "https://transfer.sh/$1" >> $tmpfile ; fi; cat $tmpfile; rm -f $tmpfile; } 
 
+#
+# Android
+#
 # Add `adb` to path for using as a CLI
 export ANDROID_HOME=/Users/$USER/Library/Android/sdk
 export PATH=${PATH}:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
+# thanks https://stackoverflow.com/a/48266060
+alias studio='open -b com.google.android.studio' # allows you to run 'studio .' to open project in android studio
 
 # pip
 export PATH="$HOME/Library/Python/3.9/bin:$PATH"
@@ -137,3 +142,9 @@ if [ -f $HOME/.bashrc_private ]; then
     . $HOME/.bashrc_private
     echo ".bashrc_private loaded"
 fi
+
+#
+# Misc
+#
+# Handy to get local IP for setting up proxy on mobile devices to this computer
+alias localip='ipconfig getifaddr en0'

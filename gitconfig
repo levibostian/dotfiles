@@ -18,8 +18,9 @@
     co = checkout
     cob = checkout -b
 
-    # list branches sorted by last modified
-    bl = "!git for-each-ref --sort='-authordate' --format='%(authordate)%09%(objectname:short)%09%(refname)' refs/heads | sed -e 's-refs/heads/--'"
+    # list branches with most recent commits
+    # https://stackoverflow.com/a/5188364
+    bl = branch --sort=-committerdate 
     
     i = init
 

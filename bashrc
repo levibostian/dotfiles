@@ -18,7 +18,7 @@ if [ -f ~/.git-completion.bash ]; then
   . ~/.git-completion.bash
 fi
 
-alias gwd='gh repo view --web' # open the current directory repo in browser. requires https://cli.github.com/
+alias gwd='gh browse --branch $(git branch-name)' # open the current directory repo in browser. requires https://cli.github.com/
 
 # rbenv stuff
 ## This script below initializes rbenv for the current session. we will 'eval' it so that every shell session has rbenv setup and ready to go. 

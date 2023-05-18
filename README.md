@@ -42,6 +42,10 @@ cd .dotfiles
 ./install # downloads and runs dotbot 
 ```
 
+# Setup GPG for signing git commits 
+
+Instead of the bloted GPGTools/gpg-suite for mac, [use this lightweight alternative](https://dev.to/wes/how2-using-gpg-on-macos-without-gpgtools-428f) that simply saves your gpg passphrase into the macos keychain which is ultimately what I was using GPG suite for. 
+
 # Restore backups
 
 I have enabled settings syncing for many applications. Here are some instructions to get back up and running with all of my apps. 

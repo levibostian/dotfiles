@@ -27,8 +27,11 @@ eval "$(rbenv init -)"
 
 # Java 
 # Use brew with a tap to install Java versions. 
-# brew tap AdoptOpenJDK/openjdk    # https://github.com/AdoptOpenJDK/homebrew-openjdk
-# brew install --cask adoptopenjdk # this installs the latest version of java. 
+# Using this --> https://adoptium.net/installation/, it's the updated version of https://github.com/AdoptOpenJDK/homebrew-openjdk
+#
+# brew install --cask temurin  # installs tool 
+# brew tap homebrew/cask-versions # captures all of the available verions you can download 
+# brew install --cask temurin8 # installs a version of java 
 # 
 # if you ever want to change the version of java being used, just run `javaX` where X is the major version you want. Example `java11` will enable java 11. 
 export JAVA_8_HOME=$(/usr/libexec/java_home -v1.8)
@@ -40,6 +43,10 @@ export JAVA_13_HOME=$(/usr/libexec/java_home -v13)
 export JAVA_14_HOME=$(/usr/libexec/java_home -v14)
 export JAVA_15_HOME=$(/usr/libexec/java_home -v15)
 export JAVA_16_HOME=$(/usr/libexec/java_home -v16)
+export JAVA_17_HOME=$(/usr/libexec/java_home -v17)
+export JAVA_18_HOME=$(/usr/libexec/java_home -v18)
+export JAVA_19_HOME=$(/usr/libexec/java_home -v19)
+export JAVA_20_HOME=$(/usr/libexec/java_home -v20)
 #
 alias java8='export JAVA_HOME=$JAVA_8_HOME'
 alias java9='export JAVA_HOME=$JAVA_9_HOME'
@@ -49,13 +56,17 @@ alias java12='export JAVA_HOME=$JAVA_12_HOME'
 alias java13='export JAVA_HOME=$JAVA_13_HOME'
 alias java14='export JAVA_HOME=$JAVA_14_HOME'
 alias java16='export JAVA_HOME=$JAVA_16_HOME'
+alias java17='export JAVA_HOME=$JAVA_17_HOME'
+alias java18='export JAVA_HOME=$JAVA_18_HOME'
+alias java19='export JAVA_HOME=$JAVA_19_HOME'
+alias java20='export JAVA_HOME=$JAVA_20_HOME'
 # In order to use a version of java, it must be installed. 
 # See what versions you have installed now:
 alias javals='ls /Library/Java/JavaVirtualMachines/'
-# use `brew search adoptopenjdk` to find all of the versions of java you *can* install.
+# use `brew search temurin` to find all of the versions of java you *can* install.
 #
 # can set default if you want by uncommenting below:
-java11
+java20
 # 
 alias javav='java --version' 
 
@@ -111,8 +122,11 @@ export PATH=${PATH}:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
 # thanks https://stackoverflow.com/a/48266060
 alias studio='open -b com.google.android.studio' # allows you to run 'studio .' to open project in android studio
 
-# pip
-export PATH="$HOME/Library/Python/3.9/bin:$PATH"
+# Python (with pyenv)
+# got this from 'pyenv init'
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
 
 # gcloud SDK adding to path 
 # install gcloud: https://gist.github.com/levibostian/8e578cee23ed6b8c078561f8302660e5

@@ -1,3 +1,16 @@
+[user]
+  signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKE48cIKjCeX0yNkm26MHSrNUPsesXIvyA/o07SHKbnh
+
+[gpg]
+  format = ssh
+
+[gpg "ssh"]
+  program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+
+# Do *not* allow GPG signing on a global level. Swift package manager and fastlane perform git actions on our behalf and gpg signing makes these operations fail. Instead, I have made it a practice to always enable gpg code signing for each project once I clone it by using aliases to make commits that automatically sign and using code snippets that I copy/paste to set git configs.
+[commit]
+  gpgsign = true
+
 [core]
 	excludesfile = /Users/levibostian/.gitignore_global
 	autocrlf = false
@@ -43,10 +56,5 @@
 [pull]
 	rebase = false
 
-# Do *not* allow GPG signing on a global level. Swift package manager and fastlane perform git actions on our behalf and gpg signing makes these operations fail. Instead, I have made it a practice to always enable gpg code signing for each project once I clone it by using aliases to make commits that automatically sign and using code snippets that I copy/paste to set git configs.
-# [commit]
-# 	gpgsign = true
-[gpg]
-	program = gpg
 [init]
 	defaultBranch = main

@@ -11,7 +11,7 @@ GIT_BRANCH='`git branch 2> /dev/null | grep -e ^* | sed -E  s/^\\\\\*\ \(.+\)$/\
 export PS1="$BLUE\u:$CYAN\w $GREEN$GIT_BRANCH$BLUE$\[\e[m\] "
 
 # Add ssh keys to agent to not have to have you type in your password when using SSH keys anymore
-ssh-add -A
+# ssh-add -A
 
 # git auto complete
 if [ -f ~/.git-completion.bash ]; then
@@ -34,46 +34,26 @@ eval "$(rbenv init -)"
 # brew install --cask temurin8 # installs a version of java 
 # 
 # if you ever want to change the version of java being used, just run `javaX` where X is the major version you want. Example `java11` will enable java 11. 
-export JAVA_8_HOME=$(/usr/libexec/java_home -v1.8)
-export JAVA_9_HOME=$(/usr/libexec/java_home -v9)
-export JAVA_10_HOME=$(/usr/libexec/java_home -v10)
-export JAVA_11_HOME=$(/usr/libexec/java_home -v11)
-export JAVA_12_HOME=$(/usr/libexec/java_home -v12)
-export JAVA_13_HOME=$(/usr/libexec/java_home -v13)
-export JAVA_14_HOME=$(/usr/libexec/java_home -v14)
-export JAVA_15_HOME=$(/usr/libexec/java_home -v15)
-export JAVA_16_HOME=$(/usr/libexec/java_home -v16)
-export JAVA_17_HOME=$(/usr/libexec/java_home -v17)
-export JAVA_18_HOME=$(/usr/libexec/java_home -v18)
-export JAVA_19_HOME=$(/usr/libexec/java_home -v19)
-export JAVA_20_HOME=$(/usr/libexec/java_home -v20)
-#
-alias java8='export JAVA_HOME=$JAVA_8_HOME'
-alias java9='export JAVA_HOME=$JAVA_9_HOME'
-alias java10='export JAVA_HOME=$JAVA_10_HOME'
-alias java11='export JAVA_HOME=$JAVA_11_HOME'
-alias java12='export JAVA_HOME=$JAVA_12_HOME'
-alias java13='export JAVA_HOME=$JAVA_13_HOME'
-alias java14='export JAVA_HOME=$JAVA_14_HOME'
-alias java16='export JAVA_HOME=$JAVA_16_HOME'
-alias java17='export JAVA_HOME=$JAVA_17_HOME'
-alias java18='export JAVA_HOME=$JAVA_18_HOME'
-alias java19='export JAVA_HOME=$JAVA_19_HOME'
-alias java20='export JAVA_HOME=$JAVA_20_HOME'
+alias java12="export JAVA_HOME=$(/usr/libexec/java_home -v12)"
+alias java14="export JAVA_HOME=$(/usr/libexec/java_home -v14)"
+alias java16="export JAVA_HOME=$(/usr/libexec/java_home -v16)"
+alias java17="export JAVA_HOME=$(/usr/libexec/java_home -v17)"
+alias java18="export JAVA_HOME=$(/usr/libexec/java_home -v18)"
+alias java19="export JAVA_HOME=$(/usr/libexec/java_home -v19)"
+alias java20="export JAVA_HOME=$(/usr/libexec/java_home -v20)"
 # In order to use a version of java, it must be installed. 
 # See what versions you have installed now:
 alias javals='ls /Library/Java/JavaVirtualMachines/'
 # use `brew search temurin` to find all of the versions of java you *can* install.
 #
 # can set default if you want by uncommenting below:
-java20
+java17
 # 
 alias javav='java --version' 
 
 # NVM stuff
-export NVM_DIR="$HOME/.nvm"
-[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
-[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 
 # homebrew stuff, https://docs.brew.sh/Shell-Completion
 if type brew &>/dev/null; then
@@ -87,15 +67,10 @@ if type brew &>/dev/null; then
   fi
 fi
 
-# kubernetes
-## autocomplete
-source <(kubectl completion bash)
-alias k='kubectl'
-alias kc='kubectx'
-alias kn='kubens'
-
-# helm
-helm completion bash | bash
+# Deno 
+#
+# Allows you to execute executables that you install with `deno install`
+export PATH="/Users/$USER/.deno/bin:$PATH"
 
 # go dev
 # From: https://ahmadawais.com/install-go-lang-on-macos-with-homebrew/

@@ -24,7 +24,7 @@
   ss = "!git spr status" # stack status 
   sc = "!git checkout main; git fetch --prune; git pull;" # stack clean-up 
   sm = "!git spr merge; git sd; git sc;" # stack merge. By default, also do all cleanup. Run this command from the branch that you are trying to get merged in. 
-  su = "!git spr update" # stack update 
+  su = "!git spr update; sleep 1; git ss;" # stack update. we also check the status after update to check that the CI has begun and no merge conflicts found by github.
   sd = "!BRANCH=$(git branch --show-current); read -p \"OK to delete branch $BRANCH? (ENTER or ctrl+c)\" </dev/tty; git checkout main; git branch -D $BRANCH;" # stack delete branch 
 
   # aa = add .    

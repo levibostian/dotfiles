@@ -86,6 +86,11 @@ alias kn='kubens'
 # helm
 helm completion bash | bash
 
+# Deno 
+# 
+# Allows running executables installed
+export PATH="/Users/$USER/.deno/bin:$PATH"
+
 # go dev
 # From: https://ahmadawais.com/install-go-lang-on-macos-with-homebrew/
 # Assumes that you install go with `brew install go`

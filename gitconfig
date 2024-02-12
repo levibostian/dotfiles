@@ -1,3 +1,15 @@
+[user]
+  signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKE48cIKjCeX0yNkm26MHSrNUPsesXIvyA/o07SHKbnh
+
+[gpg]
+  format = ssh
+
+[gpg "ssh"]
+  program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+
+[commit]
+  gpgsign = true
+
 [core]
 	excludesfile = /Users/levibostian/.gitignore_global
 	autocrlf = false
@@ -5,48 +17,31 @@
 	default = simple
 [user]
 	name = Levi Bostian
-	email = levi.bostian@gmail.com
+	email = levi@levi.earth
 [alias]
-    # one-line log
-    l = log --pretty=format:"%C(yellow)%h\\ %ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=short
+  # working with stacked PRs
+  # Note: requires the tool: https://github.com/ejoffe/spr
+  ss = "!git spr status" # stack status 
+  sc = "!git checkout main; git fetch --prune; git pull;" # stack clean-up 
+  sm = "!git spr merge; git sd; git sc;" # stack merge. By default, also do all cleanup. Run this command from the branch that you are trying to get merged in. 
+  su = "!git spr update; sleep 1; git ss;" # stack update. we also check the status after update to check that the CI has begun and no merge conflicts found by github.
+  sd = "!BRANCH=$(git branch --show-current); read -p \"OK to delete branch $BRANCH? (ENTER or ctrl+c)\" </dev/tty; git checkout main; git branch -D $BRANCH;" # stack delete branch 
 
-    aa = add .    
-    cm = commit -m    
-    cne = commit --amend --no-edit
+  # aa = add .    
+  # cm = commit -m    
+  # cne = commit --amend --no-edit
 
-    s = status
-    co = checkout
-    cob = checkout -b
+  s = status
+  co = checkout
+  cob = checkout -b
 
-    # list branches with most recent commits
-    # https://stackoverflow.com/a/5188364
-    bl = branch --sort=-committerdate 
-    
-    i = init
+  p = "!git push -u origin $(git branch-name)"
+  pf = push -f
+  ac = "!f() { git add .; echo $1; git commit; }; f"
 
-    p = "!git push -u origin $(git branch-name)"
-    pf = push -f
-    ac = "!f() { git add .; echo $1; git commit; }; f"
-    pushall = push -u origin --all
-
-    b = "!git branch-name"
-    branch-name = "!git rev-parse --abbrev-ref HEAD"
-    # Updates this branch from another remote branch 
-    # Thanks, https://stackoverflow.com/questions/29895560/how-to-pull-a-git-branch-without-checking-it-out
-    # https://stackoverflow.com/questions/65347361/git-update-local-master-branch-without-checkout
-    merge-branch = "!git fetch origin $1:$1 && git merge $1 && echo 'merged in changes from $1"
-    
-
-    # open PR for this current branch on github
-    pr = "!gh pr view $(git branch-name) --web"
-
+  b = "!git branch-name"
 [pull]
 	rebase = false
 
-# Do *not* allow GPG signing on a global level. Swift package manager and fastlane perform git actions on our behalf and gpg signing makes these operations fail. Instead, I have made it a practice to always enable gpg code signing for each project once I clone it by using aliases to make commits that automatically sign and using code snippets that I copy/paste to set git configs.
-# [commit]
-# 	gpgsign = true
-[gpg]
-	program = gpg
 [init]
 	defaultBranch = main

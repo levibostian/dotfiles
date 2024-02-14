@@ -21,15 +21,22 @@
 [alias]
   # working with stacked PRs
   # Note: requires the tool: https://github.com/ejoffe/spr
+  #
+  # If you are needing to merge into a branch that is not main, then you need to set that branch name in .spr.yml config file. However, it's easy to forget to update this value if you're quickly switching between branches in a repo. So, I have a command that updates this file before running each spr command to make sure the parent branch is always correct in the config file. 
+  update-spr-config = "!sd \"githubBranch: .*\" \"githubBranch: $(git parent)\" .spr.yml"
   ss = "!git spr status" # stack status 
   sc = "!git checkout main; git fetch --prune; git pull;" # stack clean-up 
-  sm = "!git spr merge; git sd; git sc;" # stack merge. By default, also do all cleanup. Run this command from the branch that you are trying to get merged in. 
-  su = "!git spr update; sleep 1; git ss;" # stack update. we also check the status after update to check that the CI has begun and no merge conflicts found by github.
+  sm = "!git update-spr-config; git spr merge; git sd; git sc;" # stack merge. By default, also do all cleanup. Run this command from the branch that you are trying to get merged in. 
+  su = "!git update-spr-config; git spr update; sleep 1; git ss;" # stack update. we also check the status after update to check that the CI has begun and no merge conflicts found by github.
   sd = "!BRANCH=$(git branch --show-current); read -p \"OK to delete branch $BRANCH? (ENTER or ctrl+c)\" </dev/tty; git checkout main; git branch -D $BRANCH;" # stack delete branch 
 
   # aa = add .    
   # cm = commit -m    
   # cne = commit --amend --no-edit
+
+  # Get the name of the branch that is the parent of this one. 
+  # https://stackoverflow.com/a/52025740
+  parent = "!git show-branch | grep '*' | grep -v \"$(git rev-parse --abbrev-ref HEAD)\" | head -n1 | sed 's/.*\\[\\(.*\\)\\].*/\\1/' | sed 's/[\\^~].*//' #"
 
   s = status
   co = checkout

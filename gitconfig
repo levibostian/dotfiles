@@ -23,7 +23,7 @@
   # Note: requires the tool: https://github.com/ejoffe/spr
   #
   # If you are needing to merge into a branch that is not main, then you need to set that branch name in .spr.yml config file. However, it's easy to forget to update this value if you're quickly switching between branches in a repo. So, I have a command that updates this file before running each spr command to make sure the parent branch is always correct in the config file. 
-  update-spr-config = "!sd \"githubBranch: .*\" \"githubBranch: $(git parent-main)\" .spr.yml; echo \"Updated spr config to branch: $(git parent-main)\""
+  update-spr-config = "!true # sd \"githubBranch: .*\" \"githubBranch: $(git parent-main)\" .spr.yml; echo \"Updated spr config to branch: $(git parent-main)\""
   ss = "!git update-spr-config; git spr status" # stack status 
   sc = "!git checkout $(git parent-main); git fetch --prune; git pull;" # stack clean-up 
   sm = "!git update-spr-config; git spr merge; git sd; git sc;" # stack merge. By default, also do all cleanup. Run this command from the branch that you are trying to get merged in. 
@@ -38,6 +38,11 @@
   # By using git log, we are determining the closest "origin/main*" branch to the latest commit. 
   # 
   parent-main = "!git log -n 200 --decorate | grep origin/main | head -n1 | grep -o 'origin/main[^ ,)\t]*' | sd 'origin/(.*)' '$1'"
+
+  # performs a search just like you would in https://github.com/pulls. Then, use json and jq to only print the PR ID. 
+  gh-repo-prs-need-reviewed = "!gh pr list --search \"is:open is:pr author:@me archived:false -review:approved draft:false repo:$(gh repo view --json nameWithOwner --jq '.nameWithOwner')\" --json number | jq '.[].number'"
+  # Take all PRs that need reviewed and ask the mobile team to do so. 
+  gh-ask-for-reviews = "!git gh-repo-prs-need-reviewed | xargs -I {} gh pr edit {} --add-reviewer customerio/mobile"
 
   s = status
   co = checkout

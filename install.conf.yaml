@@ -6,18 +6,21 @@
 - clean: ['~']
 
 - link:
-    ~/.bashrc:
-    ~/.bash_profile:
-    # ~/.emacs.d: # I tried installing my .emacs.d, but it was far too large. Switch to using git submodules probably or a package manager? Then use config file. 
-    # ~/.emacs:
+    ~/.zshrc:
     ~/.git-completion.bash:
     ~/.gitconfig:
     ~/.gitignore_global:
     # iterm2 integration https://iterm2.com/documentation-shell-integration.html
     ~/.iterm2_shell_integration.bash:
-    ~/.vimrc:    
+    ~/.vimrc:  
+    ~/.oh-my-zsh/themes/lib:
+      create: true
+      path: oh-my-zsh/themes/lib
+    ~/.oh-my-zsh/themes/dracula.zsh-theme:
+      path: oh-my-zsh/themes/dracula.zsh-theme
 
 - create:
+  - ~/.oh-my-zsh
   - ~/.ssh
   - ~/code
   - ~/.nvm

@@ -107,3 +107,10 @@ ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 # spr 
 # in a secure way, set the access token from encrypted source
 alias spr='GITHUB_TOKEN=$(op read "op://Private/github levibostian/Personal access tokens/spr") git spr'
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:~/.lmstudio/bin"
+
+# homebrew 
+# run command to do all the updates. 
+alias brew-update='brew update && brew upgrade && brew install --cask --force `brew list --cask` && brew cleanup -s && brew cleanup --prune 0 && rm -rf "$(brew --cache)"'

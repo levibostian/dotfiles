@@ -4,3 +4,6 @@
 .Ulysses-Settings.plist
 .Ulysses-Group.plist
 .spr.yml
+.git-branches.toml
+lefthook-local.yml
+.lefthook-local.yml

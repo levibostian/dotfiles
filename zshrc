@@ -114,3 +114,6 @@ export PATH="$PATH:~/.lmstudio/bin"
 # homebrew 
 # run command to do all the updates. 
 alias brew-update='brew update && brew upgrade && brew install --cask --force `brew list --cask` && brew cleanup -s && brew cleanup --prune 0 && rm -rf "$(brew --cache)"'
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:~/.lmstudio/bin"

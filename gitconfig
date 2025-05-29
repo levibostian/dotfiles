@@ -44,6 +44,12 @@
   # Take all PRs that need reviewed and ask the mobile team to do so. 
   gh-ask-for-reviews = "!git gh-repo-prs-need-reviewed | xargs -I {} gh pr edit {} --add-reviewer customerio/mobile"
 
+  my-prs = "!gh pr list --search \"author:@me\" --web"
+
+  # Note: this only works if the repo name in .git/config is exactly as in github. if your repo has been renamed, this will not work. 
+  open-pr = "!gh pr list --search "head:$(git branch --show-current)" --json url --jq '.[].url' | xargs open"
+  create-pr = "!gh pr create --web"
+
   s = status
   co = checkout
   cob = checkout -b
@@ -58,3 +64,7 @@
 
 [init]
 	defaultBranch = main
+[fetch]
+	prune = true
+[rebase]
+	updateRefs = true

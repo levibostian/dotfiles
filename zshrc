@@ -108,6 +108,10 @@ ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 # in a secure way, set the access token from encrypted source
 alias spr='GITHUB_TOKEN=$(op read "op://Private/github levibostian/Personal access tokens/spr") git spr'
 
+# github copilot suggest a bash command. 
+# Use: `suggest "homebrew show outdated"`
+alias suggest='gh copilot suggest -t shell'
+
 # Added by LM Studio CLI (lms)
 export PATH="$PATH:~/.lmstudio/bin"
 

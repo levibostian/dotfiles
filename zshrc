@@ -70,7 +70,7 @@ ZSH_THEME="dracula"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git asdf zsh-autosuggestions)
+plugins=(git asdf)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -100,10 +100,17 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-# zsh-autosuggestions
+# Homebrew
+# 
+# put this towards the top of the file so we can use "brew" commands in the rest of the file
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
+# zsh-autosuggestions
+# 
 # Install: brew install zsh-autosuggestions
-#
+# That is all you need to do to install it because of the lines below. 
+# docs for homebrew install method: https://github.com/zsh-users/zsh-autosuggestions/blob/master/INSTALL.md#homebrew
+# 
 # Customize zsh-autosuggestions (auto complete)
 # https://github.com/zsh-users/zsh-autosuggestions
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
@@ -120,8 +127,6 @@ alias suggest='gh copilot suggest -t shell'
 # homebrew 
 # run command to do all the updates. 
 alias brew-update='brew update && brew install --cask --force `brew list --cask` && brew cleanup -s && brew cleanup --prune 0 && rm -rf "$(brew --cache)"'
-
-eval "$(/opt/homebrew/bin/brew shellenv)"
 
 # fixes sublime merge to find langs installed with asdf
 # https://github.com/sublimehq/sublime_merge/issues/1106#issuecomment-807701130

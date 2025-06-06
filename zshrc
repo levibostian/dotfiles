@@ -100,9 +100,14 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+# zsh-autosuggestions
+
+# Install: brew install zsh-autosuggestions
+#
 # Customize zsh-autosuggestions (auto complete)
 # https://github.com/zsh-users/zsh-autosuggestions
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # spr 
 # in a secure way, set the access token from encrypted source
@@ -112,12 +117,22 @@ alias spr='GITHUB_TOKEN=$(op read "op://Private/github levibostian/Personal acce
 # Use: `suggest "homebrew show outdated"`
 alias suggest='gh copilot suggest -t shell'
 
-# Added by LM Studio CLI (lms)
-export PATH="$PATH:~/.lmstudio/bin"
-
 # homebrew 
 # run command to do all the updates. 
-alias brew-update='brew update && brew upgrade && brew install --cask --force `brew list --cask` && brew cleanup -s && brew cleanup --prune 0 && rm -rf "$(brew --cache)"'
+alias brew-update='brew update && brew install --cask --force `brew list --cask` && brew cleanup -s && brew cleanup --prune 0 && rm -rf "$(brew --cache)"'
+
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
+# fixes sublime merge to find langs installed with asdf
+# https://github.com/sublimehq/sublime_merge/issues/1106#issuecomment-807701130
+export PATH="${HOME}/.asdf/shims:${PATH}:$PATH"
+
+# Android
+#
+# sometimes gradle asks you for ANDROID_HOME to run when you download an open source Android app and try running it 
+export ANDROID_HOME=~/Library/Android/sdk
 
 # Added by LM Studio CLI (lms)
-export PATH="$PATH:~/.lmstudio/bin"
+export PATH="$PATH:/Users/levi.bostian/.lmstudio/bin"
+# End of LM Studio CLI section
+

@@ -141,3 +141,11 @@ export ANDROID_HOME=~/Library/Android/sdk
 export PATH="$PATH:/Users/levi.bostian/.lmstudio/bin"
 # End of LM Studio CLI section
 
+# nest (swift CLIs)
+export PATH="$PATH:${HOME}/.nest/bin"
+
+# Set default applications for various file types
+if [[ -f "$HOME/.dotfiles/default-apps.sh" ]]; then
+    "$HOME/.dotfiles/default-apps.sh" > /dev/null 2>&1  # Run silently to avoid cluttering terminal output
+fi
+

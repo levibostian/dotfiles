@@ -52,7 +52,7 @@
   my-prs = "!gh pr list --search \"author:@me\" --web"
 
   # Note: this only works if the repo name in .git/config is exactly as in github. if your repo has been renamed, this will not work. 
-  open-pr = "!gh pr list --search "head:$(git branch --show-current)" --json url --jq '.[].url' | xargs open"
+  open-pr = "!open --url $(GH_PAGER= gh pr list --search "head:$(git branch --show-current)" --json url --jq '.[].url')"
   create-pr = "!gh pr create --web"
 
   s = status

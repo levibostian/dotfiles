@@ -11,7 +11,7 @@
   gpgsign = true
 
 [core]
-	excludesfile = /Users/levibostian/.gitignore_global
+	excludesFile = ~/.gitignore_global
 	autocrlf = false
 [push]
 	default = simple

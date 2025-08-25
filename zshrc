@@ -72,6 +72,11 @@ ZSH_THEME="dracula"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git asdf)
 
+# always answers "yes" to the "update oh my zsh?" prompt. 
+# MUST be set before sourcing oh-my-zsh.sh
+# docs: https://github.com/ohmyzsh/ohmyzsh#getting-updates
+zstyle ':omz:update' mode auto
+
 source $ZSH/oh-my-zsh.sh
 
 # User configuration

@@ -13,3 +13,4 @@
 lefthook-local.yml
 .lefthook-local.yml
 .cow-worktrees/
+.vscode/vscode-notify-desktop-port.json

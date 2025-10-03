@@ -17,12 +17,11 @@
 	default = simple
 [user]
 	name = Levi Bostian
-  # To set email for a computer, set environment variables in ~/.zprofile instead so it's unique to this computer. 
-  # GIT_AUTHOR_NAME=Levi Bostian
-  # GIT_COMMITTER_NAME=Levi Bostian
-  # GIT_AUTHOR_EMAIL=levi@levi.earth
-  # GIT_COMMITTER_EMAIL=levi@levi.earth
-	# email = foo 
+	# email = do.not.set.me.here@example.com 
+
+[include]
+    path = ~/.gitconfig.local
+
 [alias]
   # working with stacked PRs
   # Note: requires the tool: https://github.com/ejoffe/spr

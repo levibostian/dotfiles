@@ -1,0 +1,3 @@
+# the email address to use on this computer. 
+[user]
+    email = foo@foo.com 

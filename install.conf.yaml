@@ -10,6 +10,7 @@
     ~/.zprofile:
     ~/.git-completion.bash:
     ~/.gitconfig:
+    ~/.gitconfig.local.example:
     ~/.gitignore_global:
     # iterm2 integration https://iterm2.com/documentation-shell-integration.html
     ~/.iterm2_shell_integration.bash:

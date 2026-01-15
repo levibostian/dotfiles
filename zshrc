@@ -150,9 +150,9 @@ if [[ -f "$HOME/.dotfiles/default-apps.sh" ]]; then
 fi
 
 # uv - python package manager
-export PATH="/Users/levi/.local/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
 
 # Added by LM Studio CLI (lms)
-export PATH="$PATH:/Users/levi/.lmstudio/bin"
+export PATH="$PATH:$HOME/.lmstudio/bin"
 # End of LM Studio CLI section
 

@@ -1,5 +1,4 @@
 # Homebrew
-eval "$(/usr/local/bin/brew shellenv)"
 eval "$(/opt/homebrew/bin/brew shellenv)"
 # Alias to do a full homebrew update.
 alias brew-update='brew update && brew upgrade && brew install --cask --force `brew list --cask` && brew cleanup -s && brew cleanup --prune 0 && rm -rf "$(brew --cache)"'

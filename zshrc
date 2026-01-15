@@ -121,13 +121,12 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
-# spr 
-# in a secure way, set the access token from encrypted source
-alias spr='GITHUB_TOKEN=$(op read "op://Private/github levibostian/Personal access tokens/spr") git spr'
-
 # github copilot suggest a bash command. 
+# requires github copilot cli: brew install copilot-cli
 # Use: `suggest "homebrew show outdated"`
-alias suggest='gh copilot suggest -t shell'
+suggest() {
+    copilot --prompt "suggest a bash command for the given input. ONLY respond with the command, do not include any explanations or additional text, newline characters, or \`\`\`. Here is the input: $1" --silent 
+}
 
 # homebrew 
 # run command to do all the updates. 
@@ -142,10 +141,6 @@ export PATH="${HOME}/.asdf/shims:${PATH}:$PATH"
 # sometimes gradle asks you for ANDROID_HOME to run when you download an open source Android app and try running it 
 export ANDROID_HOME=~/Library/Android/sdk
 
-# Added by LM Studio CLI (lms)
-export PATH="$PATH:/Users/levi.bostian/.lmstudio/bin"
-# End of LM Studio CLI section
-
 # nest (swift CLIs)
 export PATH="$PATH:${HOME}/.nest/bin"
 
@@ -153,4 +148,11 @@ export PATH="$PATH:${HOME}/.nest/bin"
 if [[ -f "$HOME/.dotfiles/default-apps.sh" ]]; then
     "$HOME/.dotfiles/default-apps.sh" > /dev/null 2>&1  # Run silently to avoid cluttering terminal output
 fi
+
+# uv - python package manager
+export PATH="/Users/levi/.local/bin:$PATH"
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/levi/.lmstudio/bin"
+# End of LM Studio CLI section
 

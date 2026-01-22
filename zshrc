@@ -152,6 +152,11 @@ fi
 # uv - python package manager
 export PATH="$HOME/.local/bin:$PATH"
 
+# autowt 
+alias wt='autowt'
+export AUTOWT_WORKTREE_DIRECTORY_PATTERN="../{branch}"
+export AUTOWT_CLEANUP_DEFAULT_MODE="github"
+
 # Added by LM Studio CLI (lms)
 export PATH="$PATH:$HOME/.lmstudio/bin"
 # End of LM Studio CLI section

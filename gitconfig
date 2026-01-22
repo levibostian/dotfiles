@@ -15,6 +15,7 @@
 	autocrlf = false
 [push]
 	default = simple
+	autoSetupRemote = true
 [user]
 	name = Levi Bostian
 	# email = do.not.set.me.here@example.com 

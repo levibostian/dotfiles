@@ -20,12 +20,15 @@
       path: oh-my-zsh/themes/lib
     ~/.oh-my-zsh/themes/dracula.zsh-theme:
       path: oh-my-zsh/themes/dracula.zsh-theme
+    ~/.config/opencode/opencode.json:
+      path: config/opencode/opencode.json
 
 - create:
   - ~/.oh-my-zsh
   - ~/.ssh
   - ~/code
   - ~/.nvm
+  - ~/.config/opencode
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]

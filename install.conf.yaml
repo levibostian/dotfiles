@@ -22,6 +22,8 @@
       path: oh-my-zsh/themes/dracula.zsh-theme
     ~/.config/opencode/opencode.json:
       path: config/opencode/opencode.json
+    ~/.binnys:
+      path: binnys
 
 - create:
   - ~/.oh-my-zsh
@@ -29,6 +31,7 @@
   - ~/code
   - ~/.nvm
   - ~/.config/opencode
+  - ~/.binnys
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]

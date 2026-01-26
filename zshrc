@@ -152,6 +152,9 @@ fi
 # uv - python package manager
 export PATH="$HOME/.local/bin:$PATH"
 
+# binnys - a personal collection of scripts that I want added to path 
+export PATH="$HOME/.binnys:$PATH"
+
 # autowt 
 alias wt='autowt'
 export AUTOWT_WORKTREE_DIRECTORY_PATTERN="../{branch}"

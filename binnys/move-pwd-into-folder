@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# Usage: ./move-pwd-into-folder folder_name
+
+if [ $# -eq 0 ]; then
+    echo "Usage: move-pwd-into-folder folder_name"
+    echo "Moves all files and folders in the current directory into the specified folder."
+    exit 1
+fi
+
+mkdir -p $1
+find . -maxdepth 1 ! -path . ! -path ./$1 -exec mv {} $1/ \;

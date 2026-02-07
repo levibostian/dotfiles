@@ -18,5 +18,10 @@
     "session_child_cycle": "<leader>l,<leader>right", // default is `<leader>right`, but on my ergodox it's inconvenient
     "session_list": "none", // disable because default conflicts with session_child_cycle
     "session_child_cycle_reverse": "<leader>j,<leader>left", // default is `<leader>left`, but on my ergodox it's inconvenient
-  }
+  },
+  "plugin": [
+    // save tokens by pruning context. 
+    // https://github.com/Opencode-DCP/opencode-dynamic-context-pruning
+    "@tarquinen/opencode-dcp@latest"
+  ],
 }

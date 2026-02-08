@@ -22,6 +22,8 @@
       path: oh-my-zsh/themes/dracula.zsh-theme
     ~/.config/opencode/opencode.json:
       path: config/opencode/opencode.json
+    ~/.config/opencode/AGENTS.md:
+      path: config/opencode/AGENTS.md
     ~/.binnys:
       path: binnys
 

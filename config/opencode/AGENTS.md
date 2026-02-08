@@ -1,0 +1,1 @@
+NEVER run `git add` or `git commit` commands unless I explicitly ask you to do so. 

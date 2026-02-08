@@ -125,7 +125,7 @@ source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 # requires github copilot cli: brew install copilot-cli
 # Use: `suggest "homebrew show outdated"`
 suggest() {
-    copilot --prompt "suggest a bash command for the given input. ONLY respond with the command, do not include any explanations or additional text, newline characters, or \`\`\`. Here is the input: $1" --silent 
+    copilot --model "gpt-5-mini" --prompt "suggest a bash command for the given input. ONLY respond with the command, do not include any explanations or additional text, newline characters, or \`\`\`. Here is the input: $1" --silent 
 }
 
 # homebrew 

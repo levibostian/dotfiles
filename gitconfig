@@ -73,3 +73,5 @@
 	prune = true
 [rebase]
 	updateRefs = true
+[merge]
+	conflictstyle = diff3

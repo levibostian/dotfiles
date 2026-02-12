@@ -1,0 +1,7 @@
+[cleanup]
+default_mode = "remoteless"
+
+[scripts]
+post_switch = """
+smerge .
+"""

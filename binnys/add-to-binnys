@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# Usage: add-to-binny path-to-file
+
+if [ $# -eq 0 ]; then
+    echo "Usage: add-to-binny path-to-file"
+    echo "Creates a symbolic link to the specified file in the binny directory."
+    exit 1
+fi
+
+ln -s $1 ~/.binnys/$(basename $1)

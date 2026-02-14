@@ -27,6 +27,8 @@
       path: binnys
     ~/Library/Application Support/autowt/config.toml:
       path: Library/Application Support/autowt/config.toml
+    ~/Library/Application Support/com.mitchellh.ghostty/config:
+      path: Library/Application Support/com.mitchellh.ghostty/config
 
 - create:
   - ~/.oh-my-zsh
@@ -36,6 +38,7 @@
   - ~/.config/opencode
   - ~/.binnys
   - ~/Library/Application Support/autowt
+  - ~/Library/Application Support/com.mitchellh.ghostty
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]

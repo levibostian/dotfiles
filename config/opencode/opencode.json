@@ -7,7 +7,9 @@
   "agent": {
     "general": { "model": "github-copilot/gpt-5-mini" },
     "compaction": { "model": "github-copilot/gpt-5-mini" },
-    "explore": { "model": "github-copilot/gpt-5-mini" }
+    "explore": { "model": "github-copilot/gpt-5-mini" },
+    "title": { "model": "github-copilot/gpt-5-mini" },
+    "summary": { "model": "github-copilot/gpt-5-mini" }
   },
   "mcp": {
     "serena": {
@@ -27,6 +29,12 @@
   "plugin": [
     // save tokens by pruning context. 
     // https://github.com/Opencode-DCP/opencode-dynamic-context-pruning
-    "@tarquinen/opencode-dcp@latest"
+    // "@tarquinen/opencode-dcp@latest"
   ],
+  "permission": {
+    "external_directory": {
+      "/tmp/**": "allow",
+      "/private/tmp/**": "allow",       
+    }
+  }
 }

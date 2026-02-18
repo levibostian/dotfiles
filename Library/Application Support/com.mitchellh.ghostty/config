@@ -45,4 +45,9 @@
 theme = dracula
 macos-titlebar-proxy-icon = hidden
 keybind = shift+enter=text:\x1b\r
+
+# when you open a new window or even tab, you do not start in the directory where you were when you made the new window or tab. 
 window-inherit-working-directory = false
+
+# does not ask you "are you sure" when you try to quit. 
+confirm-close-surface = false

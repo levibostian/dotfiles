@@ -23,6 +23,8 @@
       path: config/opencode/opencode.json
     ~/.config/opencode/AGENTS.md:
       path: config/opencode/AGENTS.md
+    ~/.config/opencode/opencode-notifier.json:
+      path: config/opencode/opencode-notifier.json
     ~/.binnys:
       path: binnys
     ~/Library/Application Support/autowt/config.toml:

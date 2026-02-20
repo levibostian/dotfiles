@@ -1,0 +1,20 @@
+{
+  "sound": false,
+  "notification": true,
+  "showProjectName": true,
+  "showSessionTitle": true,
+  "events": {
+    "permission": { "sound": true, "notification": true },
+    "complete": { "sound": true, "notification": true },
+    "subagent_complete": { "sound": false, "notification": false },
+    "error": { "sound": true, "notification": true },
+    "question": { "sound": true, "notification": true }
+  },
+  "messages": {
+    "permission": "OC permission: {sessionTitle}",
+    "complete": "OC finished: {sessionTitle}",
+    "subagent_complete": "OC subagent completed: {sessionTitle}",
+    "error": "OC Error: {sessionTitle}",
+    "question": "OC question: {sessionTitle}"
+  }
+}

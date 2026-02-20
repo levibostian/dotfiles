@@ -27,9 +27,7 @@
     "session_child_cycle_reverse": "<leader>j,<leader>left", // default is `<leader>left`, but on my ergodox it's inconvenient
   },
   "plugin": [
-    // save tokens by pruning context. 
-    // https://github.com/Opencode-DCP/opencode-dynamic-context-pruning
-    // "@tarquinen/opencode-dcp@latest"
+    "@mohak34/opencode-notifier@0.1.26"
   ],
   "permission": {
     "external_directory": {

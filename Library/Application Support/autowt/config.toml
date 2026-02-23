@@ -12,7 +12,11 @@ mkdir -p .serena
 cp -r $AUTOWT_MAIN_REPO_DIR/.serena .
 """
 
+# run lefthook 
 # open project in sublime merge after switching to it
 post_switch = """
+if [ -f lefthook.yml ] || [ -f .lefthook.yml ]; then
+  lefthook install
+fi
 smerge .
 """

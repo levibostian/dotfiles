@@ -1,7 +1,18 @@
 [cleanup]
 default_mode = "remoteless"
 
+# * system link the autowt config file. Using system link allows us to have a single source of truth for the autowt configuration, and ensures that any changes made to the configuration file are reflected across all projects that use it.
+# * copy over .serena mcp server configuration. This allows us to skip the onboarding for the mcp server, and have it ready to go when we switch to the project.
 [scripts]
+post_create = """
+touch $AUTOWT_MAIN_REPO_DIR/.autowt.toml
+ln -s $AUTOWT_MAIN_REPO_DIR/.autowt.toml .autowt.toml
+mkdir -p $AUTOWT_MAIN_REPO_DIR/.serena
+mkdir -p .serena
+cp -r $AUTOWT_MAIN_REPO_DIR/.serena .
+"""
+
+# open project in sublime merge after switching to it
 post_switch = """
 smerge .
 """

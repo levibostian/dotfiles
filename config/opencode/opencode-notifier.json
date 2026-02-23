@@ -3,18 +3,19 @@
   "notification": true,
   "showProjectName": true,
   "showSessionTitle": true,
+  "notificationSystem": "node-notifier",
   "events": {
-    "permission": { "sound": true, "notification": true },
-    "complete": { "sound": true, "notification": true },
-    "subagent_complete": { "sound": false, "notification": false },
-    "error": { "sound": true, "notification": true },
-    "question": { "sound": true, "notification": true }
+    "permission": { "notification": true },
+    "complete": { "notification": true },
+    "subagent_complete": { "notification": false },
+    "error": { "notification": true },
+    "question": { "notification": true }
   },
   "messages": {
-    "permission": "OC permission: {sessionTitle}",
-    "complete": "OC finished: {sessionTitle}",
-    "subagent_complete": "OC subagent completed: {sessionTitle}",
-    "error": "OC Error: {sessionTitle}",
-    "question": "OC question: {sessionTitle}"
+    "permission": "Permission: {sessionTitle}",
+    "complete": "Finished: {sessionTitle}",
+    "subagent_complete": "Subagent completed: {sessionTitle}",
+    "error": "Error: {sessionTitle}",
+    "question": "Question: {sessionTitle}"
   }
 }

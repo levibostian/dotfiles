@@ -51,3 +51,6 @@ window-inherit-working-directory = false
 
 # does not ask you "are you sure" when you try to quit. 
 confirm-close-surface = false
+
+# install all of the ssh tools that ghostty has to offer so ssh experience is positive. 
+shell-integration-features = true 

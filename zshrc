@@ -70,7 +70,7 @@ ZSH_THEME="dracula"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git asdf)
+plugins=(git mise)
 
 # always answers "yes" to the "update oh my zsh?" prompt. 
 # MUST be set before sourcing oh-my-zsh.sh
@@ -131,10 +131,6 @@ suggest() {
 # homebrew 
 # run command to do all the updates. 
 alias brew-update='brew update && brew install --cask --force `brew list --cask` && brew cleanup -s && brew cleanup --prune 0 && rm -rf "$(brew --cache)"'
-
-# fixes sublime merge to find langs installed with asdf
-# https://github.com/sublimehq/sublime_merge/issues/1106#issuecomment-807701130
-export PATH="${HOME}/.asdf/shims:${PATH}:$PATH"
 
 # Android
 #

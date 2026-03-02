@@ -35,5 +35,11 @@
       "/tmp/**": "allow",
       "/private/tmp/**": "allow",       
     }
+  },
+  "lsp": {
+    // because I use swift for xcode/ios apps, this LSP just doesn't really work. 
+    "sourcekit-lsp": {
+      "disabled": true
+    }
   }
 }

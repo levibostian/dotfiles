@@ -5,9 +5,10 @@
   "model": "github-copilot/claude-sonnet-4.6",
   "small_model": "github-copilot/gpt-5-mini",
   "agent": {
-    "general": { "model": "github-copilot/gpt-5-mini" },
+    // diabling some subagents to avoid opencode spawning subagents which cost extra premium requests github copilot. 
+    "general": { "disable": true, "model": "github-copilot/gpt-5-mini" },
     "compaction": { "model": "github-copilot/gpt-5-mini" },
-    "explore": { "model": "github-copilot/gpt-5-mini" },
+    "explore": { "disable": true, "model": "github-copilot/gpt-5-mini" },
     "title": { "model": "github-copilot/gpt-5-mini" },
     "summary": { "model": "github-copilot/gpt-5-mini" }
   },

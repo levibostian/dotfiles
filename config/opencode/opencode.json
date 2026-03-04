@@ -20,6 +20,11 @@
       "environment": {},
     },
   },
+  // disable auto compaction to save on github premium requests. I can always manually trigger it when I want to.
+  "compaction": {
+    "auto": false,
+    "prune": true
+  },
   "keybinds": {
     "app_exit": "ctrl+d,<leader>q", // simply removing ctrl+c as an exit keybind
     "session_child_cycle": "<leader>l,<leader>right", // default is `<leader>right`, but on my ergodox it's inconvenient

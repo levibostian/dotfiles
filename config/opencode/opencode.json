@@ -32,7 +32,7 @@
     "session_child_cycle_reverse": "<leader>j,<leader>left", // default is `<leader>left`, but on my ergodox it's inconvenient
   },
   "plugin": [
-    "@mohak34/opencode-notifier@0.1.26"
+    "@mohak34/opencode-notifier@0.1.30"
   ],
   "permission": {
     "external_directory": {

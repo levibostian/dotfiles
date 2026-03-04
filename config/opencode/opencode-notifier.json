@@ -3,7 +3,8 @@
   "notification": true,
   "showProjectName": true,
   "showSessionTitle": true,
-  "notificationSystem": "node-notifier",
+  "notificationSystem": "ghostty",
+  "suppressWhenFocused": false,
   "events": {
     "permission": { "notification": true },
     "complete": { "notification": true },

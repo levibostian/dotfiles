@@ -15,7 +15,7 @@
     "serena": {
       "type": "local",
       // Or ["bun", "x", "my-mcp-command"]
-      "command": ["uvx", "--from", "git+https://github.com/oraios/serena", "serena", "start-mcp-server", "--context", "ide-assistant", "--project", "$(pwd)", "--enable-web-dashboard", "False"],
+      "command": ["uvx", "--from", "git+https://github.com/oraios/serena", "serena", "start-mcp-server", "--context", "ide", "--project", "$(pwd)", "--enable-web-dashboard", "False"],
       "enabled": true,
       "environment": {},
     },

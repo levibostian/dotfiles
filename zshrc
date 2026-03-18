@@ -156,6 +156,38 @@ alias wt='autowt'
 export AUTOWT_WORKTREE_DIRECTORY_PATTERN="../{branch}"
 export AUTOWT_CLEANUP_DEFAULT_MODE="github"
 
+# Android Studio 
+# 
+# Usage: `studio .` to open the current directory in Android Studio, or `studio /path/to/project` to open a specific project.
+# 
+# Requirements I have for this solution: 
+# - From terminal, run a single command (e.g., studio .) to open the current directory in Android Studio.
+# - Must reuse the already-running Android Studio app instance (no extra/second instance).
+# - Raycast and Cmd+Tab must see Android Studio as a single normal app, so switching via “studio” works.
+# - Solution should prefer opening known project entry points (Gradle files / .idea) but still work on plain directories.
+studio() {
+  local target="${1:-.}"
+
+  # Normalize to absolute path
+  target="$(cd "$target" && pwd)"
+
+  # Prefer known Android/Gradle entry files if they exist
+  if [ -f "$target/settings.gradle" ]; then
+    open -a "Android Studio" "$target/settings.gradle"
+  elif [ -f "$target/settings.gradle.kts" ]; then
+    open -a "Android Studio" "$target/settings.gradle.kts"
+  elif [ -f "$target/build.gradle" ]; then
+    open -a "Android Studio" "$target/build.gradle"
+  elif [ -f "$target/build.gradle.kts" ]; then
+    open -a "Android Studio" "$target/build.gradle.kts"
+  elif [ -d "$target/.idea" ]; then
+    open -a "Android Studio" "$target/.idea"
+  else
+    # Fallback: just open the directory with Android Studio
+    open -a "Android Studio" "$target"
+  fi
+}
+
 # Added by LM Studio CLI (lms)
 export PATH="$PATH:$HOME/.lmstudio/bin"
 # End of LM Studio CLI section

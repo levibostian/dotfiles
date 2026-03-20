@@ -1,0 +1,41 @@
+#!/usr/bin/env zsh
+
+# Find the parent branch(es) of the current branch.
+#
+# How it works:
+# For each local branch (excluding the current one), compute the merge-base
+# with HEAD. The branch(es) whose merge-base is the most recent ancestor of
+# HEAD (fewest commits between merge-base and HEAD, then fewest commits
+# between merge-base and the branch tip) are printed, one per line.
+#
+# If multiple branches tie, all are printed.
+#
+# This approach handles repositories with any number of branches, unlike
+# `git show-branch` which has a hard limit of 26 refs.
+
+current=$(git rev-parse --abbrev-ref HEAD)
+tmpfile=$(mktemp)
+
+git for-each-ref --format='%(refname:short)' refs/heads | while read branch; do
+  [[ "$branch" == "$current" ]] && continue
+
+  merge_base=$(git merge-base HEAD "$branch" 2>/dev/null) || continue
+  ahead=$(git rev-list --count "$merge_base"..HEAD)
+  branch_diverged=$(git rev-list --count "$merge_base".."$branch")
+
+  echo "$ahead $branch_diverged $branch" >> "$tmpfile"
+done
+
+if [[ ! -s "$tmpfile" ]]; then
+  rm -f "$tmpfile"
+  exit 0
+fi
+
+# Find the minimum (ahead, branch_diverged) scores
+min_ahead=$(awk '{print $1}' "$tmpfile" | sort -n | head -1)
+min_diverged=$(awk -v ma="$min_ahead" '$1==ma {print $2}' "$tmpfile" | sort -n | head -1)
+
+# Print all branches matching the minimum scores
+awk -v ma="$min_ahead" -v md="$min_diverged" '$1==ma && $2==md {print $3}' "$tmpfile"
+
+rm -f "$tmpfile"

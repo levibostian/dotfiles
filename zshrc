@@ -137,24 +137,14 @@ alias brew-update='brew update && brew install --cask --force `brew list --cask`
 # sometimes gradle asks you for ANDROID_HOME to run when you download an open source Android app and try running it 
 export ANDROID_HOME=~/Library/Android/sdk
 
-# nest (swift CLIs)
-export PATH="$PATH:${HOME}/.nest/bin"
-
-# Set default applications for various file types
-if [[ -f "$HOME/.dotfiles/default-apps.sh" ]]; then
-    "$HOME/.dotfiles/default-apps.sh" > /dev/null 2>&1  # Run silently to avoid cluttering terminal output
-fi
-
 # uv - python package manager
 export PATH="$HOME/.local/bin:$PATH"
-
-# binnys - a personal collection of scripts that I want added to path 
-export PATH="$HOME/.binnys:$PATH"
 
 # autowt 
 alias wt='autowt'
 export AUTOWT_WORKTREE_DIRECTORY_PATTERN="../{branch}"
 export AUTOWT_CLEANUP_DEFAULT_MODE="github"
+eval "$(_AUTOWT_COMPLETE=zsh_source autowt)"
 
 # Android Studio 
 # 

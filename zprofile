@@ -14,3 +14,8 @@ eval "$(mise activate zsh --shims)"
 
 # Added by Obsidian
 export PATH="$PATH:/Applications/Obsidian.app/Contents/MacOS"
+
+# Note: Sublime merge uses only this file and not .zshrc, so I have to add these lines here to get the PATH updates in sublime merge.
+# 
+# binnys - a personal collection of scripts that I want added to path 
+export PATH="$HOME/.binnys:$PATH"

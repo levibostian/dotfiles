@@ -145,6 +145,10 @@ alias wt='autowt'
 export AUTOWT_WORKTREE_DIRECTORY_PATTERN="../{branch}"
 export AUTOWT_CLEANUP_DEFAULT_MODE="github"
 eval "$(_AUTOWT_COMPLETE=zsh_source autowt)"
+# wts - "worktrees"
+wts() {
+  tv wts
+}
 
 # Android Studio 
 # 

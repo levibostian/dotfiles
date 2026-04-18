@@ -25,6 +25,11 @@
       path: config/opencode/AGENTS.md
     ~/.config/opencode/opencode-notifier.json:
       path: config/opencode/opencode-notifier.json
+
+    # brew install television
+    ~/.config/television/cable:
+      create: true
+      path: config/television/cable
     ~/.binnys:
       path: binnys
     ~/Library/Application Support/autowt/config.toml:

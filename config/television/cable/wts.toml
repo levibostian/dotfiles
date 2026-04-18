@@ -1,0 +1,18 @@
+[metadata]
+name = "wts"
+description = "View all git worktrees"
+requirements = ["git"]
+
+[source]
+command = "git worktree list --porcelain | sed -n 's/^worktree //p'"
+
+[preview]
+command = "basename -- '{}'"
+
+[keybindings]
+enter = "actions:open"
+
+[actions.open]
+description = "Open worktree"
+command = "autowt switch '{}'"
+mode = "execute"

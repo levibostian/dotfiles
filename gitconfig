@@ -13,6 +13,7 @@
 [core]
 	excludesFile = ~/.gitignore_global
 	autocrlf = false
+  attributesfile = ~/.gitattributes
 [push]
 	default = simple
 	autoSetupRemote = true
@@ -22,6 +23,12 @@
 
 [include]
     path = ~/.gitconfig.local
+
+# tool to help resolve merge conflicts in xcstrings files (which are just json pretty much)    
+# https://github.com/soranoba/git-xcstrings-merge
+[merge "xcstrings"]
+    name = custom merge driver for xcstrings files
+    driver = git-xcstrings-merge %A %O %B
 
 [alias]
   # working with stacked PRs

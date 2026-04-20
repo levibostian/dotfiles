@@ -1,0 +1,22 @@
+#!/usr/bin/env node
+
+const fs = require('fs');
+const path = require('path');
+const { execSync } = require('child_process');
+
+const cwd = process.cwd();
+const entries = fs.readdirSync(cwd);
+
+const hasGradle = entries.some(e => /\.gradle/.test(e));
+const hasXcode = entries.some(e => /\.xcodeproj$/.test(e));
+
+let cmd;
+if (hasGradle) {
+  cmd = 'studio .';
+} else if (hasXcode) {
+  cmd = 'xed .';
+} else {
+  cmd = 'code .';
+}
+
+execSync(cmd, { stdio: 'inherit' });

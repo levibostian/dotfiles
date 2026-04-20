@@ -149,6 +149,13 @@ eval "$(_AUTOWT_COMPLETE=zsh_source autowt)"
 wts() {
   tv wts
 }
+# prepare my new ghostty tab that just got made. 
+# I tried to put this code into the autowt post_switch hook but it didn't work well where it didn't always happen in the new tab, and sometimes it would run in the old tab.
+# https://github.com/rikeda71/ghostty-pane-splitter <-- cli to split the tab into 2 rows. 
+new-tab() {
+  ghostty-pane-splitter 1x2
+  opencode
+}
 
 # Android Studio 
 # 

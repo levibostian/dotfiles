@@ -60,7 +60,7 @@
 
   # Note: this only works if the repo name in .git/config is exactly as in github. if your repo has been renamed, this will not work. 
   open-pr = "!open --url $(GH_PAGER= gh pr list --search "head:$(git branch --show-current)" --json url --jq '.[].url')"
-  create-pr = "!gh pr create --base $(git-parent-branch) --web"
+  create-pr = "!gh pr create --base \"$(git-parent-branch)\" --web"
   see-pr-diff = "!open --url \"$(GH_PAGER= gh repo view --json url --jq .url)/compare/$(git-parent-branch)...$(git branch --show-current)\""
 
   s = status

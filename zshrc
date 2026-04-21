@@ -193,3 +193,6 @@ studio() {
 export PATH="$PATH:$HOME/.lmstudio/bin"
 # End of LM Studio CLI section
 
+
+# bun completions
+[ -s "/Users/levi/.bun/_bun" ] && source "/Users/levi/.bun/_bun"

@@ -21,6 +21,9 @@
       path: oh-my-zsh/themes/dracula.zsh-theme
     ~/.config/opencode/opencode.json:
       path: config/opencode/opencode.json
+    ~/.config/opencode/skills:
+      create: true
+      path: config/opencode/skills
     ~/.config/opencode/AGENTS.md:
       path: config/opencode/AGENTS.md
     ~/.config/opencode/opencode-notifier.json:

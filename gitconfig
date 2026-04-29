@@ -1,5 +1,6 @@
-[user]
-  signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKE48cIKjCeX0yNkm26MHSrNUPsesXIvyA/o07SHKbnh
+# put this signing key in `~/.gitconfig.local` since I use different keys for different computers. 
+# [user]
+#  signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKE48cIKjCeX0yNkm26MHSrNUPsesXIvyA/o07SHKbnh
 
 [gpg]
   format = ssh

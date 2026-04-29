@@ -1,0 +1,61 @@
+{
+  "version": 3,
+  "skills": {
+    "docs-manage": {
+      "source": "arabold/docs-mcp-server",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/arabold/docs-mcp-server.git",
+      "ref": "main",
+      "skillPath": "skills/docs-manage/SKILL.md",
+      "skillFolderHash": "e741114eacbbc4395c65bbf6d3ed6e7150606fc5",
+      "installedAt": "2026-04-11T12:45:55.225Z",
+      "updatedAt": "2026-04-11T12:45:55.225Z"
+    },
+    "docs-search": {
+      "source": "arabold/docs-mcp-server",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/arabold/docs-mcp-server.git",
+      "ref": "main",
+      "skillPath": "skills/docs-search/SKILL.md",
+      "skillFolderHash": "4ecfe3ccad5afe0506166e0513a376e289918557",
+      "installedAt": "2026-04-11T12:45:55.488Z",
+      "updatedAt": "2026-04-11T12:45:55.488Z"
+    },
+    "caveman": {
+      "source": "JuliusBrussee/caveman",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/JuliusBrussee/caveman.git",
+      "skillPath": "caveman/SKILL.md",
+      "skillFolderHash": "825e13085d1515fe67881b2123f3bf9b34c26154",
+      "installedAt": "2026-04-29T11:45:05.332Z",
+      "updatedAt": "2026-04-29T11:45:05.332Z"
+    },
+    "caveman-compress": {
+      "source": "JuliusBrussee/caveman",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/JuliusBrussee/caveman.git",
+      "skillPath": "caveman-compress/SKILL.md",
+      "skillFolderHash": "c58e4ecb3f2748626d43c54479e67a4c0fe46f3d",
+      "installedAt": "2026-04-29T11:45:05.334Z",
+      "updatedAt": "2026-04-29T11:45:05.334Z"
+    }
+  },
+  "dismissed": {
+    "findSkillsPrompt": true
+  },
+  "lastSelectedAgents": [
+    "amp",
+    "antigravity",
+    "cline",
+    "codex",
+    "cursor",
+    "deepagents",
+    "dexto",
+    "firebender",
+    "gemini-cli",
+    "github-copilot",
+    "kimi-cli",
+    "opencode",
+    "warp"
+  ]
+}

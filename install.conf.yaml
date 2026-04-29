@@ -24,6 +24,9 @@
     ~/.config/opencode/skills:
       create: true
       path: config/opencode/skills
+    ~/.agents:
+      create: true
+      path: agents
     ~/.config/opencode/AGENTS.md:
       path: config/opencode/AGENTS.md
     ~/.config/opencode/opencode-notifier.json:

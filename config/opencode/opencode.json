@@ -34,6 +34,7 @@
   "plugin": [
     "@mohak34/opencode-notifier@0.1.30",
     "@levibostian/opencode-pwd-title",
+    "caveman-opencode-plugin@0.1.4",
   ],
   "permission": {
     "external_directory": {

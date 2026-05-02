@@ -12,13 +12,13 @@
     "summary": { "model": "github-copilot/gpt-5-mini" }
   },
   "mcp": {
-    "serena": {
-      "type": "local",
-      // Or ["bun", "x", "my-mcp-command"]
-      "command": ["uvx", "--from", "git+https://github.com/oraios/serena", "serena", "start-mcp-server", "--context", "ide", "--project", "$(pwd)", "--enable-web-dashboard", "False"],
-      "enabled": true,
-      "environment": {},
-    },
+    // "serena": {
+    //   "type": "local",
+    //   // Or ["bun", "x", "my-mcp-command"]
+    //   "command": ["uvx", "--from", "git+https://github.com/oraios/serena", "serena", "start-mcp-server", "--context", "ide", "--project", "$(pwd)", "--enable-web-dashboard", "False"],
+    //   "enabled": true,
+    //   "environment": {},
+    // },
   },
   // disable auto compaction to save on github premium requests. I can always manually trigger it when I want to.
   "compaction": {

@@ -1,7 +1,6 @@
-- NEVER run `git add` or `git commit` commands unless I explicitly ask you to do so. 
-- Use the 'question' tool **every time** that you have an idea to get approval of. Do not finish running until I have approved of all ideas or options. when you ask a question, if it's a long question, put the question in a file `.md` file in `/tmp/`, ask me to read the file in a question.
-- When I give you a github url, use the gh cli to access that data.
-- Anytime you write a file and then later read it and see changes made, assume I made those changes. Don't revert the changes I made.
-- After every change you make, run the formatter and linter (only if you are told the commands to run them) and fix all errors.
-- if told to use a specific library/module, use the docs-search skill to look up the documentation. 
-- if provided with a URL for the documentation/reference of a library/module, use the docs-manage skill to save the documentation for future reference.
+- Use 'question' tool **every time** for approval. No finish till approved. Long question? Put in `/tmp/*.md`, ask read file
+- Github url? Use gh cli
+- Write file, read later, see changes? User made them. Don't revert
+- After change, run formatter/linter (if told commands), fix all errors
+- Told use library/module? Use docs-search skill
+- Given doc URL? Use docs-manage skill save for later

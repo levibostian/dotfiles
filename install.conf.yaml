@@ -33,9 +33,9 @@
       path: config/opencode/opencode-notifier.json
     ~/.config/opencode/caveman.json:
       path: config/opencode/caveman.json
-    ~/.pi/agent/settings.json:
+    ~/.pi:
       create: true
-      path: pi/agent/settings.json
+      path: pi
 
     # brew install television
     ~/.config/television/cable:
@@ -44,8 +44,10 @@
     ~/.binnys:
       path: binnys
     ~/Library/Application Support/autowt/config.toml:
+      create: true
       path: Library/Application Support/autowt/config.toml
     ~/Library/Application Support/com.mitchellh.ghostty/config:
+      create: true
       path: Library/Application Support/com.mitchellh.ghostty/config
 
 - create:
@@ -55,8 +57,6 @@
   - ~/.nvm
   - ~/.config/opencode
   - ~/.binnys
-  - ~/Library/Application Support/autowt
-  - ~/Library/Application Support/com.mitchellh.ghostty
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]

@@ -1,0 +1,4 @@
+agent/sessions/
+agent/git/
+agent/bin/
+agent/auth.json

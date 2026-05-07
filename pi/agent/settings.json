@@ -13,5 +13,8 @@
     "npm:@fgladisch/pi-caveman",
     "npm:@fgladisch/pi-user-select",
     "npm:@fgladisch/pi-bash-approval"
+  ],
+  "extensions": [
+    "extensions/pwd-title.ts"
   ]
 }

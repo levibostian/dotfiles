@@ -9,8 +9,9 @@
   "enableInstallTelemetry": false,
   "doubleEscapeAction": "tree",
   "packages": [
-    "git:github.com/ghoseb/pi-askuserquestion",
     "git:github.com/kirang89/pi-todo",
-    "git:github.com/v2nic/pi-caveman"
+    "npm:@fgladisch/pi-caveman",
+    "npm:@fgladisch/pi-user-select",
+    "npm:@fgladisch/pi-bash-approval"
   ]
 }

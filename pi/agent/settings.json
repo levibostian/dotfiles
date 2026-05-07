@@ -7,5 +7,10 @@
   "collapseChangelog": true,
   "quietStartup": true,
   "enableInstallTelemetry": false,
-  "doubleEscapeAction": "tree"
+  "doubleEscapeAction": "tree",
+  "packages": [
+    "git:github.com/ghoseb/pi-askuserquestion",
+    "git:github.com/kirang89/pi-todo",
+    "git:github.com/v2nic/pi-caveman"
+  ]
 }

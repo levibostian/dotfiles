@@ -1,5 +1,5 @@
 {
-  "lastChangelogVersion": "0.73.0",
+  "lastChangelogVersion": "0.73.1",
   "defaultProvider": "github-copilot",
   "defaultModel": "gpt-5.2",
   "defaultThinkingLevel": "medium",
@@ -12,9 +12,15 @@
     "git:github.com/kirang89/pi-todo",
     "npm:@fgladisch/pi-caveman",
     "npm:@fgladisch/pi-user-select",
-    "npm:pi-permissions"
+    "npm:pi-permissions",
+    "npm:pi-ghostty-notifier"
   ],
   "extensions": [
     "extensions/pwd-title.ts"
-  ]
+  ],
+  "pi-ghostty-notifier": {
+    "level": "actionable",
+    "includeSummary": false,
+    "bell": "never"
+  }
 }

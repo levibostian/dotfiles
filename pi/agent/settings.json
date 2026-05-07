@@ -1,0 +1,11 @@
+{
+  "lastChangelogVersion": "0.73.0",
+  "defaultProvider": "github-copilot",
+  "defaultModel": "gpt-5.2",
+  "defaultThinkingLevel": "medium",
+  "hideThinkingBlock": true,
+  "collapseChangelog": true,
+  "quietStartup": true,
+  "enableInstallTelemetry": false,
+  "doubleEscapeAction": "tree"
+}

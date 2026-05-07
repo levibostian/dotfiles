@@ -33,6 +33,9 @@
       path: config/opencode/opencode-notifier.json
     ~/.config/opencode/caveman.json:
       path: config/opencode/caveman.json
+    ~/.pi/agent/settings.json:
+      create: true
+      path: pi/agent/settings.json
 
     # brew install television
     ~/.config/television/cable:

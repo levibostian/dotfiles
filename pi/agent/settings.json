@@ -12,7 +12,7 @@
     "git:github.com/kirang89/pi-todo",
     "npm:@fgladisch/pi-caveman",
     "npm:@fgladisch/pi-user-select",
-    "npm:@fgladisch/pi-bash-approval"
+    "npm:pi-permissions"
   ],
   "extensions": [
     "extensions/pwd-title.ts"

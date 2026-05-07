@@ -154,7 +154,7 @@ wts() {
 # https://github.com/rikeda71/ghostty-pane-splitter <-- cli to split the tab into 2 rows. 
 new-tab() {
   ghostty-pane-splitter 1x2
-  opencode
+  pi
 }
 
 # Android Studio 

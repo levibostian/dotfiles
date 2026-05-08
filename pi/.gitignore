@@ -2,6 +2,7 @@ agent/sessions/
 agent/git/
 agent/bin/
 agent/auth.json
+agent/update-cache.json
 
 # the npm:@fgladisch/pi-caveman extension has a '/caveman update' command that git clones the caveman repo into this dir. 
 /agent/caveman

@@ -22,7 +22,6 @@
     "npm:@fgladisch/pi-caveman",
     "npm:@fgladisch/pi-user-select",
     "npm:pi-permissions",
-    "npm:pi-ghostty-notifier",
     "git:github.com/tonze/pi-updater"
   ],
   "extensions": [

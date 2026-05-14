@@ -21,7 +21,8 @@
     "npm:@fgladisch/pi-caveman",
     "npm:@fgladisch/pi-user-select",
     "npm:pi-permissions",
-    "git:github.com/tonze/pi-updater"
+    "git:github.com/tonze/pi-updater",
+    "npm:@ff-labs/pi-fff"
   ],
   "extensions": [
     "extensions/pwd-title.ts"

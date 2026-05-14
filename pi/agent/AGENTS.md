@@ -1,6 +1,4 @@
 - Github url? Use gh cli
-- Write file, read later, see changes? User made them. Don't revert
 - After change, run formatter/linter/tests (if told commands), fix all errors
 - Told use library/module? Use docs-search skill
 - Given doc URL? Use docs-manage skill save for later
-- Run 'difit' skill after code changes to get a review on the code. 

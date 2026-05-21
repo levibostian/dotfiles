@@ -1,0 +1,20 @@
+[metadata]
+name = "code"
+description = "View all of the directories in ~/code"
+requirements = []
+
+[source]
+command = "ls -d ~/code/*"
+
+# '{}' is placeholder for where the item from the list will be substituted in the command.
+[preview]
+command = "basename -- '{}'"
+
+[keybindings]
+# runs the [actions.open] action when you press enter on an item in the list.
+enter = "actions:open"
+
+[actions.open]
+description = "open the directory in the terminal"
+command = "cd '{}' && $SHELL"
+mode = "execute" # runs the command and exists tv

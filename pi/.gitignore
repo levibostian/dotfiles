@@ -8,3 +8,5 @@ agent/update-cache.json
 /agent/caveman
 
 .vscode/
+
+node_modules/

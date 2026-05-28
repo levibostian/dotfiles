@@ -11,7 +11,7 @@
   "defaultThinkingLevel": "medium",
   "hideThinkingBlock": true,
   "collapseChangelog": true,
-  "quietStartup": true,
+  "quietStartup": false,
   "enableInstallTelemetry": false,
   "doubleEscapeAction": "tree",
   "packages": [

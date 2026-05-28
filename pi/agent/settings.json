@@ -1,12 +1,11 @@
 {
   "lastChangelogVersion": "0.74.0",
   "defaultProvider": "github-copilot",
-  "defaultModel": "gpt-5-mini",
+  "defaultModel": "gemini-3.5-flash",
   "enabledModels": [
-    "github-copilot/gpt-5-mini",
     "github-copilot/gpt-5.2-codex",
     "github-copilot/gemini-2.5-pro",
-    "github-copilot/gemini-3-flash-preview"
+    "github-copilot/gemini-3.5-flash"
   ],
   "defaultThinkingLevel": "medium",
   "hideThinkingBlock": true,

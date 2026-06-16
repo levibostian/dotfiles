@@ -2,7 +2,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { execSync } = require('child_process');
+const { execSync, spawn } = require('child_process');
 
 const cwd = process.cwd();
 const entries = fs.readdirSync(cwd);
@@ -19,4 +19,10 @@ if (hasGradle) {
   cmd = 'code .';
 }
 
-execSync(cmd, { stdio: 'inherit' });
+try {
+  const child = spawn(cmd, { shell: true, detached: true, stdio: 'ignore' });
+  child.unref();
+} catch (err) {
+  // Fallback to execSync if spawn fails for any reason
+  execSync(cmd, { stdio: 'inherit' });
+}

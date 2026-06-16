@@ -197,3 +197,6 @@ export PATH="$PATH:$HOME/.lmstudio/bin"
 
 # bun completions
 [ -s "/Users/levi/.bun/_bun" ] && source "/Users/levi/.bun/_bun"
+
+# sentry
+fpath=("/Users/levi.bostian/.local/share/zsh/site-functions" $fpath)

@@ -77,6 +77,11 @@ plugins=(git mise)
 # docs: https://github.com/ohmyzsh/ohmyzsh#getting-updates
 zstyle ':omz:update' mode auto
 
+# Dracula theme: show repo/worktree instead of just dir basename
+# (git worktrees make dir name alone confusing — you can't tell what repo you're in)
+DRACULA_DISPLAY_FULL_CWD=1
+DRACULA_DIR_TRIM=2
+
 source $ZSH/oh-my-zsh.sh
 
 # User configuration

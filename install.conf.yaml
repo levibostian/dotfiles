@@ -49,6 +49,10 @@
     ~/Library/Application Support/com.mitchellh.ghostty/config:
       create: true
       path: Library/Application Support/com.mitchellh.ghostty/config
+    
+    ~/.cronjobs:
+      create: true
+      path: cronjobs
 
 - create:
   - ~/.oh-my-zsh

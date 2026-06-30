@@ -1,0 +1,21 @@
+#!/usr/bin/env node
+
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
+
+const CRONJOBS = path.resolve(process.env.HOME, ".cronjobs");
+
+// chmod +x all scripts
+for (const f of fs.readdirSync(path.join(CRONJOBS, "scripts"))) {
+  const fp = path.join(CRONJOBS, "scripts", f);
+  fs.chmodSync(fp, 0o755);
+}
+
+// install crontab from jobs-list
+// what this does is reads the jobs-list file and sets all of those as the current user's crontab.
+// this will overwrite any existing crontab entries, so be careful!
+execSync(`crontab ${path.join(CRONJOBS, "jobs-list")}`);
+
+// list current crontab entries to verify that the jobs-list was installed correctly
+console.log(execSync("crontab -l").toString());

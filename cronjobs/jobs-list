@@ -1,0 +1,4 @@
+# https://crontab.guru/ 
+
+# every hour at the 30 min mark
+30 * * * * ~/.cronjobs/scripts/update-pi >> /tmp/cron-update-pi.log 2>&1

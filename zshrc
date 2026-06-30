@@ -158,8 +158,7 @@ wts() {
 # I tried to put this code into the autowt post_switch hook but it didn't work well where it didn't always happen in the new tab, and sometimes it would run in the old tab.
 # https://github.com/rikeda71/ghostty-pane-splitter <-- cli to split the tab into 2 rows. 
 new-tab() {
-  ghostty-pane-splitter 1x2
-  pi update 
+  ghostty-pane-splitter 1x2  
   pi
 }
 

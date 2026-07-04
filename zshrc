@@ -145,6 +145,10 @@ export ANDROID_HOME=~/Library/Android/sdk
 # uv - python package manager
 export PATH="$HOME/.local/bin:$PATH"
 
+# pi agent 
+# startup faster by disabling network requests. I dont care if pi or extensions out of date, I have scripts that update them. 
+PI_OFFLINE=1
+
 # autowt 
 alias wt='autowt'
 export AUTOWT_WORKTREE_DIRECTORY_PATTERN="../{branch}"

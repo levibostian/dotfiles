@@ -15,7 +15,6 @@
   "packages": [
     "git:github.com/kirang89/pi-todo",
     "npm:@fgladisch/pi-caveman",
-    "npm:@fgladisch/pi-user-select",
     "npm:pi-permissions",
     "npm:@ff-labs/pi-fff",
     "git:github.com/DietrichGebert/ponytail"

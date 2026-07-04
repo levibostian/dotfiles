@@ -1,46 +1,31 @@
-- Github url? Use gh cli
+<!-- After edits to file, open agent in ~/.pi/agent/ dir and prompt "caveman compress @AGENTS.md"  -->
+- GitHub? Use `gh` CLI
 - After change, run formatter/linter/tests (if told commands), fix all errors
-- Told use library/module? Use docs-search skill
-- Given doc URL? Use docs-manage skill save for later
-- Think Before Coding
-    **No assume. No hide confusion. Surface tradeoffs.**
-    Before implementing:
-    - State assumptions explicitly. If uncertain, ask.
-    - If multiple interpretations exist, present them - no pick silently.
-    - If simpler approach exists, say so. Push back when warranted.
-    - If something unclear, stop. Name what's confusing. Ask.
+- After change, run scoped tests (if told commands), fix all errors
 
-- Simplicity First
-    **Minimum code solves problem. Nothing speculative.**
-    - No features beyond what asked.
-    - No abstractions for single-use code.
-    - No "flexibility" or "configurability" not requested.
-    - No error handling for impossible scenarios.
-    - If write 200 lines could be 50, rewrite it.
-    Ask: "Would senior engineer say this overcomplicated?" If yes, simplify.
+<!-- From: https://github.com/multica-ai/andrej-karpathy-skills/blob/main/skills/karpathy-guidelines/SKILL.md -->
+- **Think Before Coding** — No assume. Surface tradeoffs. State assumptions. If uncertain, ask. If simpler approach exists, say so. Push back. If unclear, stop & name confusion.
+- **Simplicity First** — Min code. Nothing speculative. No features beyond what asked. No abstractions for single-use code. No flexibility/config not requested. No error handling for impossible scenarios. If 200 lines could be 50, rewrite. Ask: "Would senior engineer say overcomplicated?"
+- **Surgical Changes** — Touch only what must. Clean up own mess. No "improve" adjacent code. No refactor what not broken. Match existing style. Unrelated dead code = mention, don't delete. When change creates orphans: remove imports/vars/fns YOUR change made unused. Don't touch pre-existing dead code.
+- **Goal-Driven Execution** — Define success criteria. Loop till verified.
+  "Add validation" → "Write tests for invalid inputs, make them pass"
+  "Fix bug" → "Write test that reproduces it, make it pass"
+  Multi-step: brief plan then `1. [step] → verify: [check]`
+<!-- karpathy -->
 
-- Surgical Changes
-    **Touch only what must. Clean up only own mess.**
-    When editing existing code:
-    - No "improve" adjacent code, comments, or formatting.
-    - No refactor things not broken.
-    - Match existing style, even if do differently.
-    - If notice unrelated dead code, mention it - no delete it.
-    When changes create orphans:
-    - Remove imports/variables/functions YOUR changes made unused.
-    - No remove pre-existing dead code unless asked.
-    Test: Every changed line should trace directly to user request.
+<!-- context7 -->
+Use `ctx7` CLI for library/framework/SDK/API/CLI/cloud docs — even well-known ones (React, Next.js, Prisma, etc.). Includes API syntax, config, migration, lib-specific debug, setup, CLI usage. Use even when you think you know. Prefer over web search.
 
-- Goal-Driven Execution
-    **Define success criteria. Loop until verified.**
-    Transform tasks into verifiable goals:
-    - "Add validation" → "Write tests for invalid inputs, then make them pass"
-    - "Fix the bug" → "Write a test that reproduces it, then make it pass"
-    - "Refactor X" → "Ensure tests pass before and after"
-    For multi-step tasks, state brief plan:
-    ```
-    1. [Step] → verify: [check]
-    2. [Step] → verify: [check]
-    3. [Step] → verify: [check]
-    ```
-    Strong success criteria let loop independently. Weak criteria ("make it work") require constant clarification.
+Don't use for: refactoring, scripts from scratch, biz logic debug, code review, general concepts.
+
+1. Resolve: `npx ctx7@latest library <name> "<full question>"`
+2. Pick best match (ID: `/org/project`) by: name match, description, snippet count, source rep (High/Med preferred), benchmark score
+3. Fetch: `npx ctx7@latest docs <libraryId> "<full question>"`
+4. Answer from docs.
+
+Must call `library` first unless user gives `/org/project` ID. Use full question as query — specific > vague. Max 3 commands per question. No sensitive info in queries.
+
+Version-specific: use `/org/project/version` (e.g., `/vercel/next.js/v14.3.0`).
+
+Quota error? Tell user: `npx ctx7@latest login` or set `CONTEXT7_API_KEY`. Don't silently fallback.
+<!-- context7 -->

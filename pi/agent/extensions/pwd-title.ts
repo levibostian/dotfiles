@@ -108,6 +108,14 @@ export default function (pi: ExtensionAPI) {
 		await updateTitle(ctx);
 	});
 
+	pi.on("model_select", async (_event, ctx) => {
+		await updateTitle(ctx);
+	});
+
+	pi.on("resources_discover", async (_event, ctx) => {
+		await updateTitle(ctx);
+	});
+
 	pi.on("session_shutdown", async (_event, ctx) => {
 		stopTimer();
 		await updateTitle(ctx);

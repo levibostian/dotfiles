@@ -12,10 +12,15 @@ for (const f of fs.readdirSync(path.join(CRONJOBS, "scripts"))) {
   fs.chmodSync(fp, 0o755);
 }
 
-// install crontab from jobs-list
-// what this does is reads the jobs-list file and sets all of those as the current user's crontab.
-// this will overwrite any existing crontab entries, so be careful!
-execSync(`crontab ${path.join(CRONJOBS, "jobs-list")}`);
+// cron by default has a very limited PATH so scripts will probably fail. 
+// each time that this script runs, we will get the current PATH and add it to the crontab file. 
+// this will overwrite PATH for cron jobs so scripts will receive that snapshot of PATH when they run.
+// cron respects VAR=value lines before job entries
+const jobs = fs.readFileSync(path.join(CRONJOBS, "jobs-list"), "utf8");
+const tmpfile = path.join(require("os").tmpdir(), "crontab-tmp");
+fs.writeFileSync(tmpfile, `PATH=${process.env.PATH}\n${jobs}\n`);
+execSync(`crontab - < ${tmpfile}`, { shell: true });
+fs.unlinkSync(tmpfile);
 
 // list current crontab entries to verify that the jobs-list was installed correctly
 console.log(execSync("crontab -l").toString());

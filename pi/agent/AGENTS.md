@@ -29,3 +29,21 @@ Version-specific: use `/org/project/version` (e.g., `/vercel/next.js/v14.3.0`).
 
 Quota error? Tell user: `npx ctx7@latest login` or set `CONTEXT7_API_KEY`. Don't silently fallback.
 <!-- context7 -->
+
+### Docs style
+
+Write docs at **implementation-facing clarity** level.
+
+Must include:
+- Purpose + layer boundary
+- Responsibilities
+- Non-goals
+- Design guardrail (“put X here, Y elsewhere”)
+- Typical usage flow (ordered steps)
+- Maintenance note for future edits
+
+Style:
+- concise but complete
+- bullet-first, short paragraphs
+- concrete examples, no vague wording
+- enough context for a new engineer to change code safely

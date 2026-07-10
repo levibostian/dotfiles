@@ -1,6 +1,12 @@
 #!/bin/bash
 
-set -e
+set -euo pipefail
 
-pi update 
-pi update --extensions
+PI_BIN="$(command -v pi || true)"
+if [[ -z "${PI_BIN}" ]]; then
+  echo "pi not found. PATH=${PATH}" >&2
+  exit 127
+fi
+
+"${PI_BIN}" update
+"${PI_BIN}" update --extensions

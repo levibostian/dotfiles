@@ -47,3 +47,29 @@ Style:
 - bullet-first, short paragraphs
 - concrete examples, no vague wording
 - enough context for a new engineer to change code safely
+
+### Personal code style
+
+This section defines some of my personal code style preferences. These are universal to all languages, but I may have additional preferences for specific languages (I put the lang in parentheses if it's language specific). These styles should be followed unless there is a good reason to deviate. If you are unsure, ask me.
+
+I think that you can sum-up a lot of my personal code styles with: code should read like a book. You do not need to jump around the codebase to understand what is happening, the variable and function names should be descriptive and convey their purpose, and the code should be easy to read and understand.
+
+- Avoid making constants for things that are only used once. If a value is only used in one place, it is better to just use the literal value instead of creating a constant for it. This helps to void developers from having to look up the value of the constant and makes the code easier to read.
+- Avoid creating helper functions for things that are only used once. If a piece of code is only used in one place, it is better to just write it inline instead of creating a separate function for it. This helps to avoid the developer from having to jump around the codebase to understand what is happening. 
+- I do not like making subclasses in object-oriented programming. Design patterns like Swift's protocol-oriented programming is preferred over subclassing. If you find yourself creating a subclass, consider if there is a better way to achieve the same functionality without creating a new class.
+- Variable names should be descriptive and convey the purpose of the variable. Do not be afraid to be verbose with variable names if it helps to clarify their purpose. 
+- Code comments a great way to explain "why" something is being done to remind yourself and others in the future. The code comments I do not like are ones that explain what is happening in the code such as: 
+
+```swift
+// Calculate the length of the string
+let lengthOfString = str.count
+```
+
+In the above example, the variable name `lengthOfString` already conveys what is happening in the code, so the comment is unnecessary.
+
+- I like to use guard statements. Langs like Swift has a `guard` keyword but other languages can `if ... return` instead. 
+- (Swift, Kotlin) Use extensions over Util classes. 
+
+
+
+

@@ -1,5 +1,6 @@
 ---
 name: difit
+disable-model-invocation: true
 description: Ask the user for a code review through difit after code changes.
 ---
 

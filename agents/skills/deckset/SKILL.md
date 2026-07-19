@@ -1,5 +1,6 @@
 ---
 name: deckset-markdown-authoring
+disable-model-invocation: true
 description: Create, edit, and validate Deckset markdown presentations from raw notes. Use when a user asks for slide generation, Deckset markdown syntax, command usage, speaker notes conversion, media layout, transitions, or per-slide styling in Deckset-compatible markdown.
 ---
 

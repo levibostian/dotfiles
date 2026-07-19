@@ -1,5 +1,6 @@
 ---
 name: sentry-cli
+disable-model-invocation: true
 version: 0.35.0
 description: Guide for using the Sentry CLI to interact with Sentry from the command line. Use when the user asks about viewing issues, events, projects, organizations, making API calls, or authenticating with Sentry via CLI.
 requires:

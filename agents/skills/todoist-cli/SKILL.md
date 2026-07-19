@@ -1,5 +1,6 @@
 ---
 name: todoist-cli
+disable-model-invocation: true
 description: "Manage Todoist tasks, projects, labels, filters, sections, comments, reminders, and workspaces via the `td` CLI. Use when the user wants to view, create, update, complete, or organize Todoist items, or mentions tasks, inbox, today, upcoming, projects, labels, or filters."
 compatibility: "Requires the td CLI (@doist/todoist-cli) to be installed and authenticated via 'td auth login'."
 license: MIT

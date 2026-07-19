@@ -6,9 +6,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/mattpocock/skills.git",
       "skillPath": "skills/engineering/grill-with-docs/SKILL.md",
-      "skillFolderHash": "21adba95de7d93065d9fec725ddf37f871e01d05",
+      "skillFolderHash": "5fdcdeedf2d0c73b3ecb1da0a464dd885590f8d6",
       "installedAt": "2026-05-05T11:17:23.664Z",
-      "updatedAt": "2026-07-04T13:40:53.101Z"
+      "updatedAt": "2026-07-19T13:47:52.629Z"
     },
     "difit": {
       "source": "yoshiko-pg/difit",
@@ -24,18 +24,18 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/yoshiko-pg/difit.git",
       "skillPath": "skills/difit-review/SKILL.md",
-      "skillFolderHash": "faf57eb1985cda1f74101afa4a14e5905e248d0c",
+      "skillFolderHash": "dd443b6a580a7188ac1016bc06b6c597bb231beb",
       "installedAt": "2026-05-11T11:53:10.885Z",
-      "updatedAt": "2026-05-11T11:53:10.885Z"
+      "updatedAt": "2026-07-19T13:47:54.823Z"
     },
     "todoist-cli": {
       "source": "Doist/todoist-cli",
       "sourceType": "github",
       "sourceUrl": "https://github.com/Doist/todoist-cli.git",
       "skillPath": "skills/todoist-cli/SKILL.md",
-      "skillFolderHash": "938daa117bda21aae728c5bc1e8a96a35963ca3a",
+      "skillFolderHash": "eb34025ba66211c90d5a187c310b2466771183e3",
       "installedAt": "2026-07-12T12:12:24.654Z",
-      "updatedAt": "2026-07-12T12:12:24.654Z"
+      "updatedAt": "2026-07-19T13:47:56.037Z"
     },
     "code-review": {
       "source": "mattpocock/skills",

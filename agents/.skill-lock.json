@@ -27,6 +27,16 @@
       "skillFolderHash": "faf57eb1985cda1f74101afa4a14e5905e248d0c",
       "installedAt": "2026-05-11T11:53:10.885Z",
       "updatedAt": "2026-05-11T11:53:10.885Z"
+    },
+    "todoist-cli": {
+      "source": "Doist/todoist-cli",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/Doist/todoist-cli.git",
+      "skillPath": "skills/todoist-cli/SKILL.md",
+      "skillFolderHash": "938daa117bda21aae728c5bc1e8a96a35963ca3a",
+      "installedAt": "2026-07-12T12:12:24.654Z",
+      "updatedAt": "2026-07-12T12:12:24.654Z"
+    },
     }
   },
   "dismissed": {

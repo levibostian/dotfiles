@@ -1,7 +1,11 @@
 <!-- After edits to file, open agent in ~/.pi/agent/ dir and prompt "caveman compress @AGENTS.md"  -->
-- GitHub? Use `gh` CLI
+- GitHub URL? ALWAYS Use `gh` CLI to fetch it. 
+- Running a command to run tests? Prefix with `rtk test`. Example: if going to run `deno task test`, use `rtk test deno task test` instead. 
+- Running a command to lint? Prefix with `rtk err`. Example: if going to run `deno lint`, use `rtk err deno lint` instead. 
+- Running a command to format? Prefix with `rtk err`. Example: if going to run `deno fmt`, use `rtk err deno fmt` instead. 
 - After change, run formatter/linter/tests (if told commands), fix all errors
 - After change, run scoped tests (if told commands), fix all errors
+- When told to "fetch https://..." to fetch a URL, use `curl -sSL https://markdown.new/<url>` which will return a markdown version of the page.
 
 <!-- From: https://github.com/multica-ai/andrej-karpathy-skills/blob/main/skills/karpathy-guidelines/SKILL.md -->
 - **Think Before Coding** — No assume. Surface tradeoffs. State assumptions. If uncertain, ask. If simpler approach exists, say so. Push back. If unclear, stop & name confusion.

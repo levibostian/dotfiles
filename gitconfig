@@ -15,6 +15,13 @@
 	excludesFile = ~/.gitignore_global
 	autocrlf = false
   attributesfile = ~/.gitattributes
+
+# automatically uses ssh instead of https for cloning. 
+# mostly needed for swift package manager and other package managers that close repos over https. 
+# reference: https://stackoverflow.com/a/75990491 
+[url "ssh://git@github.com/"]
+    insteadOf = https://github.com/
+
 [push]
 	default = simple
 	autoSetupRemote = true

@@ -1,0 +1,27 @@
+#!/bin/sh 
+
+echo "------------------------------------"
+echo "1. non-interactive delete worktrees"
+echo "------------------------------------"
+
+autowt cleanup -y
+
+echo "------------------------------------"
+echo "2. interactive delete worktrees"
+echo "------------------------------------"
+
+autowt cleanup --mode interactive -y --force
+
+echo "------------------------------------"
+echo "3. delete pruned branches"
+echo "------------------------------------"
+
+git-delete-pruned-branches
+
+echo "------------------------------------"
+echo "4. interactive delete branches"
+echo "------------------------------------"
+
+npx -y git-branch-delete@latest
+
+echo "done."

@@ -1,6 +1,6 @@
 [metadata]
 name = "code"
-description = "View all of the directories in ~/code"
+description = "Browse ~/code directories and their git worktrees"
 requirements = []
 
 [source]
@@ -15,6 +15,6 @@ command = "basename -- '{}'"
 enter = "actions:open"
 
 [actions.open]
-description = "open the directory in the terminal"
-command = "cd '{}' && $SHELL"
-mode = "execute" # runs the command and exists tv
+description = "Show worktrees in this directory"
+command = "TV_CODE_DIR='{}' tv code-wt"
+mode = "execute" # runs the command and exits tv

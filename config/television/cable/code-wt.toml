@@ -1,0 +1,20 @@
+[metadata]
+name = "code-wt"
+description = "Git worktrees in the selected ~/code directory"
+requirements = ["git"]
+
+[source]
+command = '''
+find "$TV_CODE_DIR" -name .git -maxdepth 3 \( -type d -o -type f \) -exec sh -c 'git -C "$(dirname "$1")" worktree list --porcelain 2>/dev/null | sed -n "s/^worktree //p"' _ {} \; 2>/dev/null | sort -u
+'''
+
+[preview]
+command = "basename '{}'"
+
+[keybindings]
+enter = "actions:open"
+
+[actions.open]
+description = "Open worktree"
+command = "cd '{}' && $SHELL"
+mode = "execute"

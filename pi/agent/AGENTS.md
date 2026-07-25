@@ -6,6 +6,7 @@
 - After change, run formatter/linter/tests (if told commands), fix all errors
 - After change, run scoped tests (if told commands), fix all errors
 - When told to "fetch https://..." to fetch a URL, use `curl -sSL https://markdown.new/<url>` which will return a markdown version of the page.
+- Preserve existing comments. Only delete if they're outdated or wrong. Even comments that explain what the code does should be kept when they're already in the file — they were put there intentionally and changing them without cause is noise.
 
 <!-- From: https://github.com/multica-ai/andrej-karpathy-skills/blob/main/skills/karpathy-guidelines/SKILL.md -->
 - **Think Before Coding** — No assume. Surface tradeoffs. State assumptions. If uncertain, ask. If simpler approach exists, say so. Push back. If unclear, stop & name confusion.

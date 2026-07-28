@@ -1,6 +1,5 @@
 ---
 name: find-docs
-disable-model-invocation: true
 description: >-
   Retrieves up-to-date documentation, API references, and code examples for any
   developer technology. Use this skill whenever the user asks about a specific

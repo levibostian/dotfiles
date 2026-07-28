@@ -1,6 +1,5 @@
 ---
 name: devdocs-style
-disable-model-invocation: true
 description: >
   User's preferred DEVELOPMENT.md style. Implementation-facing, design-decision
   focused. Only what code can't tell you. Use when the user asks to create or

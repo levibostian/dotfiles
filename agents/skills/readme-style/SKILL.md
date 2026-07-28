@@ -1,6 +1,5 @@
 ---
 name: readme-style
-disable-model-invocation: true
 description: >
   User's preferred README style. User-first, value-first, implementation
   details go in docs/DEVELOPMENT.md. Use when the user asks to create a

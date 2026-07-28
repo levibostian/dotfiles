@@ -1,6 +1,5 @@
 ---
 name: resolving-merge-conflicts
-disable-model-invocation: false
 description: "Use when you need to resolve an in-progress git merge/rebase conflict."
 ---
 

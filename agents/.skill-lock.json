@@ -33,9 +33,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/Doist/todoist-cli.git",
       "skillPath": "skills/todoist-cli/SKILL.md",
-      "skillFolderHash": "eb34025ba66211c90d5a187c310b2466771183e3",
+      "skillFolderHash": "8eb28b366f311ac66a7214c75237ccd5bbae555d",
       "installedAt": "2026-07-12T12:12:24.654Z",
-      "updatedAt": "2026-07-19T13:47:56.037Z"
+      "updatedAt": "2026-07-28T15:21:50.879Z"
     },
     "code-review": {
       "source": "mattpocock/skills",

@@ -3,7 +3,7 @@ import os from "node:os";
 import path from "node:path";
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
 
-const UPDATE_INTERVAL_MS = 10 * 1000; // 10 seconds
+const UPDATE_INTERVAL_MS = 2 * 1000; // 2 seconds
 const MIN_UPDATE_INTERVAL_MS = 150;
 
 function formatPath(targetPath: string): string {
@@ -88,6 +88,10 @@ export default function (pi: ExtensionAPI) {
 		await updateTitle(ctx);
 	});
 
+	pi.on("agent_settled", async (_event, ctx) => {
+		await updateTitle(ctx);
+	});
+
 	pi.on("turn_start", async (_event, ctx) => {
 		await updateTitle(ctx);
 	});
@@ -109,6 +113,10 @@ export default function (pi: ExtensionAPI) {
 	});
 
 	pi.on("model_select", async (_event, ctx) => {
+		await updateTitle(ctx);
+	});
+
+	pi.on("thinking_level_select", async (_event, ctx) => {
 		await updateTitle(ctx);
 	});
 

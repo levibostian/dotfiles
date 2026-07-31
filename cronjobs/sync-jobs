@@ -18,7 +18,9 @@ for (const f of fs.readdirSync(path.join(CRONJOBS, "scripts"))) {
 // cron respects VAR=value lines before job entries
 const jobs = fs.readFileSync(path.join(CRONJOBS, "jobs-list"), "utf8");
 const tmpfile = path.join(require("os").tmpdir(), "crontab-tmp");
-fs.writeFileSync(tmpfile, `PATH=${process.env.PATH}\n${jobs}\n`);
+// Get PATH from a login shell so mise-managed tooling is included
+const realPath = execSync('/bin/bash -l -c "echo $PATH"', { encoding: "utf8" }).trim();
+fs.writeFileSync(tmpfile, `PATH=${realPath}\n${jobs}\n`);
 execSync(`crontab - < ${tmpfile}`, { shell: true });
 fs.unlinkSync(tmpfile);
 

@@ -18,7 +18,8 @@
     "npm:pi-permissions",
     "npm:@ff-labs/pi-fff",
     "git:github.com/DietrichGebert/ponytail",
-    "git:github.com/robzolkos/pi-disable-model-skill-invocation"
+    "git:github.com/robzolkos/pi-disable-model-skill-invocation",
+    "npm:pi-edit-last-message"
   ],
   "extensions": [
     "extensions/pwd-title.ts"

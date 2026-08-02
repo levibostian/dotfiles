@@ -2,6 +2,7 @@
 
 const fs = require("fs");
 const path = require("path");
+const os = require("os");
 const { execSync } = require("child_process");
 
 const CRONJOBS = path.resolve(process.env.HOME, ".cronjobs");
@@ -12,15 +13,27 @@ for (const f of fs.readdirSync(path.join(CRONJOBS, "scripts"))) {
   fs.chmodSync(fp, 0o755);
 }
 
-// cron by default has a very limited PATH so scripts will probably fail. 
-// each time that this script runs, we will get the current PATH and add it to the crontab file. 
-// this will overwrite PATH for cron jobs so scripts will receive that snapshot of PATH when they run.
-// cron respects VAR=value lines before job entries
+// cron by default has a very limited PATH so scripts will probably fail.
+// We prepend a PATH= line to the crontab so all jobs inherit a useful PATH.
+// macOS cron ignores PATH lines longer than ~1024 chars, so we construct a
+// minimal one rather than dumping the full login-shell PATH.
+const HOME = process.env.HOME;
+const minimalPath = [
+  path.join(HOME, ".local", "share", "mise", "shims"),
+  path.join(HOME, ".local", "bin"),
+  path.join(HOME, ".binnys"),
+  "/opt/homebrew/bin",
+  "/opt/homebrew/sbin",
+  "/usr/local/bin",
+  "/usr/bin",
+  "/bin",
+  "/usr/sbin",
+  "/sbin",
+].join(":");
+
 const jobs = fs.readFileSync(path.join(CRONJOBS, "jobs-list"), "utf8");
-const tmpfile = path.join(require("os").tmpdir(), "crontab-tmp");
-// Get PATH from a login shell so mise-managed tooling is included
-const realPath = execSync('/bin/bash -l -c "echo $PATH"', { encoding: "utf8" }).trim();
-fs.writeFileSync(tmpfile, `PATH=${realPath}\n${jobs}\n`);
+const tmpfile = path.join(os.tmpdir(), "crontab-tmp");
+fs.writeFileSync(tmpfile, `PATH=${minimalPath}\n${jobs}\n`);
 execSync(`crontab - < ${tmpfile}`, { shell: true });
 fs.unlinkSync(tmpfile);
 

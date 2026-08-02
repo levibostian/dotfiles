@@ -21,9 +21,7 @@
     "git:github.com/robzolkos/pi-disable-model-skill-invocation",
     "npm:pi-edit-last-message"
   ],
-  "extensions": [
-    "extensions/pwd-title.ts"
-  ],
+  "extensions": [],
   "pi-ghostty-notifier": {
     "level": "actionable",
     "includeSummary": false,

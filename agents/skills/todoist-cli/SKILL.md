@@ -5,7 +5,7 @@ compatibility: "Requires the td CLI (@doist/todoist-cli) to be installed and aut
 license: MIT
 metadata:
   author: Doist
-  version: "3.0.5"
+  version: "3.1.1"
 ---
 
 # Todoist CLI (td)
@@ -43,9 +43,11 @@ td auth login --additional-scopes=billing
 td auth login --additional-scopes=app-management,backups
 td auth login --callback-port 9000           # override the OAuth callback port
 td auth login --no-browser-open              # print the authorize URL instead of opening a browser
+td auth login --credential-store=plaintext   # explicitly store the credential in plaintext
 td auth login --json                         # emit the new account record as JSON
 td auth login --ndjson                       # one-line newline-delimited JSON
 td auth token
+td auth token "$TOKEN" --credential-store=plaintext
 td auth status
 td auth status --json                        # full status payload as JSON (--ndjson also supported)
 TOKEN=$(td auth token view)
@@ -54,7 +56,7 @@ td auth logout
 td auth logout --json                        # emits `{"ok": true}` (--ndjson is silent)
 ```
 
-`td auth login`, `td auth status`, and `td auth logout` all accept the standard `--json` / `--ndjson` machine-output flags. For `login` and `status` the body carries the account record (id, email, auth metadata, plus `storedUsers` and `source` from status); `logout` emits a `{"ok": true}` envelope under `--json` and stays silent under `--ndjson`. Across all three, keyring-fallback warnings are written to stderr so stdout stays parseable. `td auth login` additionally accepts `--callback-port <n>` (default `8765`, with a small fallback range when the port is busy) and `--no-browser-open`, which prints the authorization URL for manual copy-paste instead of opening a browser (useful on headless or remote hosts).
+`td auth login`, `td auth status`, and `td auth logout` all accept the standard `--json` / `--ndjson` machine-output flags. For `login` and `status` the body carries the account record (id, email, auth metadata, plus `storedUsers` and `source` from status); `logout` emits a `{"ok": true}` envelope under `--json` and stays silent under `--ndjson`. `td auth login` additionally accepts `--callback-port <n>` (default `8765`, with a small fallback range when the port is busy) and `--no-browser-open`, which prints the authorization URL for manual copy-paste instead of opening a browser (useful on headless or remote hosts).
 
 Opt-in OAuth scopes are requested via `--additional-scopes=<list>` (comma-separated). Run `td auth login --help` for the full list. Currently supported:
 
@@ -64,7 +66,7 @@ Opt-in OAuth scopes are requested via `--additional-scopes=<list>` (comma-separa
 
 Combine freely with `--read-only` to keep data access read-only while still granting an opt-in scope (e.g. `td auth login --read-only --additional-scopes=backups`). When a command fails for lack of a scope, the error suggests a re-login command that preserves whichever flags were originally used.
 
-Tokens are stored in the OS credential manager when available, with fallback to `~/.config/todoist-cli/config.json`. `TODOIST_API_TOKEN` takes precedence over stored credentials.
+Tokens are stored in the OS credential manager by default. If it is unavailable, credential writes fail without a plaintext fallback. Pass `--credential-store=plaintext` to `td auth login` or `td auth token` only when you explicitly accept plaintext config-file storage; every such write emits a warning to stderr. `TODOIST_API_TOKEN` takes precedence over stored credentials.
 
 `td auth token view` writes the stored token to stdout for use in scripts. **Always capture it into a shell variable** (e.g. `TOKEN=$(td auth token view)`) — never invoke it bare in an agent transcript or piped to a shell that echoes its output, since that would leak the secret. Honors `--user <id|email>` for multi-account installs and refuses when `TODOIST_API_TOKEN` is set in the environment (the token is already available there).
 
@@ -132,6 +134,7 @@ td task quickadd "Buy milk tomorrow p1 #Shopping"
 td task qa "Review PR @urgent +Alice"
 td task list --project "Work" --label "urgent" --priority p1
 td task view "Buy milk"
+td task view "Plan sprint" --include-children             # list direct subtasks, flagging ones that nest further
 td task add "Plan sprint" --project "Work" --section "Planning" --labels "urgent,review"
 td task update "Plan sprint" --deadline "2026-06-01" --assignee me
 td task reschedule "Plan sprint" 2026-03-20T14:00:00
@@ -153,6 +156,7 @@ Useful task flags:
 - `--stdin` on `task add` reads the task description from stdin; on `task quickadd` (and the top-level `td add`) it reads the full natural-language text from stdin.
 - `--parent`, `--section`, `--project`, `--workspace`, `--assignee`, `--labels`, `--due`, `--deadline`, `--duration`, and `--priority` cover most task workflows.
 - `td task complete --forever` stops recurrence; `td task update --no-due` clears the due date, `--no-deadline` clears deadlines, and `--no-labels` removes all labels; `td task move --no-parent` and `--no-section` detach from hierarchy.
+- `--include-children` on `task view` lists up to 25 direct subtasks, each flagged with whether it has subtasks of its own. **A dated parent can hide an undated subtask that no date filter will surface, so check this before assuming a task is a leaf** rather than guessing. Past 25, page the rest with `td task list --parent id:<id> --all`. Under `--json` it merges `childCount`, `children`, `hasMoreChildren` and `childrenError` into the task object; `childrenError` means the listing is incomplete, not empty.
 
 ### Projects And Workspaces
 ```bash
@@ -161,6 +165,7 @@ td project list --search "Road"
 td project archived
 td project view "Roadmap" --detailed
 td project view "Roadmap" --raw                          # don't render the description markdown
+td project view "Roadmap" --include-children             # list direct sub-projects, flagging ones that nest further
 td project collaborators "Roadmap"
 td project create --name "New Project" --color blue
 td project create --name "New Project" --description "Quarterly OKRs"
@@ -214,6 +219,8 @@ td folder create "Acme" --name "Engineering"
 td folder update "Engineering" --name "Platform" --workspace "Acme"
 td folder delete "Engineering" --workspace "Acme" --yes
 ```
+
+`--include-children` on `project view` lists up to 25 direct sub-projects, each flagged with whether it has sub-projects of its own, and merges the same `childCount` / `children` / `hasMoreChildren` / `childrenError` fields under `--json`. Workspace projects never have sub-projects — they nest under folders instead, so they always report none. A `Parent:` line is shown for any sub-project whether or not the flag is passed.
 
 ### Labels, Filters, And Sections
 ```bash

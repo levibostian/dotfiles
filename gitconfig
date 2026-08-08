@@ -19,8 +19,15 @@
 # automatically uses ssh instead of https for cloning. 
 # mostly needed for swift package manager and other package managers that close repos over https. 
 # reference: https://stackoverflow.com/a/75990491 
-[url "ssh://git@github.com/"]
-    insteadOf = https://github.com/
+#
+# Disabling global (all github repos) because I found it quite annoying when I would get a 1password ssh prompt constantly on my computer
+# for public github repos. 
+# Instead, I suggest enabling github repos or orgs. Add them to '~/.gitconfig.local' if you dont want checked in. 
+# 
+# [url "ssh://git@github.com/"]
+#     insteadOf = https://github.com/
+[url "ssh://git@github.com/levibostian/"]
+    insteadOf = https://github.com/levibostian/
 
 [push]
 	default = simple

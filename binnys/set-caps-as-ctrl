@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Allow me to run via raycast by just adding these comments to the top of the script.
+# @raycast.schemaVersion 1
+# @raycast.title Fix keyboard caps lock
+# @raycast.mode silent
+
+# Map Caps Lock -> Control via hidutil.
+# Not sure why, but recently my mac keeps defaulting back to caps lock instead of control. Rather then re-format my computer, I just run this script to fix it.
+
+# To revert: swap command below for:
+#   hidutil property --set '{"UserKeyMapping":[]}'
+hidutil property --set '{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0x700000039,"HIDKeyboardModifierMappingDst":0x7000000E0}]}'

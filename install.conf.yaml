@@ -54,6 +54,10 @@
       create: true
       path: cronjobs
 
+    ~/.startup:
+      create: true
+      path: startup
+
 - create:
   - ~/.oh-my-zsh
   - ~/.ssh

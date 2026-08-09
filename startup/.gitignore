@@ -1,0 +1,2 @@
+# built binary (derivable via `go build -o startup .`)
+/startup

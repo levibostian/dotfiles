@@ -45,6 +45,14 @@ and `webapp` appear once the binaries are dropped into `bins/`.
   **gives up** on it for the session/boot (breaks a loop on a corrupt binary).
   A run that lives ≥5s resets the counter. `restart` resets all counters.
 - Children are independent — started alphabetically, no ordering/dependencies.
+- Children run with `bins/` as their working directory and inherit the daemon's
+  environment. launchd starts the daemon with a bare `PATH`, so the plist sets a
+  predictable one (mise shims, `~/.local/bin`, homebrew, `/usr/bin`, …) — same
+  approach as `~/.cronjobs/sync-jobs`. It's baked into the plist at `install`
+  time; re-run `install` to refresh it and `unload`+`load` the LaunchAgent for
+  launchd to re-spawn the daemon with the new PATH. `startup restart` won't apply
+  a changed plist PATH — it only reloads `bins/`, and children get their
+  environment at daemon spawn.
 - Per-child log, stdout+stderr merged, truncated each run, at
   `/tmp/startup-<name>.log`.
 

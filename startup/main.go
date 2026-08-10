@@ -60,9 +60,39 @@ const plistTemplate = `<?xml version="1.0" encoding="UTF-8"?>
 	<true/>
 	<key>KeepAlive</key>
 	<true/>
+	<key>EnvironmentVariables</key>
+	<dict>
+		<key>PATH</key>
+		<string>{{PATH}}</string>
+	</dict>
 </dict>
 </plist>
 `
+
+// minimalPath returns a small, predictable PATH for children. launchd gives
+// the daemon a bare PATH (/usr/bin:/bin:/usr/sbin:/sbin), which children
+// inherit — so user-installed binaries (mise, homebrew) are invisible. Rather
+// than dumping a machine-specific login PATH into the plist, we construct a
+// minimal one from stable locations, the same approach .cronjobs/sync-jobs
+// uses. These dirs may not all exist; that is harmless.
+func minimalPath() string {
+	home, err := os.UserHomeDir()
+	if err != nil {
+		log.Fatalf("home dir: %v", err)
+	}
+	return strings.Join([]string{
+		filepath.Join(home, ".local", "share", "mise", "shims"),
+		filepath.Join(home, ".local", "bin"),
+		filepath.Join(home, ".binnys"),
+		"/opt/homebrew/bin",
+		"/opt/homebrew/sbin",
+		"/usr/local/bin",
+		"/usr/bin",
+		"/bin",
+		"/usr/sbin",
+		"/sbin",
+	}, ":")
+}
 
 // plistDirOverride and launchctl are seams so install/uninstall can be tested
 // without touching the real LaunchAgents dir or launchd. They are only ever
@@ -87,7 +117,8 @@ func plistPath() string {
 }
 
 func plistContent(exe string) string {
-	return strings.ReplaceAll(plistTemplate, "{{BIN}}", exe)
+	content := strings.ReplaceAll(plistTemplate, "{{BIN}}", exe)
+	return strings.ReplaceAll(content, "{{PATH}}", minimalPath())
 }
 
 func doInstall() {

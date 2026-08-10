@@ -35,6 +35,25 @@ func TestPlistContentRendersBinaryPath(t *testing.T) {
 	}
 }
 
+func TestPlistContentRendersMinimalPath(t *testing.T) {
+	for _, want := range []string{"EnvironmentVariables", "<key>PATH</key>", "{{PATH}}"} {
+		if !strings.Contains(plistTemplate, want) {
+			t.Fatalf("plistTemplate missing %q", want)
+		}
+	}
+	content := plistContent("/x")
+	if strings.Contains(content, "{{PATH}}") {
+		t.Fatal("rendered plist should not retain the PATH placeholder")
+	}
+	mp := minimalPath()
+	if !strings.Contains(content, "<string>"+mp+"</string>") {
+		t.Fatalf("rendered plist should embed minimalPath() \n%q", content)
+	}
+	if mp == "" || !strings.Contains(mp, "/usr/bin") {
+		t.Fatalf("minimalPath() = %q, want a real PATH", mp)
+	}
+}
+
 func TestPlistPath(t *testing.T) {
 	got := plistPath()
 	wantSuffix := filepath.Join("Library", "LaunchAgents", "com.startup.plist")

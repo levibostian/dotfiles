@@ -205,6 +205,16 @@
       "pluginName": "mattpocock-skills",
       "installedAt": "2026-07-18T14:22:36.417Z",
       "updatedAt": "2026-07-18T14:22:36.417Z"
+    },
+    "swift-testing-expert": {
+      "source": "avdlee/swift-testing-agent-skill",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/avdlee/swift-testing-agent-skill.git",
+      "skillPath": "swift-testing-expert/SKILL.md",
+      "skillFolderHash": "3e1acfbe7700872a2b2d4e4fe3441de8ea4e1ea1",
+      "pluginName": "swift-testing-expert",
+      "installedAt": "2026-08-07T17:01:38.003Z",
+      "updatedAt": "2026-08-07T17:01:38.003Z"
     }
   },
   "dismissed": {

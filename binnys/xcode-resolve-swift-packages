@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# Simply resolves swift packages for the xcode project in this dir. 
+#
+# Usage: xcode-resolve-swift-packages 
+#        xcode-resolve-swift-packages -project "Foo.xcodeproj"
+
+xcodebuild -resolvePackageDependencies $@

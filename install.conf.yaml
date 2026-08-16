@@ -58,6 +58,10 @@
       create: true
       path: startup
 
+    ~/.config/jjui:
+      create: true
+      path: config/jjui
+
 - create:
   - ~/.oh-my-zsh
   - ~/.ssh

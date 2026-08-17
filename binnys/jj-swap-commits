@@ -1,0 +1,28 @@
+#!/bin/sh
+
+#  Swap two adjacent commits
+# Say history is:
+# P -> A -> B -> C
+# Want: P -> B -> A -> C
+# Use either:
+# ```bash
+#  jj rebase --revisions A --insert-after B
+# ```
+# or:
+# ```bash
+#   jj rebase --revisions B --insert-before A
+# ```
+# Both restack C correctly.
+
+printf 'commit on bottom stack: '
+read -r bottom_hash
+
+printf 'commit on top stack: '
+read -r top_stack
+
+if [ -z "$bottom_hash" ] || [ -z "$top_stack" ]; then
+  echo 'Both inputs required.' >&2
+  exit 1
+fi
+
+jj rebase --revisions "$bottom_hash" --insert-after "$top_stack"

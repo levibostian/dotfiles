@@ -1,0 +1,102 @@
+#!/bin/sh
+#
+# ghostty-notify — send a Ghostty desktop notification + optionally open a URL
+#
+# Uses Ghostty's OSC 777 terminal escape sequence (\e]777;notify;title;body\a)
+# to trigger a native desktop notification from within the terminal.
+# This is the same mechanism the Ghostty Notify pi extension uses.
+#
+# When run from a tool/daemon (no direct terminal), walks the process tree
+# to find the nearest ancestor with a controlling tty, then writes the
+# escape sequence to that terminal device (e.g. /dev/ttys004).
+#
+# Usage:
+#   ghostty-notify "title" "body" [url]
+#   ghostty-notify "title" "body" "https://example.com"   # notify + open URL
+#   echo "body" | ghostty-notify "title" [url]
+#   ghostty-notify "title" < message.txt
+#
+# Dependencies:
+#   - open (macOS built-in) — for URL opening
+#   - osascript (macOS built-in) — last-resort notification fallback
+#   - ps (POSIX) — for process tree traversal
+
+if [ $# -eq 0 ]; then
+	echo "Usage: ghostty-notify <title> [body] [url]" >&2
+	echo "  body: optional, reads from stdin if omitted" >&2
+	echo "  url:  optional, also opens in browser" >&2
+	exit 1
+fi
+
+# --- Parse arguments ---
+
+title="$1"
+shift
+url=""
+
+if [ $# -ge 2 ]; then
+	body="$1"
+	url="$2"
+elif [ $# -ge 1 ]; then
+	body="$1"
+elif [ ! -t 0 ]; then
+	# stdin is a pipe/redirect — read body from it
+	body=$(cat)
+else
+	body=""
+fi
+
+# --- Open URL in default browser ---
+# Runs unconditionally when a URL is given. Uses macOS's `open` command,
+# which is the standard way to open URLs/files from CLI on macOS.
+if [ -n "$url" ]; then
+	open "$url"
+fi
+
+# --- Write notification escape sequence ---
+# The OSC 777 escape sequence (\e]777;notify;title;body\a) is a terminal
+# protocol extension supported by Ghostty (and rxvt-unicode, iTerm2, WezTerm).
+# The terminal emulator intercepts it and shows a native desktop notification.
+#
+# The sequence itself is invisible — the terminal consumes it without
+# displaying anything. "No output" is correct behavior.
+
+write_notify() {
+	printf '\e]777;notify;%s;%s\a' "$title" "$body"
+}
+
+if [ -t 1 ]; then
+	# stdout is a terminal — write directly to it
+	write_notify
+elif [ -t 2 ]; then
+	# stdout captured, but stderr is a terminal
+	write_notify >&2
+else
+	# No direct terminal access. Walk up the process tree to find
+	# the nearest ancestor that has a controlling terminal device
+	# (e.g. /dev/ttys004). This lets the tool work correctly when
+	# invoked from pi or other daemons that inherit no tty.
+	#
+	# Typical chain on macOS with pi:
+	#   ghostty → login(zsh) → zsh → pi → bash → ghostty-notify
+	#   ^^^^^^                    ^^^^^^
+	#   real tty                  pi has it too
+	#
+	# We start from our own PID and climb until we find a process
+	# with a non-null tty, then write to that device node.
+	pid=$$
+	while [ "$pid" != "1" ]; do
+		tty_dev=$(ps -o tty= -p "$pid" 2>/dev/null | head -1 | tr -d ' ')
+		if [ -n "$tty_dev" ] && [ "$tty_dev" != "?" ] && [ "$tty_dev" != "??" ]; then
+			write_notify >"/dev/$tty_dev"
+			exit 0
+		fi
+		pid=$(ps -o ppid= -p "$pid" 2>/dev/null | head -1 | tr -d ' ')
+	done
+
+	# No terminal at all in the process tree — fall back to macOS
+	# native notification via osascript. This works everywhere but
+	# shows a generic "osascript" notification style rather than a
+	# Ghostty-branded one.
+	osascript -e "display notification \"$body\" with title \"$title\""
+fi

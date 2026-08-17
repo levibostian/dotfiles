@@ -71,7 +71,7 @@ ZSH_THEME="dracula"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git mise)
+plugins=(git mise jj)
 
 # always answers "yes" to the "update oh my zsh?" prompt. 
 # MUST be set before sourcing oh-my-zsh.sh

@@ -1,0 +1,9 @@
+#!/bin/sh
+
+if [ -z "$1" ]; then
+  echo "Usage: $0 <trunk-revision>" >&2
+  exit 1
+fi
+
+jj config set --repo 'revset-aliases."trunk()"' "$1@origin" && jj config list | grep -i 'revset-aliases."trunk()"'
+

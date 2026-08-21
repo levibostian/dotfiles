@@ -53,28 +53,90 @@ Style:
 - concrete examples, no vague wording
 - enough context for a new engineer to change code safely
 
-### Personal code style
+### Personal code style (enforced)
 
-This section defines some of my personal code style preferences. These are universal to all languages, but I may have additional preferences for specific languages (I put the lang in parentheses if it's language specific). These styles should be followed unless there is a good reason to deviate. If you are unsure, ask me.
+Code should read like a book. Reader should understand flow without jumping across files.
 
-I think that you can sum-up a lot of my personal code styles with: code should read like a book. You do not need to jump around the codebase to understand what is happening, the variable and function names should be descriptive and convey their purpose, and the code should be easy to read and understand.
+#### Priority
+- Correctness, security, and explicit user requirements override style.
+- If style tradeoff is unclear, ask one clarifying question before coding.
 
-- Avoid making constants for things that are only used once. If a value is only used in one place, it is better to just use the literal value instead of creating a constant for it. This helps to void developers from having to look up the value of the constant and makes the code easier to read.
-- Avoid creating helper functions for things that are only used once. If a piece of code is only used in one place, it is better to just write it inline instead of creating a separate function for it. This helps to avoid the developer from having to jump around the codebase to understand what is happening. 
-- I do not like making subclasses in object-oriented programming. Design patterns like Swift's protocol-oriented programming is preferred over subclassing. If you find yourself creating a subclass, consider if there is a better way to achieve the same functionality without creating a new class.
-- Variable names should be descriptive and convey the purpose of the variable. Do not be afraid to be verbose with variable names if it helps to clarify their purpose. 
-- Code comments a great way to explain "why" something is being done to remind yourself and others in the future. The code comments I do not like are ones that explain what is happening in the code such as: 
+#### MUST
+- Use descriptive variable/function/type names. Be verbose when clarity improves.
+- Inline single-use values and single-use helpers in local scope.
+- Prefer guard-style flow (`guard` / `if ... return`) over nested conditionals.
+- Keep feature-specific rules near feature code (for example route/service), unless rule is reused across multiple flows.
+- Use functional chains when callbacks stay simple and final result name stays clear.
+- Add comments for product/business policy and non-obvious technical tradeoffs.
+- Rewrite existing comments only when touching same lines and comment is outdated/wrong.
+- For Swift/Kotlin, prefer extensions over util classes.
 
-```swift
-// Calculate the length of the string
-let lengthOfString = str.count
+#### MUST NOT
+- Do not create subclasses unless user explicitly asks or no practical alternative exists.
+- Do not add global single-use constants.
+- Do not force one default timeout/retry policy in global/shared clients; caller should choose.
+
+#### DEFAULTS
+- For low-probability infrastructure failures, avoid heavy boilerplate error handling.
+- For realistic runtime failures (for example hardware/bluetooth/external instability), use typed errors so callers can branch if needed.
+- Private class single-use constants are allowed when readability improves.
+- If literal repeats 2+ times in same scope, extract it.
+- Keep functional chains unless result intent becomes unclear.
+
+#### Risky changes: ask before direct ship
+For auth/permissions, payments/billing, DB migration/data deletion, external API behavior changes, or core user workflow changes, ask whether to use feature flag/canary vs direct replace.
+
+#### Style gate (required before final response)
+Before sending final answer, run checklist and fix violations:
+1. One-use local constant/helper added? Inline unless private-class readability case.
+2. Any vague names or unclear result names? Rename descriptively.
+3. Any avoidable nesting? Use guard/early return.
+4. Any new policy/tradeoff without comment? Add one concise why-comment.
+5. Any subclass or global default timeout/retry policy added? Replace unless explicitly required.
+6. Any risky change category touched? Ask rollout strategy first.
+
+#### Examples (bad → good)
+
+- Inline single-use helper
+```ts
+// bad
+function isAllowed(user: User) {
+  return user.emailVerified && user.role === "admin"
+}
+if (!isAllowed(user)) return forbidden()
+
+// good
+if (!(user.emailVerified && user.role === "admin")) return forbidden()
 ```
 
-In the above example, the variable name `lengthOfString` already conveys what is happening in the code, so the comment is unnecessary.
+- Clear result naming in functional style
+```ts
+// bad
+const x = users.filter((user) => user.emailVerified).map((user) => user.id)
 
-- I like to use guard statements. Langs like Swift has a `guard` keyword but other languages can `if ... return` instead. 
-- (Swift, Kotlin) Use extensions over Util classes. 
+// good
+const verifiedUserIds = users
+  .filter((user) => user.emailVerified)
+  .map((user) => user.id)
+```
 
+- Comment policy/tradeoff, not line narration
+```ts
+// bad
+// increment retry count
+retryCount++
 
+// good
+// Backoff protects upstream rate limits during incident traffic spikes.
+retryCount++
+```
 
+- Caller-owned retry/timeout in shared client
+```ts
+// bad (global default hidden in shared client)
+await paymentClient.charge(request)
+
+// good (caller explicit)
+await paymentClient.charge(request, { timeoutMs: 3000, retries: 1 })
+```
 

@@ -4,7 +4,7 @@ set -euo pipefail
 # Fast way to get working on a new idea in an existing jj repo. 
 #
 # Usage:
-#   jj-new-trunk "my feature name"
+#   jj-hack "my feature name"
 #
 # Will....
 # - Open new ghostty tab & rename the tab 
@@ -12,7 +12,7 @@ set -euo pipefail
 # - split terminal window & open pi agent
 
 if [ $# -ne 1 ]; then
-  echo "Usage: jj-new-trunk <descriptive-name>" >&2
+  echo "Usage: jj-hack <descriptive-name>" >&2
   exit 1
 fi
 
@@ -20,4 +20,4 @@ fi
 arg="$(printf '%s' "$1" | tr '[:upper:]' '[:lower:]' | tr ' ' '-')"
 
 jj workspace add --name "$arg" "../$arg" --revisions 'trunk()'
-ghostty-new-tab "../$arg" "jj bookmark create $arg && ghostty-rename-tab $arg && ghostty-pane-splitter 1x2 && pi"
+ghostty-new-tab "../$arg" "jj bookmark create $arg && ghostty-rename-tab $arg && ghostty-pane-splitter 1x2 && ghostty-set-pane-size 70% && pi"

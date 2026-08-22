@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Resize current Ghostty split to a percentage of screen height.
+#
+# Equalizes all splits first, then resizes the current pane to the
+# requested percentage of the screen height.
+#
+# Usage:
+#   ghostty-set-pane-size 50%    # current pane = 50% of screen height
+
+pct="${1:-}"
+
+# Validate
+if [[ -z "$pct" ]] || [[ "$pct" != *% ]]; then
+    echo "Usage: ghostty-set-pane-size <N%>" >&2
+    echo "  e.g. ghostty-set-pane-size 50%" >&2
+    exit 1
+fi
+
+pct="${pct%%%}"
+
+# Get screen height from Finder desktop bounds ("0, 0, W, H")
+IFS=', ' read -r _ _ screen_w screen_h <<< "$(osascript -e 'tell application "Finder" to get bounds of window of desktop')"
+dim="$screen_h"
+
+# Equalize splits, then count terminals to know current share
+splitCount=$(osascript -e '
+tell application "Ghostty"
+    set term to focused terminal of selected tab of front window
+    perform action "equalize_splits" on term
+    delay 0.1
+    count of terminals of selected tab of front window
+end tell' 2>/dev/null || echo 1)
+
+# Current share after equalization (percentage)
+current_share=$(( 100 / splitCount ))
+
+# How much to grow/shrink (percentage points)
+diff=$(( pct - current_share ))
+if [ "$diff" -eq 0 ]; then
+    exit 0  # already at target
+fi
+
+# Convert to pixels
+pixels=$(( diff * dim / 100 ))
+[ "$pixels" -lt 0 ] && pixels=$(( -pixels ))
+
+# If pane needs to grow (diff > 0), resize down (expand bottom edge).
+# If pane needs to shrink (diff < 0), resize up (contract bottom edge).
+if [ "$diff" -gt 0 ]; then
+    final_dir="down"
+else
+    final_dir="up"
+fi
+
+DIR="$final_dir" PIXELS="$pixels" osascript -e '
+tell application "Ghostty"
+    set term to focused terminal of selected tab of front window
+    perform action "resize_split:" & (system attribute "DIR") & "," & (system attribute "PIXELS") on term
+end tell'

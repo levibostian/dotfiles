@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Rename current Ghostty tab via AppleScript -> perform action set_tab_title
+
+if [ $# -ne 1 ]; then
+  echo "Usage: ghostty-rename-tab <title>"
+  exit 1
+fi
+
+TITLE="$1" osascript -e '
+tell application "Ghostty"
+    set t to focused terminal of selected tab of front window
+    perform action "set_tab_title:" & (system attribute "TITLE") on t
+end tell'

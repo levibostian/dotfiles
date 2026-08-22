@@ -20,4 +20,4 @@ fi
 arg="$(printf '%s' "$1" | tr '[:upper:]' '[:lower:]' | tr ' ' '-')"
 
 jj workspace add --name "$arg" "../$arg" --revisions 'trunk()'
-ghostty-new-tab "../$arg" "jj bookmark create $arg && ghostty-rename-tab $arg && ghostty-pane-splitter 1x2 && ghostty-set-pane-size 70% && pi"
+ghostty-new-tab "../$arg" "jj bookmark create $arg && ghostty-rename-tab $arg && ghostty-layout-ai"

@@ -98,5 +98,5 @@ fi
 echo "pr-open: editing $head_branch..." >&2
 jj edit "$head_branch"
 
-# Open new Ghostty tab in the pr-open workspace
-ghostty-new-tab "$(pwd)"
+# Open new Ghostty tab in the pr-open workspace. set the new tab layout to my preferred ai layout.
+ghostty-new-tab "$(pwd)" "ghostty-layout-ai"

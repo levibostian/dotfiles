@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Take the existing ghostty tab and change it's layout to what I like for ai flow. 
+
+ghostty-pane-splitter 1x2 
+ghostty-set-pane-size 70% 
+pi

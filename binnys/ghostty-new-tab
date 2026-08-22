@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC2016
+set -euo pipefail
+
+# Open a new Ghostty tab, optionally in a specific directory and running a command.
+#
+# Ghostty has no AppleScript API, so we use System Events keyboard simulation.
+# Accessibility permission required for app calling osascript.
+#
+# Usage:
+#   ghostty-new-tab                              # new tab in current dir
+#   ghostty-new-tab /path/to/dir                  # new tab in dir
+#   ghostty-new-tab /path/to/dir "command"       # new tab in dir + run command
+#   ghostty-new-tab "" "command"                 # new tab in cwd + run command
+
+dir="${1:-}"
+cmd="${2:-}"
+
+# Build shell commands to execute in new tab.
+# Ghostty defaults to $HOME, so cd to requested dir.
+commands=""
+if [ -n "$dir" ]; then
+  commands="cd $(printf '%q' "$dir")"
+fi
+if [ -n "$cmd" ]; then
+  [ -n "$commands" ] && commands="$commands; "
+  commands="$commands$cmd"
+fi
+
+# Pass commands via env var to avoid bash quoting hell inside AppleScript.
+# osascript can't read stdin here (terminal needs stdin), so env var is safest.
+CMDS="$commands" osascript -e '
+tell application "Ghostty"
+    activate
+    tell application "System Events"
+        tell process "Ghostty"
+            keystroke "t" using command down
+            delay 0.3
+            set cmds to system attribute "CMDS"
+            if cmds is not "" then
+                keystroke cmds
+                key code 36
+            end if
+        end tell
+    end tell
+end tell'

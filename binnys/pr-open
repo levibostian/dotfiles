@@ -1,0 +1,102 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# pr-open <github-pull-request-url>
+#
+# Open a GitHub PR's head branch for editing via jj workspace.
+#
+#   1. Parse owner/repo + PR number from URL.
+#   2. Get head branch name via `gh`.
+#   3. Find the matching repo in ~/code/ (checks main/.git/config first,
+#      then .git/config at root).
+#   4. Reuse or create a jj workspace named "pr-open" as a sibling of the
+#      repo's working dir (main/ or root).
+#   5. Run `jj edit` on the PR's head branch.
+
+if [ $# -ne 1 ]; then
+  echo "Usage: pr-open <github-pr-url>" >&2
+  exit 1
+fi
+
+pr_url="$1"
+
+# ---- parse PR URL ----
+url_regex='github\.com[:/]([^/]+/[^/]+)/pull/([0-9]+)'
+if ! [[ "$pr_url" =~ $url_regex ]]; then
+  echo "Error: could not parse GitHub PR URL: $pr_url" >&2
+  exit 1
+fi
+
+repo_key="${BASH_REMATCH[1]%.git}" # strip trailing .git if present
+pr_num="${BASH_REMATCH[2]}"
+
+# ---- get head branch from gh ----
+head_branch="$(gh pr view "$pr_num" --repo "$repo_key" --json headRefName --jq .headRefName)" || {
+  echo "Error: failed to get PR info. Is gh installed/authenticated? ($repo_key#$pr_num)" >&2
+  exit 1
+}
+
+echo "pr-open: $repo_key#$pr_num @ $head_branch" >&2
+
+# ---- find the local repo ----
+found_dir=""
+for d in ~/code/*/; do
+  # Try main/ subdirectory first (workspace pattern)
+  if [ -f "${d}main/.git/config" ]; then
+    origin="$(git -C "${d}main" config --get remote.origin.url 2>/dev/null || true)"
+    if [ -n "$origin" ]; then
+      git_repo="$(echo "$origin" | sed -n 's/.*github.com[/:]\([^/]*\/[^.]*\).*/\1/p')"
+      if [ "$git_repo" = "$repo_key" ]; then
+        found_dir="${d}main"
+        break
+      fi
+    fi
+  fi
+
+  # Try .git/config at repo root (plain git repo pattern)
+  if [ -f "${d}.git/config" ]; then
+    origin="$(git -C "$d" config --get remote.origin.url 2>/dev/null || true)"
+    if [ -n "$origin" ]; then
+      git_repo="$(echo "$origin" | sed -n 's/.*github.com[/:]\([^/]*\/[^.]*\).*/\1/p')"
+      if [ "$git_repo" = "$repo_key" ]; then
+        found_dir="$d"
+        break
+      fi
+    fi
+  fi
+done
+
+if [ -z "$found_dir" ]; then
+  echo "Error: no local repo found for $repo_key in ~/code/" >&2
+  exit 1
+fi
+
+# strip trailing slash
+found_dir="${found_dir%/}"
+
+cd "$found_dir"
+echo "pr-open: found repo at $found_dir" >&2
+
+# ---- ensure jj is initialized ----
+if ! jj root &>/dev/null; then
+  echo "Error: $(basename "$found_dir") is not a jj repo." >&2
+  echo "       Initialize it with: jj git init" >&2
+  exit 1
+fi
+
+# ---- find or create pr-open workspace ----
+if [ -d "../pr-open" ]; then
+  echo "pr-open: reusing existing workspace..." >&2
+  cd "../pr-open"
+else
+  echo "pr-open: creating workspace..." >&2
+  jj workspace add --name "pr-open" ../pr-open
+  cd "../pr-open"
+fi
+
+# ---- edit the PR's head branch ----
+echo "pr-open: editing $head_branch..." >&2
+jj edit "$head_branch"
+
+# Open new Ghostty tab in the pr-open workspace
+ghostty-new-tab "$(pwd)"

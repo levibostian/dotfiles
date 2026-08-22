@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Fast way to get working on a new idea in an existing jj repo. 
+#
+# Usage:
+#   jj-new-trunk "my feature name"
+#
+# Will....
+# - Open new ghostty tab & rename the tab 
+# - create new jj workspace, branch off trunk, create new bookmark so it's easy to find again next time. 
+# - split terminal window & open pi agent
+
+if [ $# -ne 1 ]; then
+  echo "Usage: jj-new-trunk <descriptive-name>" >&2
+  exit 1
+fi
+
+# normalize the arg. lowercase all chars and replace strings with hyphens. so you can pass in whatever you want as arg and we'll convert for you. 
+arg="$(printf '%s' "$1" | tr '[:upper:]' '[:lower:]' | tr ' ' '-')"
+
+jj workspace add --name "$arg" "../$arg" --revisions 'trunk()'
+ghostty-new-tab "../$arg" "jj bookmark create $arg && ghostty-rename-tab $arg && ghostty-pane-splitter 1x2 && pi"

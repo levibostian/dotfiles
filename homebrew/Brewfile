@@ -87,3 +87,5 @@ cask "firefox"
 cask "obsidian"
 # To-do list
 cask "todoist-app"
+# Music app blocker utility
+cask "music-decoy"

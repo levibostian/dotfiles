@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Will put all of your installed homebrew programs into Brewfile. 
+# you must have 'mas' brew cli installed in order for it to find mac app store apps (it's in the Brewfile already so run brew-sync to install it). 
+#
+# After you run this script, you will want to cleanup the Brewfile because it will probably add/remove stuff you dont want. 
+# Or, move stuff it added into Brewfile.local 
+
+brew bundle dump --file=~/.homebrew/Brewfile --force

@@ -1,0 +1,89 @@
+# docs 
+# https://docs.brew.sh/Brew-Bundle-and-Brewfile
+
+# Brewfile is just a ruby dsl file. so we can call ruby code here to include everything from a Brewfile.local as well
+require_relative "Brewfile.local" if File.exist?(File.expand_path("Brewfile.local", __dir__))
+
+# ghostty-pane-splitter cli 
+tap "rikeda71/tap"
+# Declarative CLI Version manager
+brew "aqua"
+# Cloudflare Tunnel client (formerly Argo Tunnel)
+brew "cloudflared"
+# GNU File, Shell, and Text utilities
+brew "coreutils"
+# Isolated development environments using Docker
+brew "docker-compose"
+# Git-compatible distributed version control system
+brew "jj"
+# TUI for interacting with the Jujutsu version control system
+brew "jjui"
+# Mac App Store command-line interface
+brew "mas"
+# Polyglot runtime manager (asdf rust clone)
+brew "mise"
+# Search tool like grep and The Silver Searcher
+brew "ripgrep"
+# CLI proxy to minimize LLM token consumption
+brew "rtk"
+# General purpose fuzzy finder TUI
+brew "television"
+# Official command-line interface for Todoist
+brew "todoist-cli"
+# Extremely fast Python package installer and resolver, written in Rust
+brew "uv"
+# Little beautifier tool for xcodebuild
+brew "xcbeautify"
+# Fish-like fast/unobtrusive autosuggestions for zsh
+brew "zsh-autosuggestions"
+# Password manager that keeps all passwords secure behind one password
+cask "1password"
+# Tools for building Android applications
+cask "android-studio"
+# Menu bar icon organiser
+cask "bartender"
+# Image, video and clipboard optimiser
+cask "clop"
+# Presentations from Markdown
+cask "deckset"
+# App to build and share containerised applications and microservices
+cask "docker-desktop"
+# GUI for Jujutsu
+cask "gg"
+# Terminal emulator that uses platform-native UI and GPU acceleration
+cask "ghostty"
+# Speech recognition tool
+cask "macwhisper"
+# Window snapping tool
+cask "rectangle-pro"
+# Sound and audio controller
+cask "soundsource"
+# Music streaming service
+cask "spotify"
+# Git client
+cask "sublime-merge"
+# Open-source code editor
+cask "visual-studio-code"
+mas "InYourFace", id: 1476964367
+mas "NextDNS", id: 1464122853
+mas "Numbers", id: 409203825
+mas "PhotoBulk", id: 537211143
+mas "SnippetsLab", id: 1006087419
+vscode "denoland.vscode-deno"
+vscode "dracula-theme.theme-dracula"
+vscode "golang.go"
+vscode "ionutvmi.path-autocomplete"
+vscode "lfs.vscode-emacs-friendly"
+vscode "redhat.vscode-yaml"
+vscode "rherrmannr.code-coverage-lcov"
+vscode "sirmspencer.vscode-autohide"
+vscode "streetsidesoftware.code-spell-checker"
+npm "@earendil-works/pi-coding-agent"
+# Control your tools with a few keystrokes
+cask "raycast"
+# Web browser
+cask "firefox"
+# Knowledge base that works on top of a local folder of plain text Markdown files
+cask "obsidian"
+# To-do list
+cask "todoist-app"

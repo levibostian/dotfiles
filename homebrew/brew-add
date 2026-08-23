@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Add new stuff to Brewfile. 
+# Instead of running 'brew install ...' you run `brew-add ...` (including --cask, and other args)
+
+brew bundle add --file=~/.homebrew/Brewfile "$@"

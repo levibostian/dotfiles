@@ -62,6 +62,10 @@
       create: true
       path: config/jjui
 
+    ~/.homebrew:
+      create: true
+      path: homebrew
+
 - create:
   - ~/.oh-my-zsh
   - ~/.ssh

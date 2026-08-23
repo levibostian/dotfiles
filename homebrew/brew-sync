@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Installs missing programs. Deletes programs not in the Brewfile (great way to uninstall things quickly)
+# Upgrades out of date programs. 
+
+# views the brewfile and will make sure that all of those programs are installed and latest version. 
+brew bundle --file=~/.homebrew/Brewfile
+
+# then, after installing, this will delete homebrew programs that are not part of Brewfile. 
+brew bundle cleanup --file=~/.homebrew/Brewfile --force

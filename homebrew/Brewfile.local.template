@@ -1,0 +1,4 @@
+# require all casks installed in ~/Applications
+cask_args appdir: "~/Applications"
+
+tap "xcodes"

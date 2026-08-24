@@ -4,6 +4,16 @@
 # Brewfile is just a ruby dsl file. so we can call ruby code here to include everything from a Brewfile.local as well
 require_relative "Brewfile.local" if File.exist?(File.expand_path("Brewfile.local", __dir__))
 
+# Download with resuming and segmented downloading
+brew "aria2"
+# GitHub command-line tool
+brew "gh"
+# Firebase command-line tools
+brew "firebase-cli"
+# Image format providing lossless and lossy compression for web images
+brew "webp"
+# Command-line tool to install and switch between multiple versions of Xcode
+brew "xcodes"
 # ghostty-pane-splitter cli 
 tap "rikeda71/tap"
 # Declarative CLI Version manager
@@ -64,6 +74,22 @@ cask "spotify"
 cask "sublime-merge"
 # Open-source code editor
 cask "visual-studio-code"
+# Command-line interface for 1Password
+cask "1password-cli"
+# Presentations from Markdown
+cask "deckset"
+# Windows manager and desktop organiser
+cask "hazeover"
+# Control your tools with a few keystrokes
+cask "raycast"
+# Web browser
+cask "firefox"
+# Knowledge base that works on top of a local folder of plain text Markdown files
+cask "obsidian"
+# To-do list
+cask "todoist-app"
+# Music app blocker utility
+cask "music-decoy"
 mas "InYourFace", id: 1476964367
 mas "NextDNS", id: 1464122853
 mas "Numbers", id: 409203825
@@ -79,13 +105,4 @@ vscode "rherrmannr.code-coverage-lcov"
 vscode "sirmspencer.vscode-autohide"
 vscode "streetsidesoftware.code-spell-checker"
 npm "@earendil-works/pi-coding-agent"
-# Control your tools with a few keystrokes
-cask "raycast"
-# Web browser
-cask "firefox"
-# Knowledge base that works on top of a local folder of plain text Markdown files
-cask "obsidian"
-# To-do list
-cask "todoist-app"
-# Music app blocker utility
-cask "music-decoy"
+npm "git-xcstrings-merge"

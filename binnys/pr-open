@@ -95,6 +95,9 @@ else
 fi
 
 # ---- edit the PR's head branch ----
+# you can't edit a bookmark unless you're tracking it (also, tracking will create a local bookmark we can modify and then push)
+jj bookmark track "$head_branch@origin"
+
 echo "pr-open: editing $head_branch..." >&2
 jj edit "$head_branch"
 

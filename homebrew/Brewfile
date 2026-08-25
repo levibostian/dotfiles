@@ -91,6 +91,9 @@ cask "obsidian"
 cask "todoist-app"
 # Music app blocker utility
 cask "music-decoy"
+# Disk space visualiser
+cask "daisydisk"
+
 mas "InYourFace", id: 1476964367
 mas "NextDNS", id: 1464122853
 mas "Numbers", id: 409203825

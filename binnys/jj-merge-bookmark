@@ -1,0 +1,58 @@
+#!/bin/sh
+
+# Create merge commit from base bookmark into head bookmark.
+# Runs: jj new <head-bookmark> <base-bookmark>
+#
+# Usage:
+#   jj-merge-bookmark <base-bookmark>
+#     - head defaults to "@"
+#   jj-merge-bookmark <head-bookmark> <base-bookmark>
+#   jj-merge-bookmark
+#     - prompts for both values
+
+if [ "$#" -gt 2 ]; then
+  echo "Usage: $0 [<base-bookmark> | <head-bookmark> <base-bookmark>]" >&2
+  exit 1
+fi
+
+head_bookmark=""
+base_bookmark=""
+
+if [ "$#" -eq 2 ]; then
+  head_bookmark="$1"
+  base_bookmark="$2"
+fi
+
+if [ "$#" -eq 1 ]; then
+  head_bookmark="@"
+  base_bookmark="$1"
+fi
+
+if [ "$#" -eq 0 ]; then
+  printf 'head bookmark (tip: type "@" for current working copy): '
+  read -r head_bookmark
+
+  printf 'base bookmark: '
+  read -r base_bookmark
+fi
+
+if [ -z "$head_bookmark" ] || [ -z "$base_bookmark" ]; then
+  echo "Usage: $0 [<base-bookmark> | <head-bookmark> <base-bookmark>]" >&2
+  exit 1
+fi
+
+op_restore_id="$(jj op log | awk 'NF { if ($1 == "@" || $1 == "○" || $1 == "o" || $1 == "*") { print $2; exit } print $1; exit }')"
+
+echo "just in case you want to undo, run \"jj op restore $op_restore_id\""
+echo "merging $base_bookmark into $head_bookmark"
+
+jj new "$head_bookmark" "$base_bookmark" -m "merge $base_bookmark"
+
+printf 'tug %s? (Y/n) ' "$base_bookmark"
+read -r should_tug
+
+case "$should_tug" in
+  ""|"Y"|"y")
+    jj-tug "$base_bookmark"
+    ;;
+esac

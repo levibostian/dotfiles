@@ -1,0 +1,21 @@
+#!/bin/sh
+
+# Move bookmarks from revset onto current working copy.
+# Default revset: heads(::@- & bookmarks())
+#
+# Usage:
+#   jj-tug
+#   jj-tug '<custom-revset>'
+
+if [ "$#" -gt 1 ]; then
+  echo "Usage: $0 [<from-revset>]" >&2
+  exit 1
+fi
+
+from_revset='heads(::@- & bookmarks())'
+
+if [ "$#" -eq 1 ]; then
+  from_revset="$1"
+fi
+
+jj bookmark move --from "$from_revset" --to @

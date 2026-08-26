@@ -15,8 +15,11 @@ brew "firebase-cli"
 brew "webp"
 # Command-line tool to install and switch between multiple versions of Xcode
 brew "xcodes"
-# ghostty-pane-splitter cli 
-tap "rikeda71/tap"
+# ghostty-pane-splitter cli
+tap "rikeda71/tap", trusted: {
+  formula:  "ghostty-pane-splitter"
+}
+brew "ghostty-pane-splitter"
 # Declarative CLI Version manager
 brew "aqua"
 # Cloudflare Tunnel client (formerly Argo Tunnel)

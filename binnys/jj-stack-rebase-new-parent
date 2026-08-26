@@ -1,0 +1,34 @@
+#!/bin/sh
+
+# If you have a *stack* of commits that you want them *all* to be rebased on top of a commit/bookmark.
+# Common when you do a `git fetch` and a branch like main got updated and you want to re-stack on top of it.
+#
+# Note: When you run this, if you get a warning/error about "immutable commits", it's probably for good reason. 
+# maybe you have a co-worker who branched off of your bookmark and if you rebase, that could break their branch and 
+# force them to doing a rebase. 
+# Instead, I suggest using jj-merge-bookmark script instead. 
+
+# Usage:
+# jj-stack-rebase-new-parent <source> <destination>
+#   source: commit. very bottom of stack you want rebased.
+#   destination: commit or bookmark name. this will be the new parent for stack.
+
+source_commit="$1"
+destination_commit="$2"
+
+if [ -z "$source_commit" ]; then
+  printf 'source commit (bottom of stack): '
+  read -r source_commit
+fi
+
+if [ -z "$destination_commit" ]; then
+  printf 'destination commit/bookmark (new parent): '
+  read -r destination_commit
+fi
+
+if [ -z "$source_commit" ] || [ -z "$destination_commit" ]; then
+  echo "Usage: $0 <source> <destination>" >&2
+  exit 1
+fi
+
+jj rebase -s "$source_commit" -d "$destination_commit"

@@ -1,4 +1,6 @@
 # require all casks installed in ~/Applications
-cask_args appdir: "~/Applications"
+# cask_args appdir: "~/Applications"
 
-tap "xcodes"
+# List of programs that I like to use on some machines. Uncomment to install that on this machine. 
+# cask "xcodes"
+# cask "tailscale-app"

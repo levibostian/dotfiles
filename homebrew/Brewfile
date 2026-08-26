@@ -93,6 +93,8 @@ cask "todoist-app"
 cask "music-decoy"
 # Disk space visualiser
 cask "daisydisk"
+# Browser for SQLite databases
+cask "db-browser-for-sqlite"
 
 mas "InYourFace", id: 1476964367
 mas "NextDNS", id: 1464122853

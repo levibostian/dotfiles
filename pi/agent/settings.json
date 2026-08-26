@@ -19,8 +19,7 @@
     "npm:@ff-labs/pi-fff",
     "git:github.com/DietrichGebert/ponytail",
     "git:github.com/robzolkos/pi-disable-model-skill-invocation",
-    "npm:pi-edit-last-message",
-    "npm:pi-undo-redo"
+    "npm:pi-edit-last-message"
   ],
   "extensions": [],
   "pi-ghostty-notifier": {
@@ -28,7 +27,5 @@
     "includeSummary": false,
     "bell": "never"
   },
-  "theme": "dracula",
-  "defaultProvider": "github-copilot",
-  "defaultModel": "gpt-5.3-codex"
+  "theme": "dracula"
 }

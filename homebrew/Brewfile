@@ -123,4 +123,19 @@ vscode "rherrmannr.code-coverage-lcov"
 vscode "sirmspencer.vscode-autohide"
 vscode "streetsidesoftware.code-spell-checker"
 npm "@earendil-works/pi-coding-agent"
+# git-xcstrings-merge is not published to the npm registry, so `npm "git-xcstrings-merge"`
+# alone would 404. It installs from git per its README:
+#   npm install -g git+https://github.com/soranoba/git-xcstrings-merge.git
+# This block is needed because:
+#   - brew bundle sanitizes PATH, and npm is a #!/usr/bin/env node script, so node must be
+#     reachable first (prepend npm's dir) or `system("npm", ...)` exits 127.
+#   - `npm install -g <git-url>` re-fetches the repo every run, so guard with
+#     `npm list -g` (exit 0 only when installed) to stay idempotent.
+#   - the `npm` entry must stay so `brew bundle cleanup` keeps it installed (it
+#     uninstalls any global package not named in the Brewfile).
 npm "git-xcstrings-merge"
+ENV["PATH"] = "#{Homebrew::Bundle::Npm.package_manager_executable.dirname}:#{ENV["PATH"]}"
+unless system("npm", "list", "-g", "--depth=0", "git-xcstrings-merge", out: File::NULL, err: File::NULL)
+  system("npm", "install", "-g", "git+https://github.com/soranoba/git-xcstrings-merge.git", out: File::NULL)
+  abort "Failed to install git-xcstrings-merge" unless $?.success?
+end

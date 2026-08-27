@@ -1,0 +1,41 @@
+#:schema https://docs.jj-vcs.dev/latest/config-schema.json
+
+# https://dandavison.github.io/delta/configuration.html#jujutsu
+# [ui]
+# pager = "delta"
+# diff-formatter = ":git"
+
+# Fix tools for `jj fix`. All disabled by default; enable per repo:
+#   jj config set --repo fix.tools.<name>.enabled true
+# Tools run via mise (`mise exec <tool> -- <tool> ...`) so versions come
+# from mise config. Each reads file content on stdin, writes fixed content
+# on stdout.
+
+[fix.tools.swiftformat]
+# Opt-in: jj config set --repo fix.tools.swiftformat.enabled true
+enabled = false
+command = ["mise", "x", "swiftformat", "--", "swiftformat", "stdin", "--stdin-path=$path"]
+patterns = ["glob:'**/*.swift'"]
+
+[fix.tools.swiftlint]
+# Opt-in: jj config set --repo fix.tools.swiftlint.enabled true
+enabled = false
+# Needs Xcode/SourceKit for --fix; on machines with only CommandLineTools
+# it crashes, so swiftformat remains the default Swift fixer there.
+command = ["mise", "x", "swiftlint", "--", "swiftlint", "lint", "--fix", "--use-stdin", "--quiet"]
+patterns = ["glob:'**/*.swift'"]
+
+[fix.tools.ktlint]
+# Opt-in: jj config set --repo fix.tools.ktlint.enabled true
+enabled = false
+command = ["mise", "x", "ktlint", "--", "ktlint", "-F", "--stdin", "--stdin-path=$path", "--log-level=none"]
+patterns = ["glob:'**/*.kt'", "glob:'**/*.kts'"]
+
+[fix.tools.deno-fmt]
+# Opt-in: jj config set --repo fix.tools.deno-fmt.enabled true
+enabled = false
+# deno fmt needs an explicit content type for stdin (--ext); it must match
+# the file's extension, so use the deno-fmt-stdin wrapper which derives
+# --ext from $path.
+command = ["mise", "x", "deno", "--", "deno-fmt-stdin", "$path"]
+patterns = ["glob:'**/*.ts'", "glob:'**/*.tsx'", "glob:'**/*.js'", "glob:'**/*.jsx'", "glob:'**/*.mts'", "glob:'**/*.mjs'", "glob:'**/*.cts'", "glob:'**/*.cjs'", "glob:'**/*.md'", "glob:'**/*.json'", "glob:'**/*.jsonc'", "glob:'**/*.ipynb'"]

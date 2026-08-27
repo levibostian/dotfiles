@@ -66,6 +66,10 @@
       create: true
       path: homebrew
 
+    ~/.config/jj:
+      create: true
+      path: config/jj
+
 - create:
   - ~/.oh-my-zsh
   - ~/.ssh

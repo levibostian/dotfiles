@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Wrapper for `jj fix` (fix.tools.deno-fmt): deno fmt needs an explicit
+# content type for stdin input (`--ext`), and jj fix fans out one invocation
+# per file, passing the repo-relative path via $path.
+#
+# Usage:
+#   deno-fmt-stdin <repo-relative-path>
+#
+# Reads file content from stdin, writes formatted content to stdout.
+# Runs deno from PATH (jj fix config invokes it via `mise exec deno`, which
+# puts deno's bin dir on PATH first).
+
+path="$1"
+
+# Deno auto-infers JS-family content from stdin, but .ts types, .md, .json,
+# .jsonc and .ipynb mis-infer without --ext. Pattern-matched file extensions
+# map 1:1 to `deno fmt --ext` values, so derive ext from the path.
+ext="${path##*.}"
+
+exec deno fmt --ext "$ext" --quiet -

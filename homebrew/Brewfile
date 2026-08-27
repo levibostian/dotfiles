@@ -20,6 +20,15 @@ tap "rikeda71/tap", trusted: {
   formula:  "ghostty-pane-splitter"
 }
 brew "ghostty-pane-splitter"
+
+# jj hooks - a pre-push way to fmt and verify bookmarks before pushing
+# Tap is a monorepo (not homebrew-zireael), so Homebrew needs the explicit URL
+# https://github.com/mattwilkinsonn/zireael to find the Formula/ directory.
+tap "mattwilkinsonn/zireael", "https://github.com/mattwilkinsonn/zireael", trusted: {
+  formula:  "jj-hooks",
+}
+brew "jj-hooks"
+
 # Declarative CLI Version manager
 brew "aqua"
 # Cloudflare Tunnel client (formerly Argo Tunnel)

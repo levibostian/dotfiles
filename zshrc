@@ -71,7 +71,8 @@ ZSH_THEME="dracula"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git mise jj)
+# Plugin notes: git=core aliases | mise=tool version mgr completions | jj=jujutsu completions | brew=aliases+completions | gh=gh shortcuts | docker+docker-compose=completions+shortcuts | kubectl=k8s aliases+completions | z=dir jumping | history-substring-search=arrow-key history grep | extract=unzip anything | zsh-interactive-cd=fuzzy cd | macos=finder/tools | xcode=xcode aliases | npm/node/bun/deno/golang=completions | colored-man-pages=prettier man | magic-enter=enter runs jj st/git status/ls | bgnotify=desktop alert for long cmds | timer=show cmd elapsed time | fzf=Ctrl+R history/Ctrl+T files fuzzy
+plugins=(git mise jj brew gh docker docker-compose kubectl z history-substring-search extract zsh-interactive-cd macos xcode npm node bun deno golang colored-man-pages magic-enter bgnotify timer fzf)
 
 # always answers "yes" to the "update oh my zsh?" prompt. 
 # MUST be set before sourcing oh-my-zsh.sh

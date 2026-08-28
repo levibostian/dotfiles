@@ -139,3 +139,7 @@ unless system("npm", "list", "-g", "--depth=0", "git-xcstrings-merge", out: File
   system("npm", "install", "-g", "git+https://github.com/soranoba/git-xcstrings-merge.git", out: File::NULL)
   abort "Failed to install git-xcstrings-merge" unless $?.success?
 end
+# Send macOS User Notifications from the command-line. Most useful when install 'bgnotify' oh-my-zsh plugin. 
+brew "terminal-notifier"
+# Command-line fuzzy finder written in Go. Most useful when install 'fzf' oh-my-zsh plugin. 
+brew "fzf"

@@ -60,7 +60,7 @@ brew "xcbeautify"
 # Fish-like fast/unobtrusive autosuggestions for zsh
 brew "zsh-autosuggestions"
 # Password manager that keeps all passwords secure behind one password
-cask "1password"
+cask "1password", args: { appdir: "/Applications" }
 # Tools for building Android applications
 cask "android-studio"
 # Menu bar icon organiser

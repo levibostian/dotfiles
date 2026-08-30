@@ -143,3 +143,5 @@ end
 brew "terminal-notifier"
 # Command-line fuzzy finder written in Go. Most useful when install 'fzf' oh-my-zsh plugin. 
 brew "fzf"
+# Keep your Mac's application settings in sync
+brew "mackup"

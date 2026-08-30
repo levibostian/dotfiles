@@ -70,6 +70,10 @@
       create: true
       path: config/jj
 
+    ~/.backup:
+      create: true
+      path: backup
+
 - create:
   - ~/.oh-my-zsh
   - ~/.ssh

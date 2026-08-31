@@ -2,3 +2,7 @@
 
 # every 30 min
 */30 * * * * ~/.cronjobs/scripts/update-pi > /tmp/cron-update-pi.log 2>&1
+
+
+# daily 7am
+0 7 * * * ~/.backup/run-backup > /tmp/cron-backup.log 2>&1

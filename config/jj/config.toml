@@ -1,9 +1,13 @@
 #:schema https://docs.jj-vcs.dev/latest/config-schema.json
 
 # https://dandavison.github.io/delta/configuration.html#jujutsu
-# [ui]
+[ui]
+merge-editor = "smerge"
 # pager = "delta"
 # diff-formatter = ":git"
+
+[merge-tools.smerge]
+program = "/opt/homebrew/bin/smerge"
 
 # Fix tools for `jj fix`. All disabled by default; enable per repo:
 #   jj config set --repo fix.tools.<name>.enabled true

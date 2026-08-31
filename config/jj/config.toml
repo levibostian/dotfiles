@@ -43,3 +43,6 @@ enabled = false
 # --ext from $path.
 command = ["mise", "x", "deno", "--", "deno-fmt-stdin", "$path"]
 patterns = ["glob:'**/*.ts'", "glob:'**/*.tsx'", "glob:'**/*.js'", "glob:'**/*.jsx'", "glob:'**/*.mts'", "glob:'**/*.mjs'", "glob:'**/*.cts'", "glob:'**/*.cjs'", "glob:'**/*.md'", "glob:'**/*.json'", "glob:'**/*.jsonc'", "glob:'**/*.ipynb'"]
+
+[aliases]
+push = ["util", "exec", "--", "jj-hp", "push"]

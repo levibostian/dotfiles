@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Create a symlink without remembering argument order.
+# Pass the existing path and the new (non-existing) link path in either order.
+#
+# Usage:
+#   system-link <existing-file> <new-link>   either order works
+#   system-link --self-check                 run built-in test
+#
+# One arg must exist, the other must not. The script figures out which is
+# which and runs:  ln -s <existing> <new-link>
+
+if [ "${1:-}" = "--self-check" ]; then
+  tmp="$(mktemp -d)"
+  trap 'rm -rf "$tmp"' EXIT
+  touch "$tmp/real"
+  # Both orders: (existing, new) and (new, existing)
+  "$0" "$tmp/real" "$tmp/linkA"
+  "$0" "$tmp/linkB" "$tmp/real"
+  [ "$(readlink "$tmp/linkA" 2>/dev/null)" = "$tmp/real" ] || { echo "FAIL: linkA wrong" >&2; exit 1; }
+  [ "$(readlink "$tmp/linkB" 2>/dev/null)" = "$tmp/real" ] || { echo "FAIL: linkB wrong" >&2; exit 1; }
+  # Error cases: both exist, neither exists
+  touch "$tmp/real2"
+  if "$0" "$tmp/real" "$tmp/real2" 2>/dev/null; then echo "FAIL: both-exist accepted" >&2; exit 1; fi
+  if "$0" "$tmp/nope1" "$tmp/nope2" 2>/dev/null; then echo "FAIL: neither-assumed accepted" >&2; exit 1; fi
+  echo "self-check: ok"
+  exit 0
+fi
+
+if [ "$#" -ne 2 ]; then
+  echo "usage: system-link <existing-file> <new-link>   (either order)" >&2
+  exit 1
+fi
+
+if [ -e "$1" ] && [ -e "$2" ]; then
+  echo "error: both arguments already exist: $1, $2" >&2
+  exit 1
+fi
+if [ ! -e "$1" ] && [ ! -e "$2" ]; then
+  echo "error: neither argument exists: $1, $2" >&2
+  exit 1
+fi
+
+if [ -e "$2" ]; then
+  # arg2 is the existing file, arg1 is the new link
+  ln -s "$2" "$1"
+else
+  ln -s "$1" "$2"
+fi

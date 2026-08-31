@@ -1,11 +1,15 @@
 <!-- After edits to file, open agent in ~/.pi/agent/ dir and prompt "caveman compress @AGENTS.md"  -->
-- GitHub URL? ALWAYS Use `gh` CLI to fetch it. 
+- Fetching URLs:
+  - If URL host is `github.com` (or GitHub raw/content URLs), ALWAYS use `gh` CLI.
+    - Example (file): `gh api repos/{owner}/{repo}/contents/{path}?ref={sha}`
+    - Example (PR/issue): `gh pr view ...`, `gh issue view ...`
+  - For non-GitHub URLs, use:
+    `curl -sSL https://markdown.new/<url>`
 - Running a command to run tests? Prefix with `rtk test`. Example: if going to run `deno task test`, use `rtk test deno task test` instead. 
 - Running a command to lint? Prefix with `rtk err`. Example: if going to run `deno lint`, use `rtk err deno lint` instead. 
 - Running a command to format? Prefix with `rtk err`. Example: if going to run `deno fmt`, use `rtk err deno fmt` instead. 
 - After change, run formatter/linter/tests (if told commands), fix all errors
 - After change, run scoped tests (if told commands), fix all errors
-- When told to "fetch https://..." to fetch a URL, use `curl -sSL https://markdown.new/<url>` which will return a markdown version of the page.
 - Preserve existing comments. Only delete if they're outdated or wrong. Even comments that explain what the code does should be kept when they're already in the file — they were put there intentionally and changing them without cause is noise.
 
 <!-- From: https://github.com/multica-ai/andrej-karpathy-skills/blob/main/skills/karpathy-guidelines/SKILL.md -->

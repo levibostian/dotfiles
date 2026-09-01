@@ -44,5 +44,10 @@ enabled = false
 command = ["mise", "x", "deno", "--", "deno-fmt-stdin", "$path"]
 patterns = ["glob:'**/*.ts'", "glob:'**/*.tsx'", "glob:'**/*.js'", "glob:'**/*.jsx'", "glob:'**/*.mts'", "glob:'**/*.mjs'", "glob:'**/*.cts'", "glob:'**/*.cjs'", "glob:'**/*.md'", "glob:'**/*.json'", "glob:'**/*.jsonc'", "glob:'**/*.ipynb'"]
 
+# Keep published origin bookmark tips immutable: local-only commits stay rewriteable,
+# but once pushed to origin, commits become immutable to avoid rebasing shared history.
+[revset-aliases]
+'immutable_heads()' = "builtin_immutable_heads() | remote_bookmarks(remote=origin)"
+
 [aliases]
 push = ["util", "exec", "--", "jj-hp", "push"]

@@ -110,7 +110,6 @@ cask "db-browser-for-sqlite"
 
 mas "InYourFace", id: 1476964367
 mas "NextDNS", id: 1464122853
-mas "Numbers", id: 409203825
 mas "PhotoBulk", id: 537211143
 mas "SnippetsLab", id: 1006087419
 vscode "denoland.vscode-deno"

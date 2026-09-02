@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# jj-apply-commit [commit-hash]
+#
+# Logic:
+# - -d @ = destination is working-copy commit (current location).
+# - Result: new commit with same change as that commit (like git cherry-pick).
+# - Original commit stays unchanged.
+
+commit_hash="${1:-}"
+
+echo "Simply takes all of the commit's contents and copies it into working copy."
+echo "Want to do a git cherry-pick? use `jj-cherry-pick` instead."
+
+if [ -z "$commit_hash" ]; then
+  read -rp "Enter commit hash to apply: " commit_hash
+fi
+
+if [ -z "$commit_hash" ]; then
+  echo "Error: commit hash required." >&2
+  exit 1
+fi
+
+jj duplicate -d @ "$commit_hash"

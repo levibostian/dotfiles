@@ -107,6 +107,8 @@ cask "music-decoy"
 cask "daisydisk"
 # Browser for SQLite databases
 cask "db-browser-for-sqlite"
+# Monitor token usage, costs, and limits across AI coding tools
+cask "token-monitor"
 
 mas "InYourFace", id: 1476964367
 mas "NextDNS", id: 1464122853

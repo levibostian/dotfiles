@@ -1,0 +1,227 @@
+#!/usr/bin/env -S deno run --allow-env=HOME --allow-read=/Users/levi,/Applications,/opt/homebrew/Cellar/mackup --allow-run=/usr/bin/plutil
+/**
+ * suggest-mackup — which files should mackup back up for a program?
+ *
+ *   ~/.backup/suggest-mackup [name]
+ *     name: app name, cask name, "Visual Studio Code", bundle id, anything.
+ *     no name: you get prompted.
+ *
+ * Resolution order:
+ *   1. existing cfg (custom shadows stock) -> print its paths
+ *   2. detect: installed .app + bundle id, then Preferences / Application
+ *      Support / Group Containers / sandbox / dotfiles -> print a guess.
+ *
+ * Prints a ready-to-paste [configuration_files] block for mackup.
+ *
+ * Self-contained: the helpers below used to live in mackup-lib.ts, which was
+ * deleted. Keep them here; there is no shared library anymore.
+ */
+
+const HOME = Deno.env.get("HOME") || "/Users/levi";
+const CUSTOM_DIR = `${HOME}/.backup/applications`;
+const STOCK_DIR =
+  "/opt/homebrew/Cellar/mackup/0.11.1/libexec/lib/python3.14/site-packages/mackup/applications";
+const APP_DIRS = ["/Applications", `${HOME}/Applications`];
+const PREF_DIR = `${HOME}/Library/Preferences`;
+const AS_DIR = `${HOME}/Library/Application Support`;
+const GC_DIR = `${HOME}/Library/Group Containers`;
+
+/** Section -> prefix applied to each bare path in that section. */
+const PREFIX: Array<[string, string]> = [
+  ["configuration_files", ""],
+  ["files", ""],
+  ["directories", ""],
+  ["directories_to_sync", ""],
+  ["xdg_configuration_files", ".config/"],
+  ["preference_files", "Library/Preferences/"],
+];
+
+function slugify(name: string): string {
+  return name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+}
+
+function exists(path: string): boolean {
+  try {
+    Deno.statSync(path);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/** Parse a mackup cfg -> resolved relative paths. */
+function parseCfg(path: string): string[] {
+  let text: string;
+  try {
+    text = Deno.readTextFileSync(path);
+  } catch {
+    return [];
+  }
+  const paths: string[] = [];
+  let current: string | null = null;
+  for (const raw of text.split("\n")) {
+    const line = raw.trim();
+    if (!line || line.startsWith("#") || line.startsWith(";")) continue;
+    const m = line.match(/^\[(.+)\]$/);
+    if (m) {
+      current = m[1];
+      continue;
+    }
+    if (!current) continue;
+    const key = line.includes("=") ? line.split("=")[0].trim() : line;
+    const prefix = PREFIX.find(([sec]) => sec === current);
+    if (prefix) paths.push(prefix[1] + key);
+  }
+  return paths;
+}
+
+/** Read CFBundleIdentifier from an app's Info.plist via plutil -extract. */
+async function readBundleId(infoPath: string): Promise<string | null> {
+  try {
+    const cmd = new Deno.Command("/usr/bin/plutil", {
+      args: ["-extract", "CFBundleIdentifier", "raw", infoPath],
+      stdout: "piped",
+      stderr: "piped",
+    });
+    const { code, stdout } = await cmd.output();
+    if (code !== 0) return null;
+    return new TextDecoder().decode(stdout).trim() || null;
+  } catch {
+    return null;
+  }
+}
+
+/** Scan a dir for entries whose name contains the needle. */
+function scanContains(dir: string, needle: string): string[] {
+  if (!exists(dir)) return [];
+  const hit = needle.replace(/[^a-z0-9.]/gi, "").toLowerCase();
+  return [...Deno.readDirSync(dir)]
+    .filter((e) => e.name.toLowerCase().includes(hit))
+    .map((e) => e.name);
+}
+
+function printBlock(name: string, paths: string[]): void {
+  const conf = paths.filter((e) => !e.startsWith(".config/"));
+  const xdg = paths.filter((e) => e.startsWith(".config/"));
+  if (conf.length) console.log(`[configuration_files]\n${conf.join("\n")}`);
+  if (xdg.length) console.log(`\n[xdg_configuration_files]\n${xdg.join("\n")}`);
+  console.log(`\nAdd "${name}" to [applications_to_sync] in ~/.backup/mackup.cfg`);
+}
+
+/** Exact or substring (>=4 chars) match in custom, then stock. */
+function findBuiltin(querySlug: string): { name: string; paths: string[]; source: string } | null {
+  for (const [source, dir] of [["custom", CUSTOM_DIR], ["stock", STOCK_DIR]] as const) {
+    for (const [name, paths] of loadCfgsFrom(dir)) {
+      if (name === querySlug) return { name, paths, source };
+      if (querySlug.length >= 4 && name.includes(querySlug)) return { name, paths, source };
+    }
+  }
+  return null;
+}
+
+function loadCfgsFrom(dir: string): Map<string, string[]> {
+  const out = new Map<string, string[]>();
+  if (!exists(dir)) return out;
+  for (const f of Deno.readDirSync(dir)) {
+    if (f.isFile && f.name.endsWith(".cfg")) {
+      out.set(f.name.replace(/\.cfg$/, ""), parseCfg(`${dir}/${f.name}`));
+    }
+  }
+  return out;
+}
+
+async function main(): Promise<number> {
+  const query = Deno.args[0]?.trim() || promptForName();
+  if (!query) return 1;
+  const qSlug = slugify(query);
+
+  const builtin = findBuiltin(qSlug);
+  if (builtin?.paths.length) {
+    printBlock(builtin.name, builtin.paths);
+    return 0;
+  }
+
+  console.log(`No built-in cfg for "${query}". Trying to detect its config files...`);
+  const { appName, bid } = await detectApp(query);
+  const found = collectPaths(appName, bid, qSlug);
+
+  if (!found.length) {
+    console.log(`Nothing found for "${query}". Try a bundle id, or hand-write ~/.backup/applications/<name>.cfg`);
+    return 1;
+  }
+
+  console.log(`Detected for ${appName}${bid ? ` (${bid})` : ""}:`);
+  for (const p of found) console.log(`  ${p}`);
+  printBlock(slugify(appName) || query, found);
+  return 0;
+}
+
+async function detectApp(query: string): Promise<{ appName: string; path: string; bid: string | null }> {
+  const q = slugify(query).replace(/-/g, "");
+  const qLower = query.toLowerCase();
+  let best: { appName: string; path: string; bid: string | null; score: number } | null = null;
+  for (const dir of APP_DIRS) {
+    if (!exists(dir)) continue;
+    for (const e of Deno.readDirSync(dir)) {
+      if (!e.isDirectory || !e.name.endsWith(".app")) continue;
+      const name = e.name.slice(0, -4);
+      const path = `${dir}/${e.name}`;
+      const n = slugify(name).replace(/-/g, "");
+      let score = -1;
+      if (n === q) score = 0;
+      else if (q.length >= 3 && n.includes(q)) score = n.length - q.length;
+      else if (q.length >= 3 && q.includes(n)) score = q.length - n.length;
+      else if (q.length >= 4 && name.toLowerCase().includes(qLower)) score = 50;
+      if (score < 0) continue;
+      // bid match beats name match
+      const bid = await readBundleId(`${path}/Contents/Info.plist`);
+      if (bid?.toLowerCase().includes(qLower)) score = -5;
+      if (!best || score < best.score) best = { appName: name, path, bid, score };
+    }
+  }
+  return best ?? { appName: query, path: "", bid: null };
+}
+
+function collectPaths(appName: string, bid: string | null, qSlug: string): string[] {
+  const paths: string[] = [];
+  if (bid) {
+    for (const suffix of ["", ".private"]) {
+      const rel = `Library/Preferences/${bid}${suffix}.plist`;
+      if (exists(`${HOME}/${rel}`)) paths.push(rel);
+    }
+    for (const rel of [`Library/Containers/${bid}`, `Library/Application Scripts/${bid}`]) {
+      if (exists(`${HOME}/${rel}`)) paths.push(rel);
+    }
+    for (const gc of scanContains(GC_DIR, bid)) paths.push(`Library/Group Containers/${gc}`);
+    // token fallback: app changed its bundle id but the plist kept the old one
+    // bid segments only (app-name words like "browser" are too generic)
+    const GENERIC = new Set(["browser", "editor", "client", "app", "mac", "service", "daemon", "settings", "prefs", "utility", "agent"]);
+    const tokens = new Set(
+      bid.toLowerCase().split(".").filter((t) => t.length >= 6 && !GENERIC.has(t))
+    );
+    for (const tok of tokens) {
+      for (const p of scanContains(PREF_DIR, tok)) {
+        const rel = `Library/Preferences/${p}`;
+        if (!paths.includes(rel)) paths.push(rel);
+      }
+      for (const g of scanContains(GC_DIR, tok)) {
+        const rel = `Library/Group Containers/${g}`;
+        if (!paths.includes(rel)) paths.push(rel);
+      }
+    }
+  }
+  if (exists(`${AS_DIR}/${appName}`)) paths.push(`Library/Application Support/${appName}`);
+  for (const rel of [`.config/${qSlug}`, `.config/${appName.toLowerCase()}`, `.${qSlug}`]) {
+    if (exists(`${HOME}/${rel}`) && !paths.includes(rel)) paths.push(rel);
+  }
+  return paths;
+}
+
+function promptForName(): string {
+  console.log("Program name? (e.g. \"1Password\", \"raycast\", \"Visual Studio Code\")");
+  const buf = new Uint8Array(1 << 16);
+  const n = Deno.stdin.readSync(buf);
+  return new TextDecoder().decode(buf.subarray(0, n ?? 0)).trim();
+}
+
+Deno.exit(await main());

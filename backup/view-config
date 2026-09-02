@@ -1,0 +1,70 @@
+#!/usr/bin/env -S deno run --allow-env=HOME --allow-read=/Users/levi --allow-run=/usr/bin/plutil,/Users/levi/.backup/suggest-mackup
+/**
+ * view-config — run suggest-mackup for a program and cat the files it names,
+ * so you can verify the paths are the ones you actually want backed up.
+ *
+ *   ~/.backup/view-config [name]     (no name -> prompts)
+ */
+const HOME = Deno.env.get("HOME") || "/Users/levi";
+const SUGGEST = `${HOME}/.backup/suggest-mackup`;
+
+function exists(p: string): boolean {
+  try { Deno.statSync(p); return true; } catch { return false; }
+}
+
+function runSuggest(query: string): { output: string; code: number } {
+  const cmd = new Deno.Command(SUGGEST, { args: [query], stdout: "piped", stderr: "piped" });
+  const { code, stdout } = cmd.outputSync();
+  return { output: new TextDecoder().decode(stdout), code };
+}
+
+/** Bare paths (xdg ones already carry the .config/ prefix) from the [configuration_files]/[xdg_configuration_files] blocks. */
+function pathsFrom(output: string): string[] {
+  const paths: string[] = [];
+  let inBlock = false;
+  for (const line of output.split("\n")) {
+    if (line.startsWith("[")) inBlock = line.startsWith("[configuration") || line.startsWith("[xdg");
+    else if (!line.trim()) inBlock = false;
+    else if (inBlock) paths.push(line.trim());
+  }
+  return paths;
+}
+
+/** Sensitive-looking files get truncated — credentials stay out of scrollback. */
+function isSensitive(name: string): boolean {
+  return /(auth|token|credential|secret|key)/i.test(name);
+}
+
+function showFile(full: string, rel: string): void {
+  console.log(`\n=== ${rel} ===`);
+  if (!exists(full)) { console.log("!! missing"); return; }
+  if (rel.endsWith(".plist")) {                       // binary plist → gibberish with cat
+    const { stdout } = new Deno.Command("/usr/bin/plutil", { args: ["-p", full], stdout: "piped" }).outputSync();
+    console.log(new TextDecoder().decode(stdout));
+  } else if (Deno.statSync(full).isDirectory) {
+    for (const e of Deno.readDirSync(full)) console.log(`  ${e.isDirectory ? "dir " : "file"}  ${e.name}`);
+  } else if (isSensitive(rel.split("/").pop() ?? "")) {
+    console.log(`(sensitive — first 200 chars)\n${Deno.readTextFileSync(full).slice(0, 200)}`);
+  } else {
+    console.log(Deno.readTextFileSync(full).trimEnd() || "(empty)");
+  }
+}
+
+function prompt(): string {
+  console.log("Program name? (e.g. \"1Password\", \"raycast\", \"Visual Studio Code\")");
+  const buf = new Uint8Array(1 << 16);
+  const n = Deno.stdin.readSync(buf);
+  return new TextDecoder().decode(buf.subarray(0, n ?? 0)).trim();
+}
+
+function main(): number {
+  const query = Deno.args[0]?.trim() || prompt();
+  if (!query) { console.log("No name given, nothing to do."); return 1; }
+  const { output, code } = runSuggest(query);
+  console.log(output);
+  if (code !== 0) return code;
+  for (const rel of pathsFrom(output)) showFile(`${HOME}/${rel}`, rel);
+  return 0;
+}
+
+Deno.exit(main());

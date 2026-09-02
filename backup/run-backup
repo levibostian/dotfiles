@@ -1,3 +1,6 @@
 #!/bin/sh
+# Add Brewfile-tagged apps to mackup.cfg, then run the backup.
 
-mackup backup --force
+set -e
+
+mackup backup --force --config-file ~/.backup/mackup.cfg

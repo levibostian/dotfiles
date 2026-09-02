@@ -1,12 +1,17 @@
-# backup 
+# ~/.backup — mackup config for settings sync to Dropbox
 
-Not meant to be a full backup of your computer. This is just meant to back up config files so that you can get up and running as fast as possible on a new computer. Keep in mind that the dot files directory contains tons of config files on its own, but those are more public ones. This is more for some of my apps that I downloaded, and I just want my config files for them saved somewhere like Dropbox. 
+## What's here
 
-# How to make a backup
+| file/dir | purpose |
+|---|---|
+| `mackup.cfg` | main mackup config. Manually edit it and also use scripts in this dir to generate parts of it. |
+| `applications/*.cfg` | collection of custom mackup configs that are not built-in to mackup. |
+| `suggest-mackup` | given an app name, print the mackup cfg it should use (built-in if one exists, else a detected guess) |
+| `run-backup` | runs `mackup backup` |
 
-1. Install dropbox on computer. 
-2. `./run-backup`
+## Daily workflow
 
-# How to restore backup 
+```sh
+~/.backup/run-backup
+```
 
-Read -> https://github.com/lra/mackup/ to find out. 

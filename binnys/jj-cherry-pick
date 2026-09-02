@@ -11,7 +11,7 @@ set -euo pipefail
 commit_hash="${1:-}"
 
 echo "Like a git cherry-pick: will copy the given commit and insert it as a new parent commit under working copy."
-echo "Want to just apply the commit content into working commit? use `jj-apply-commit` instead."
+echo "Want to just apply the commit content into working commit? use 'jj-apply-commit' instead."
 
 if [ -z "$commit_hash" ]; then
   read -rp "Enter commit hash to cherry-pick: " commit_hash

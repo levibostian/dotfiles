@@ -1,0 +1,17 @@
+#!/bin/sh
+
+set -e
+
+bookmark="$1"
+
+if [ -z "$bookmark" ]; then
+  printf "Bookmark name: "
+  read -r bookmark
+fi
+
+if [ -z "$bookmark" ]; then
+  echo "Error: bookmark name required" >&2
+  exit 1
+fi
+
+jj bookmark set "$bookmark" -r "${bookmark}@origin"

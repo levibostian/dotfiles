@@ -4,3 +4,4 @@ set -euo pipefail
 
 pi update
 pi update --extensions
+pi update --models

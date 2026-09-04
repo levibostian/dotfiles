@@ -1,8 +1,8 @@
 {
-  "lastChangelogVersion": "0.80.6",
+  "lastChangelogVersion": "0.84.3",
   "enabledModels": [
+    "github-copilot/gemini-3.7-flash",
     "github-copilot/gpt-5.3-codex",
-    "github-copilot/gemini-3.5-flash",
     "openrouter/deepseek/deepseek-v4-flash",
     "openrouter/deepseek/deepseek-v4-pro"
   ],

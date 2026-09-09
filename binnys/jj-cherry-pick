@@ -1,16 +1,28 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# jj-cherry-pick [commit-hash]
+# jj-cherry-pick [commit-hash] [extra-args...]
 #
 # Logic:
 # - makes new commit with same change (like cherry-pick commit object)
-# - inserts it after current parent (@-)
-# - rebases working-copy commit (@) on top, so your working copy “moves forward” like git cherry-pick.
+# - if working copy (@) empty: inserts commit after current parent (@-) and rebases @ on top
+# - if working copy (@) not empty: duplicates commit onto @ as a child commit
+# - forwards extra flags (e.g. --ignore-immutable) to jj duplicate
 
-commit_hash="${1:-}"
+commit_hash=""
+extra_args=()
 
-echo "Like a git cherry-pick: will copy the given commit and insert it as a new parent commit under working copy."
+for arg in "$@"; do
+  if [[ "$arg" == -* ]]; then
+    extra_args+=("$arg")
+  elif [ -z "$commit_hash" ]; then
+    commit_hash="$arg"
+  else
+    extra_args+=("$arg")
+  fi
+done
+
+echo "Like a git cherry-pick: will copy the given commit into working copy history."
 echo "Want to just apply the commit content into working commit? use 'jj-apply-commit' instead."
 
 if [ -z "$commit_hash" ]; then
@@ -22,4 +34,11 @@ if [ -z "$commit_hash" ]; then
   exit 1
 fi
 
-jj duplicate --insert-after @- "$commit_hash"
+is_working_copy_empty="$(jj log -r '@' -T 'empty' --no-graph)"
+
+if [ "$is_working_copy_empty" = "true" ]; then
+  jj duplicate "${extra_args[@]}" --insert-after @- "$commit_hash"
+else
+  jj duplicate "${extra_args[@]}" -d @ "$commit_hash"
+fi
+

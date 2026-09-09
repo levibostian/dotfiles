@@ -22,6 +22,15 @@
   Multi-step: brief plan then `1. [step] → verify: [check]`
 <!-- karpathy -->
 
+<!-- context-mode -->
+- Prefer `context-mode` tools over native read/bash for exploration, analysis, recall:
+  - Batching 2+ shell commands? Use `ctx_batch_execute` instead of multiple `bash` calls.
+  - Analyzing/aggregating/searching file contents without editing? Use `ctx_execute_file` or `ctx_execute` (Think-in-Code).
+  - Recalling past decisions, errors, past plans, or previously indexed docs? Use `ctx_search`.
+  - Indexing large docs, API specs, or multi-URL research? Use `ctx_index` / `ctx_fetch_and_index`.
+  - Only use `read` when about to `edit` exact lines or inspect small targeted ranges.
+<!-- context-mode -->
+
 <!-- context7 -->
 Use `ctx7` CLI for library/framework/SDK/API/CLI/cloud docs — even well-known ones (React, Next.js, Prisma, etc.). Includes API syntax, config, migration, lib-specific debug, setup, CLI usage. Use even when you think you know. Prefer over web search.
 

@@ -1,0 +1,4 @@
+[tools]
+deno = "latest"
+java = "temurin-21"
+"npm:context-mode" = "latest" # https://github.com/mksglu/context-mode

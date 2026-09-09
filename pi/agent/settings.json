@@ -19,7 +19,8 @@
     "npm:@ff-labs/pi-fff",
     "git:github.com/DietrichGebert/ponytail",
     "git:github.com/robzolkos/pi-disable-model-skill-invocation",
-    "npm:pi-edit-last-message"
+    "npm:pi-edit-last-message",
+    "npm:context-mode"
   ],
   "extensions": [],
   "pi-ghostty-notifier": {

@@ -73,6 +73,10 @@
     ~/.backup:
       create: true
       path: backup
+    
+    ~/.config/mise:
+      create: true 
+      path: config/mise
 
 - create:
   - ~/.oh-my-zsh

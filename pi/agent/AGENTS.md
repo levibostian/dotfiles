@@ -23,12 +23,35 @@
 <!-- karpathy -->
 
 <!-- context-mode -->
-- Prefer `context-mode` tools over native read/bash for exploration, analysis, recall:
-  - Batching 2+ shell commands? Use `ctx_batch_execute` instead of multiple `bash` calls.
-  - Analyzing/aggregating/searching file contents without editing? Use `ctx_execute_file` or `ctx_execute` (Think-in-Code).
-  - Recalling past decisions, errors, past plans, or previously indexed docs? Use `ctx_search`.
-  - Indexing large docs, API specs, or multi-URL research? Use `ctx_index` / `ctx_fetch_and_index`.
-  - Only use `read` when about to `edit` exact lines or inspect small targeted ranges.
+## Context-mode (strict)
+Default: use context-mode for exploration/analysis/recall.
+
+### Priority (must follow)
+1. `ctx_batch_execute`
+2. `ctx_execute`
+3. `ctx_execute_file`
+4. `ctx_search`
+
+### Routing
+- File analysis (no edits): `ctx_execute_file`
+- 2+ commands / research: `ctx_batch_execute`
+- Parse/filter/count/derive: `ctx_execute`
+- Web docs/pages: `ctx_fetch_and_index` then `ctx_search`
+- Index local docs/specs: `ctx_index`
+- Recall prior decisions/errors/docs: `ctx_search`
+- Session savings: `ctx_stats`
+- Diagnostics: `ctx_doctor`
+- Upgrade: `ctx_upgrade`
+- Purge memory: `ctx_purge` (confirm + explicit scope)
+
+### Native tool guardrail
+- Use `read`/`bash` only for exact edit targeting or one short observational command.
+- No repeated read/grep/bash loops when context-mode can answer in one call.
+
+### Failure fallback
+1. Retry once with simpler context-mode call.
+2. Then fallback native tool.
+3. Note why fallback needed.
 <!-- context-mode -->
 
 <!-- context7 -->

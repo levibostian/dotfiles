@@ -1,25 +1,23 @@
 <!-- After edits to file, open agent in ~/.pi/agent/ dir and prompt "caveman compress @AGENTS.md"  -->
 - Fetching URLs:
-  - If URL host is `github.com` (or GitHub raw/content URLs), ALWAYS use `gh` CLI.
-    - Example (file): `gh api repos/{owner}/{repo}/contents/{path}?ref={sha}`
-    - Example (PR/issue): `gh pr view ...`, `gh issue view ...`
-  - For non-GitHub URLs, use:
-    `curl -sSL https://markdown.new/<url>`
-- Running a command to run tests? Prefix with `rtk test`. Example: if going to run `deno task test`, use `rtk test deno task test` instead. 
-- Running a command to lint? Prefix with `rtk err`. Example: if going to run `deno lint`, use `rtk err deno lint` instead. 
-- Running a command to format? Prefix with `rtk err`. Example: if going to run `deno fmt`, use `rtk err deno fmt` instead. 
-- After change, run formatter/linter/tests (if told commands), fix all errors
-- After change, run scoped tests (if told commands), fix all errors
-- Preserve existing comments. Only delete if they're outdated or wrong. Even comments that explain what the code does should be kept when they're already in the file — they were put there intentionally and changing them without cause is noise.
+
+## Core ops
+- GitHub URLs: use `gh` CLI only.
+  - File: `gh api repos/{owner}/{repo}/contents/{path}?ref={sha}`
+  - PR/issue: `gh pr view ...`, `gh issue view ...`
+- Non-GitHub URLs: `curl -sSL https://markdown.new/<url>`
+- Test command: prefix with `rtk test`
+- Lint command: prefix with `rtk err`
+- Format command: prefix with `rtk err`
+- After change: run requested formatter/linter/tests, fix all errors.
+- Preserve existing comments unless outdated/wrong.
 
 <!-- From: https://github.com/multica-ai/andrej-karpathy-skills/blob/main/skills/karpathy-guidelines/SKILL.md -->
-- **Think Before Coding** — No assume. Surface tradeoffs. State assumptions. If uncertain, ask. If simpler approach exists, say so. Push back. If unclear, stop & name confusion.
-- **Simplicity First** — Min code. Nothing speculative. No features beyond what asked. No abstractions for single-use code. No flexibility/config not requested. No error handling for impossible scenarios. If 200 lines could be 50, rewrite. Ask: "Would senior engineer say overcomplicated?"
-- **Surgical Changes** — Touch only what must. Clean up own mess. No "improve" adjacent code. No refactor what not broken. Match existing style. Unrelated dead code = mention, don't delete. When change creates orphans: remove imports/vars/fns YOUR change made unused. Don't touch pre-existing dead code.
-- **Goal-Driven Execution** — Define success criteria. Loop till verified.
-  "Add validation" → "Write tests for invalid inputs, make them pass"
-  "Fix bug" → "Write test that reproduces it, make it pass"
-  Multi-step: brief plan then `1. [step] → verify: [check]`
+## Engineering behavior
+- Think before coding. No assumptions. State tradeoffs. Ask when unclear.
+- Simplicity first. Minimum code. No speculative abstractions.
+- Surgical changes only. No unrelated refactor.
+- Goal-driven: define success, verify before done.
 <!-- karpathy -->
 
 <!-- context-mode -->
@@ -55,82 +53,71 @@ Default: use context-mode for exploration/analysis/recall.
 <!-- context-mode -->
 
 <!-- context7 -->
-Use `ctx7` CLI for library/framework/SDK/API/CLI/cloud docs — even well-known ones (React, Next.js, Prisma, etc.). Includes API syntax, config, migration, lib-specific debug, setup, CLI usage. Use even when you think you know. Prefer over web search.
+## ctx7 docs policy
+Use ctx7 for library/framework/SDK/API/CLI/cloud docs (even common libs).
 
-Don't use for: refactoring, scripts from scratch, biz logic debug, code review, general concepts.
+Do not use ctx7 for: refactor-from-scratch, business logic debug, general concepts.
 
-1. Resolve: `npx ctx7@latest library <name> "<full question>"`
-2. Pick best match (ID: `/org/project`) by: name match, description, snippet count, source rep (High/Med preferred), benchmark score
-3. Fetch: `npx ctx7@latest docs <libraryId> "<full question>"`
+Flow:
+1. `npx ctx7@latest library <name> "<full question>"`
+2. Choose best `/org/project` (or versioned `/org/project/vX.Y.Z`)
+3. `npx ctx7@latest docs <libraryId> "<full question>"`
 4. Answer from docs.
 
-Must call `library` first unless user gives `/org/project` ID. Use full question as query — specific > vague. Max 3 commands per question. No sensitive info in queries.
-
-Version-specific: use `/org/project/version` (e.g., `/vercel/next.js/v14.3.0`).
-
-Quota error? Tell user: `npx ctx7@latest login` or set `CONTEXT7_API_KEY`. Don't silently fallback.
+Rules:
+- Must run `library` first unless ID already provided.
+- Max 3 commands per question.
+- No sensitive data in query.
+- Quota error: tell user `npx ctx7@latest login` or set `CONTEXT7_API_KEY`.
 <!-- context7 -->
 
-### Docs style
-
-Write docs at **implementation-facing clarity** level.
-
+## Docs style
 Must include:
 - Purpose + layer boundary
 - Responsibilities
 - Non-goals
-- Design guardrail (“put X here, Y elsewhere”)
-- Typical usage flow (ordered steps)
-- Maintenance note for future edits
+- Design guardrail (what belongs here vs elsewhere)
+- Typical usage flow (ordered)
+- Maintenance note
 
-Style:
-- concise but complete
-- bullet-first, short paragraphs
-- concrete examples, no vague wording
-- enough context for a new engineer to change code safely
+Style: concise, concrete, implementation-facing.
 
-### Personal code style (enforced)
+## Personal code style
+### Priority
+- Correctness/security/user requirements override style.
+- If style tradeoff unclear, ask one clarifying question.
 
-Code should read like a book. Reader should understand flow without jumping across files.
+### MUST
+- Descriptive names.
+- Inline one-use local constants/helpers.
+- Prefer guard/early return over nesting.
+- Keep feature rules near feature code unless reused.
+- Functional chains fine when clear.
+- Comment business policy/tradeoffs.
+- Update existing comments only when wrong/outdated in touched lines.
+- Swift/Kotlin: prefer extensions over util classes.
 
-#### Priority
-- Correctness, security, and explicit user requirements override style.
-- If style tradeoff is unclear, ask one clarifying question before coding.
+### MUST NOT
+- No subclass unless explicitly requested or no practical alternative.
+- No global single-use constants.
+- No hidden global default timeout/retry in shared clients.
 
-#### MUST
-- Use descriptive variable/function/type names. Be verbose when clarity improves.
-- Inline single-use values and single-use helpers in local scope.
-- Prefer guard-style flow (`guard` / `if ... return`) over nested conditionals.
-- Keep feature-specific rules near feature code (for example route/service), unless rule is reused across multiple flows.
-- Use functional chains when callbacks stay simple and final result name stays clear.
-- Add comments for product/business policy and non-obvious technical tradeoffs.
-- Rewrite existing comments only when touching same lines and comment is outdated/wrong.
-- For Swift/Kotlin, prefer extensions over util classes.
+### DEFAULTS
+- Skip heavy boilerplate for low-probability infra failures.
+- Use typed errors for realistic runtime instability.
+- Private class constants allowed when readability improves.
+- If literal repeats 2+ times in same scope, extract.
 
-#### MUST NOT
-- Do not create subclasses unless user explicitly asks or no practical alternative exists.
-- Do not add global single-use constants.
-- Do not force one default timeout/retry policy in global/shared clients; caller should choose.
+### Risky changes
+For auth/permissions, payments, DB migration/deletion, external API behavior, core workflow changes: ask rollout strategy (feature flag/canary vs direct).
 
-#### DEFAULTS
-- For low-probability infrastructure failures, avoid heavy boilerplate error handling.
-- For realistic runtime failures (for example hardware/bluetooth/external instability), use typed errors so callers can branch if needed.
-- Private class single-use constants are allowed when readability improves.
-- If literal repeats 2+ times in same scope, extract it.
-- Keep functional chains unless result intent becomes unclear.
-
-#### Risky changes: ask before direct ship
-For auth/permissions, payments/billing, DB migration/data deletion, external API behavior changes, or core user workflow changes, ask whether to use feature flag/canary vs direct replace.
-
-#### Style gate (required before final response)
-Before sending final answer, run checklist and fix violations:
-1. One-use local constant/helper added? Inline unless private-class readability case.
-2. Any vague names or unclear result names? Rename descriptively.
-3. Any avoidable nesting? Use guard/early return.
-4. Any new policy/tradeoff without comment? Add one concise why-comment.
-5. Any subclass or global default timeout/retry policy added? Replace unless explicitly required.
-6. Any risky change category touched? Ask rollout strategy first.
-
+### Style gate before final response
+1. Inline one-use helper/constant unless private-class readability case.
+2. Rename vague names.
+3. Remove avoidable nesting.
+4. Add concise why-comment for new policy/tradeoff.
+5. Avoid subclass/global timeout-retry default unless required.
+6. If risky category touched, ask rollout strategy.
 #### Examples (bad → good)
 
 - Inline single-use helper

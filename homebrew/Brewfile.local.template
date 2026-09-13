@@ -6,3 +6,4 @@
 # cask "tailscale-app"
 # brew "sonar-scanner"
 # cask "slack"
+# cask "nextcloud"

@@ -1,10 +1,10 @@
 {
-  "lastChangelogVersion": "0.84.3",
+  "lastChangelogVersion": "0.85.1",
   "enabledModels": [
     "github-copilot/gpt-5.3-codex",
-    "github-copilot/gemini-3.7-flash",    
-    "openrouter/deepseek/deepseek-v4-flash",
-    "openrouter/deepseek/deepseek-v4-pro"
+    "github-copilot/gemini-3.7-flash",
+    "openrouter/deepseek/deepseek-v4-flash-0731",
+    "openrouter/google/gemini-3.7-flash"
   ],
   "defaultThinkingLevel": "medium",
   "hideThinkingBlock": true,

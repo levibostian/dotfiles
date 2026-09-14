@@ -1,5 +1,6 @@
 {
   "trustedformulae": [
+    "atlassian/acli/acli",
     "https://github.com/mattwilkinsonn/zireael/jj-hooks",
     "rikeda71/tap/ghostty-pane-splitter"
   ]

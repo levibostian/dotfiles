@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Determine current head bookmark
+head_bookmark="$(jj log -r "@" --no-graph -T 'local_bookmarks.map(|b| b.name()).join("\n")' 2>/dev/null | head -n 1)"
+if [ -z "$head_bookmark" ]; then
+  head_bookmark="$(jj log -r "@-" --no-graph -T 'local_bookmarks.map(|b| b.name()).join("\n")' 2>/dev/null | head -n 1)"
+fi
+
+if [ -z "$head_bookmark" ]; then
+  echo "Error: could not determine bookmark on current or parent commit" >&2
+  exit 1
+fi
+
+base_bookmark="$(jj-find-pr-parent-bookmark)"
+
+if [ -z "$base_bookmark" ]; then
+  echo "Error: could not find parent PR base bookmark" >&2
+  exit 1
+fi
+
+echo "merging $base_bookmark into $head_bookmark"
+jj new "$head_bookmark" "$base_bookmark" -m "merge $base_bookmark"
+jj bookmark move "$head_bookmark" --to @

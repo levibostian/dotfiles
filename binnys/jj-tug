@@ -18,4 +18,38 @@ if [ "$#" -eq 1 ]; then
   from_revset="$1"
 fi
 
-jj bookmark move --from "$from_revset" --to @
+bookmark_names="$(jj bookmark list -r "$from_revset" -T 'name ++ "\n"')"
+bookmark_count="$(printf '%s\n' "$bookmark_names" | sed '/^$/d' | wc -l | tr -d ' ')"
+
+selected_bookmark=""
+
+if [ "$bookmark_count" -eq 1 ]; then
+  selected_bookmark="$(printf '%s\n' "$bookmark_names" | sed '/^$/d')"
+fi
+
+if [ "$bookmark_count" -ge 2 ]; then
+  if command -v fzf >/dev/null 2>&1; then
+    selected_bookmark="$(printf '%s\n' "$bookmark_names" | sed '/^$/d' | fzf --prompt='Select bookmark to tug: ' --height=40% --reverse --no-multi)"
+
+    if [ -z "$selected_bookmark" ]; then
+      echo "No bookmark selected. Aborting." >&2
+      exit 1
+    fi
+  else
+    echo "Multiple bookmarks can be tugged:" >&2
+    printf '%s\n' "$bookmark_names" | sed '/^$/d' | nl -w2 -s'. ' >&2
+    printf 'Pick bookmark name: ' >&2
+    read -r selected_bookmark
+
+    if [ -z "$selected_bookmark" ]; then
+      echo "No bookmark selected. Aborting." >&2
+      exit 1
+    fi
+  fi
+fi
+
+if [ -n "$selected_bookmark" ]; then
+  jj bookmark move "$selected_bookmark" --to @
+else
+  jj bookmark move --from "$from_revset" --to @
+fi

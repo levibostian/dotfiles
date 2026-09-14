@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Find local bookmark on current commit (@) or parent commit (@-)
+bookmark="$(jj log -r "@" --no-graph -T 'local_bookmarks.map(|b| b.name()).join("\n")' 2>/dev/null | head -n 1)"
+
+if [ -z "$bookmark" ]; then
+  bookmark="$(jj log -r "@-" --no-graph -T 'local_bookmarks.map(|b| b.name()).join("\n")' 2>/dev/null | head -n 1)"
+fi
+
+if [ -z "$bookmark" ]; then
+  echo "Error: could not determine bookmark on current or parent commit" >&2
+  exit 1
+fi
+
+GH_PAGER="" gh pr view "$bookmark" --json url --jq .url

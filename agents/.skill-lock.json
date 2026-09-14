@@ -215,6 +215,66 @@
       "pluginName": "swift-testing-expert",
       "installedAt": "2026-08-07T17:01:38.003Z",
       "updatedAt": "2026-08-07T17:01:38.003Z"
+    },
+    "spm-build-analysis": {
+      "source": "avdlee/xcode-build-optimization-agent-skill",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/avdlee/xcode-build-optimization-agent-skill.git",
+      "skillPath": "skills/spm-build-analysis/SKILL.md",
+      "skillFolderHash": "1129f379d0b0b9005f1620904c899eac1103843f",
+      "pluginName": "xcode-build-skills",
+      "installedAt": "2026-09-14T20:01:15.085Z",
+      "updatedAt": "2026-09-14T20:01:15.085Z"
+    },
+    "xcode-build-benchmark": {
+      "source": "avdlee/xcode-build-optimization-agent-skill",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/avdlee/xcode-build-optimization-agent-skill.git",
+      "skillPath": "skills/xcode-build-benchmark/SKILL.md",
+      "skillFolderHash": "73eb0d4c360f0823ee0a2fcf2fd9ae338b1f5c21",
+      "pluginName": "xcode-build-skills",
+      "installedAt": "2026-09-14T20:01:15.110Z",
+      "updatedAt": "2026-09-14T20:01:15.110Z"
+    },
+    "xcode-build-fixer": {
+      "source": "avdlee/xcode-build-optimization-agent-skill",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/avdlee/xcode-build-optimization-agent-skill.git",
+      "skillPath": "skills/xcode-build-fixer/SKILL.md",
+      "skillFolderHash": "6fad371b4ff719e95ef5b807cec83b726bba8dbf",
+      "pluginName": "xcode-build-skills",
+      "installedAt": "2026-09-14T20:01:15.162Z",
+      "updatedAt": "2026-09-14T20:01:15.162Z"
+    },
+    "xcode-build-orchestrator": {
+      "source": "avdlee/xcode-build-optimization-agent-skill",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/avdlee/xcode-build-optimization-agent-skill.git",
+      "skillPath": "skills/xcode-build-orchestrator/SKILL.md",
+      "skillFolderHash": "598ce4c006438eed1433263a3b2d2fdfcdaae71c",
+      "pluginName": "xcode-build-skills",
+      "installedAt": "2026-09-14T20:01:15.233Z",
+      "updatedAt": "2026-09-14T20:01:15.233Z"
+    },
+    "xcode-compilation-analyzer": {
+      "source": "avdlee/xcode-build-optimization-agent-skill",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/avdlee/xcode-build-optimization-agent-skill.git",
+      "skillPath": "skills/xcode-compilation-analyzer/SKILL.md",
+      "skillFolderHash": "7b772a68bf21087bcca5cf3085a57a414d7bd304",
+      "pluginName": "xcode-build-skills",
+      "installedAt": "2026-09-14T20:01:15.252Z",
+      "updatedAt": "2026-09-14T20:01:15.252Z"
+    },
+    "xcode-project-analyzer": {
+      "source": "avdlee/xcode-build-optimization-agent-skill",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/avdlee/xcode-build-optimization-agent-skill.git",
+      "skillPath": "skills/xcode-project-analyzer/SKILL.md",
+      "skillFolderHash": "25a5b7978d4a95ccd76c56aa873f775814731e08",
+      "pluginName": "xcode-build-skills",
+      "installedAt": "2026-09-14T20:01:15.277Z",
+      "updatedAt": "2026-09-14T20:01:15.277Z"
     }
   },
   "dismissed": {
@@ -222,14 +282,13 @@
   },
   "lastSelectedAgents": [
     "amp",
-    "antigravity",
-    "antigravity-cli",
     "cline",
     "codex",
     "cursor",
-    "deepagents",
+    "droid",
     "gemini-cli",
     "github-copilot",
+    "kilo",
     "kimi-code-cli",
     "opencode",
     "warp",

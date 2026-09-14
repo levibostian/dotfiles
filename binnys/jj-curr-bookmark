@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+get_bookmarks() {
+  local rev="$1"
+  local bms=()
+  while IFS= read -r line; do
+    [ -n "$line" ] && bms+=("$line")
+  done < <(jj log -r "$rev" --no-graph -T 'local_bookmarks.map(|b| b.name() ++ "\n").join("")' 2>/dev/null)
+
+  if [ "${#bms[@]}" -gt 1 ]; then
+    echo "Error: multiple bookmarks found on $rev (${bms[*]})" >&2
+    return 2
+  fi
+
+  if [ "${#bms[@]}" -eq 1 ]; then
+    echo "${bms[0]}"
+    return 0
+  fi
+
+  return 1
+}
+
+# Check working copy first
+set +e
+bm="$(get_bookmarks "@")"
+status=$?
+set -e
+
+if [ "$status" -eq 0 ]; then
+  echo "$bm"
+  exit 0
+elif [ "$status" -eq 2 ]; then
+  exit 1
+fi
+
+# Fallback to parent commit
+set +e
+bm="$(get_bookmarks "@-")"
+status=$?
+set -e
+
+if [ "$status" -eq 0 ]; then
+  echo "$bm"
+  exit 0
+elif [ "$status" -eq 2 ]; then
+  exit 1
+fi
+
+echo "Error: no bookmark found on current or parent commit" >&2
+exit 1

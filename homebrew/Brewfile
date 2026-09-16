@@ -5,6 +5,12 @@
 local_brewfile = File.expand_path("Brewfile.local", __dir__)
 instance_eval(File.read(local_brewfile), local_brewfile) if File.exist?(local_brewfile)
 
+# Job scheduler per directory (build from source using local tap)
+tap "local/tap", trusted: {
+  formula:  "crn"
+}
+brew "crn", args: ["HEAD"]
+
 # Download with resuming and segmented downloading
 brew "aria2"
 # GitHub command-line tool

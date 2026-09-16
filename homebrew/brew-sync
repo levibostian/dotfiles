@@ -1,6 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Local tap lives in this repo (local-tap/), symlinked into Homebrew's Taps dir.
+# Recreate the link on fresh clones; formula source stays in cwd.
+TAP_LINK="$(brew --repository)/Library/Taps/local/homebrew-tap"
+if [ ! -e "$TAP_LINK" ]; then
+  mkdir -p "$(dirname "$TAP_LINK")"
+  ln -s "$(cd "$(dirname "$0")" && pwd)/local-tap" "$TAP_LINK"
+fi
+
 # Installs missing programs. Deletes programs not in the Brewfile (great way to uninstall things quickly)
 # Upgrades out of date programs. 
 

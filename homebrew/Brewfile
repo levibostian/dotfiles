@@ -65,6 +65,14 @@ brew "uv"
 brew "xcbeautify"
 # Fish-like fast/unobtrusive autosuggestions for zsh
 brew "zsh-autosuggestions"
+# set default program for file extensions on mac 
+brew "duti"
+# child program of duti - but a little easier to use. 
+tap "tsonglew/tap", trusted: {
+  formula:  "dutis"
+}
+brew "dutis"
+
 # Password manager that keeps all passwords secure behind one password
 cask "1password", args: { appdir: "/Applications" }
 # Tools for building Android applications

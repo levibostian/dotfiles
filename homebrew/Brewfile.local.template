@@ -12,3 +12,5 @@
 #   formula:  "acli"
 # }
 # brew "acli"
+# git lfs support
+# brew "git-lfs"

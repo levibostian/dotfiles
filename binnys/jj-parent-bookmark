@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Find nearest ancestor bookmark before current bookmark/working copy
+# Exclude bookmarks on @ and @- if they match curr_bookmark
+curr_bm="$(jj-curr-bookmark 2>/dev/null || true)"
+
+filter=""
+if [ -n "$curr_bm" ]; then
+  filter=" ~ bookmarks(exact:\"$curr_bm\")"
+fi
+
+parent_bm="$(jj log -r "heads(::@- & bookmarks()$filter)" --no-graph -T 'local_bookmarks.map(|b| b.name() ++ "\n").join("")' 2>/dev/null | head -n 1)"
+
+if [ -z "$parent_bm" ]; then
+  echo "Error: no parent bookmark found" >&2
+  exit 1
+fi
+
+echo "$parent_bm"

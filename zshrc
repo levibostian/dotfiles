@@ -209,3 +209,6 @@ export PATH="$PATH:$HOME/.lmstudio/bin"
 
 # sentry
 fpath=("/Users/levi.bostian/.local/share/zsh/site-functions" $fpath)
+
+# sentry shortcut
+alias sentry='sentry-cli'

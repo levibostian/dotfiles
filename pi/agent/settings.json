@@ -21,7 +21,7 @@
     "git:github.com/robzolkos/pi-disable-model-skill-invocation",
     "npm:pi-edit-last-message",
     "npm:pi-system-prompt-viewer",
-    "npm:context-mode"
+    "npm:pi-xcode-mcp"
   ],
   "extensions": [],
   "pi-ghostty-notifier": {

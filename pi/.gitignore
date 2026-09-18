@@ -6,7 +6,6 @@ agent/update-cache.json
 agent/npm/
 agent/trust.json
 agent/fff/
-context-mode/
 agent/models-store.json
 pi-acp/session-map.json
 

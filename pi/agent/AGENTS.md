@@ -20,38 +20,6 @@
 - Goal-driven: define success, verify before done.
 <!-- karpathy -->
 
-<!-- context-mode -->
-## Context-mode (strict)
-Default: use context-mode for exploration/analysis/recall.
-
-### Priority (must follow)
-1. `ctx_batch_execute`
-2. `ctx_execute`
-3. `ctx_execute_file`
-4. `ctx_search`
-
-### Routing
-- File analysis (no edits): `ctx_execute_file`
-- 2+ commands / research: `ctx_batch_execute`
-- Parse/filter/count/derive: `ctx_execute`
-- Web docs/pages: `ctx_fetch_and_index` then `ctx_search`
-- Index local docs/specs: `ctx_index`
-- Recall prior decisions/errors/docs: `ctx_search`
-- Session savings: `ctx_stats`
-- Diagnostics: `ctx_doctor`
-- Upgrade: `ctx_upgrade`
-- Purge memory: `ctx_purge` (confirm + explicit scope)
-
-### Native tool guardrail
-- Use `read`/`bash` only for exact edit targeting or one short observational command.
-- No repeated read/grep/bash loops when context-mode can answer in one call.
-
-### Failure fallback
-1. Retry once with simpler context-mode call.
-2. Then fallback native tool.
-3. Note why fallback needed.
-<!-- context-mode -->
-
 <!-- context7 -->
 ## ctx7 docs policy
 Use ctx7 for library/framework/SDK/API/CLI/cloud docs (even common libs).

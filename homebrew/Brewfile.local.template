@@ -7,8 +7,8 @@
 # brew "sonar-scanner"
 # cask "slack"
 # cask "nextcloud"
-
-tap "atlassian/acli", trusted: {
-  formula:  "acli"
-}
-brew "acli"
+# atlassian cli (used for jira cli)
+# tap "atlassian/acli", trusted: {
+#   formula:  "acli"
+# }
+# brew "acli"

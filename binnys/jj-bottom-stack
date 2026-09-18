@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+curr_bookmark="$(jj-curr-bookmark)"
+parent_bookmark="$(jj-parent-bookmark)"
+
+if [ -z "$parent_bookmark" ]; then
+  echo "Error: could not find parent bookmark" >&2
+  exit 1
+fi
+
+# roots(parent..curr) finds the bottom commit(s) of the stack above parent bookmark
+change_id="$(jj log -r "roots(${parent_bookmark}..${curr_bookmark})" --no-graph -T 'change_id ++ "\n"' | head -n 1)"
+
+if [ -z "$change_id" ]; then
+  echo "Error: no commit found between $parent_bookmark and $curr_bookmark" >&2
+  exit 1
+fi
+
+echo "$change_id"

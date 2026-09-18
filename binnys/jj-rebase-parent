@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+jj rebase -s "$(jj-bottom-stack)" -d "$(jj-find-pr-parent-bookmark)" "$@"

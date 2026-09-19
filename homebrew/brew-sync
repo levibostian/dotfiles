@@ -1,6 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# One sudo prompt up front; keep the ticket fresh (60s < 5min expiry) so brew's
+# per-step sudo calls (pkg casks, root-owned cleanup) never re-prompt mid-run.
+sudo -v
+SUDO_REFRESHER=
+( while true; do sudo -nv; sleep 60; done ) &
+SUDO_REFRESHER=$!
+trap 'kill $SUDO_REFRESHER 2>/dev/null' EXIT
+
 # Local tap lives in this repo (local-tap/), symlinked into Homebrew's Taps dir.
 # Recreate the link on fresh clones; formula source stays in cwd.
 TAP_LINK="$(brew --repository)/Library/Taps/local/homebrew-tap"

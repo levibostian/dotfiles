@@ -13,4 +13,10 @@ if [ -z "$bookmark" ]; then
   exit 1
 fi
 
+repo="$(jj git remote list 2>/dev/null | awk '$1 == "origin" {print $2; exit}' | sed -e 's|^.*github\.com[:/]||' -e 's|\.git$||')"
+
+if [ -n "$repo" ]; then
+  export GH_REPO="$repo"
+fi
+
 GH_PAGER="" gh pr view "$bookmark" --json url --jq .url

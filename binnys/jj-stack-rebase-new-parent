@@ -31,4 +31,5 @@ if [ -z "$source_commit" ] || [ -z "$destination_commit" ]; then
   exit 1
 fi
 
-jj rebase -s "$source_commit" -d "$destination_commit"
+echo "Running: jj rebase --ignore-immutable -s \"$source_commit\" -d \"$destination_commit\""
+jj rebase --ignore-immutable -s "$source_commit" -d "$destination_commit"

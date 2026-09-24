@@ -14,3 +14,5 @@
 # brew "acli"
 # git lfs support
 # brew "git-lfs"
+# Box mac app to browse Box files on mac. 
+# cask "box-drive"

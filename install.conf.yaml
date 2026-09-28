@@ -78,6 +78,10 @@
       create: true 
       path: config/mise
 
+    ~/.config/zed/themes:
+      create: true
+      path: config/zed/themes
+
 - create:
   - ~/.oh-my-zsh
   - ~/.ssh

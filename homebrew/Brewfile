@@ -128,6 +128,8 @@ tap "abue-ammar/tinycast", trusted: {
   cask:  "tinycast"
 }
 cask "tinycast"
+# code editor 
+cask "zed"
 
 mas "InYourFace", id: 1476964367
 mas "NextDNS", id: 1464122853

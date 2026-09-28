@@ -212,3 +212,6 @@ fpath=("/Users/levi.bostian/.local/share/zsh/site-functions" $fpath)
 
 # sentry shortcut
 alias sentry='sentry-cli'
+
+# use `code` command for Zed (e.g. `code .` opens cwd in Zed)
+alias code='zed'

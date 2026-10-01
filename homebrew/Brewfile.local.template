@@ -16,3 +16,5 @@
 # brew "git-lfs"
 # Box mac app to browse Box files on mac. 
 # cask "box-drive"
+# brave browser
+# cask "brave-browser"

@@ -1,7 +1,7 @@
 {
   "lastChangelogVersion": "0.85.1",
   "enabledModels": [
-    "github-copilot/gpt-5.3-codex",
+    "github-copilot/gpt-6-luna",
     "github-copilot/gemini-3.7-flash",
     "openrouter/deepseek/deepseek-v4.1-flash",
     "openrouter/google/gemini-3.7-flash"

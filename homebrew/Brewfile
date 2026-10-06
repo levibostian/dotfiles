@@ -130,6 +130,8 @@ tap "abue-ammar/tinycast", trusted: {
 cask "tinycast"
 # code editor 
 cask "zed"
+# simple, small, image annotation tool developed and supported by 1 person & is paid.
+cask "shottr"
 
 mas "InYourFace", id: 1476964367
 mas "NextDNS", id: 1464122853

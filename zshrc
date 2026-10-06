@@ -88,6 +88,10 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
+# oh-my-zsh's git plugin aliases `gg` to `git gui citool`, which shadows the gg GUI
+# (/opt/homebrew/bin/gg -> /Applications/gg.app). Drop the alias so `gg` runs the app.
+unalias gg 2>/dev/null
+
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment

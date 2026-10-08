@@ -78,7 +78,7 @@ cask "1password", args: { appdir: "/Applications" }
 # Tools for building Android applications
 cask "android-studio"
 # Menu bar icon organiser
-cask "bartender"
+# cask "bartender"
 # Image, video and clipboard optimiser
 cask "clop"
 # Presentations from Markdown
@@ -94,7 +94,7 @@ cask "macwhisper"
 # Window snapping tool
 cask "rectangle-pro"
 # Sound and audio controller
-cask "soundsource"
+# cask "soundsource"
 # Music streaming service
 cask "spotify"
 # Git client
@@ -103,8 +103,6 @@ cask "sublime-merge"
 cask "visual-studio-code"
 # Command-line interface for 1Password
 cask "1password-cli"
-# Presentations from Markdown
-cask "deckset"
 # Windows manager and desktop organiser
 cask "hazeover"
 # Control your tools with a few keystrokes
@@ -123,12 +121,12 @@ cask "daisydisk"
 cask "db-browser-for-sqlite"
 # Monitor token usage, costs, and limits across AI coding tools
 cask "token-monitor"
-# open source raycast alternative 
-tap "abue-ammar/tinycast", trusted: {
-  cask:  "tinycast"
-}
-cask "tinycast"
-# code editor 
+# open source raycast alternative
+# tap "abue-ammar/tinycast", trusted: {
+#  cask:  "tinycast"
+# }
+# cask "tinycast"
+# code editor
 cask "zed"
 # simple, small, image annotation tool developed and supported by 1 person & is paid.
 cask "shottr"

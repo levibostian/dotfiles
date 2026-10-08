@@ -1,6 +1,6 @@
 ---
 name: sentry-cli-cli
-version: 0.35.0
+version: 0.47.0
 description: CLI-related commands
 requires:
   bins: ["sentry"]
@@ -10,6 +10,22 @@ requires:
 # CLI Commands
 
 CLI-related commands
+
+### `sentry cli completion <shell>`
+
+Print the shell completion script
+
+**Examples:**
+
+```bash
+# Print completions for your current shell (auto-detected from $SHELL)
+sentry cli completion
+
+# Generate for a specific shell
+sentry cli completion zsh > ~/.local/share/zsh/site-functions/_sentry
+eval "$(sentry cli completion bash)"
+sentry cli completion fish > ~/.config/fish/completions/sentry.fish
+```
 
 ### `sentry cli defaults <key value...>`
 
@@ -34,6 +50,12 @@ sentry cli defaults project my-project
 
 # Set default Sentry URL (self-hosted)
 sentry cli defaults url https://sentry.example.com
+
+# Set custom HTTP headers (self-hosted, e.g. for IAP/proxies)
+sentry cli defaults headers "X-IAP: token"
+
+# Set a custom CA certificate (self-hosted, behind a TLS proxy)
+sentry cli defaults ca-cert /path/to/ca.pem
 
 # Disable telemetry
 sentry cli defaults telemetry off
@@ -127,6 +149,29 @@ sentry cli setup --no-agent-skills
 sentry cli setup --no-modify-path --no-completions
 ```
 
+### `sentry cli uninstall`
+
+Uninstall Sentry CLI
+
+**Flags:**
+- `--keep-config - Keep the config directory (~/.sentry) and auth tokens`
+- `-y, --yes - Skip confirmation prompt`
+- `-f, --force - Force the operation without confirmation`
+- `-n, --dry-run - Show what would happen without making changes`
+
+**Examples:**
+
+```bash
+# Show what would be removed (dry run)
+sentry cli uninstall --dry-run
+
+# Uninstall, keeping config directory
+sentry cli uninstall --yes --keep-config
+
+# Full uninstall with confirmation
+sentry cli uninstall
+```
+
 ### `sentry cli upgrade <version>`
 
 Update the Sentry CLI to the latest version
@@ -135,6 +180,7 @@ Update the Sentry CLI to the latest version
 - `--check - Check for updates without installing`
 - `--force - Force upgrade even if already on the latest version`
 - `--offline - Upgrade using only cached version info and patches (no network)`
+- `--no-agent-skills - Skip agent skill installation for AI coding assistants`
 - `--method <value> - Installation method to use (curl, brew, npm, pnpm, bun, yarn)`
 
 **Examples:**

@@ -5,6 +5,7 @@
 # cask "xcodes"
 # cask "tailscale-app"
 # brew "sonar-scanner"
+# brew "azure-cli"
 # cask "slack"
 # cask "nextcloud"
 # atlassian cli (used for jira cli)

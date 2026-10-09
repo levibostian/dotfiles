@@ -1,5 +1,8 @@
 .DS_Store
 
+# Boilerplate; automatically maintained by running ./brew-sync.
+homebrew/trust.json
+
 # python
 __pycache__/
 *.pyc

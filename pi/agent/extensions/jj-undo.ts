@@ -60,6 +60,7 @@ export default function (pi: ExtensionAPI) {
     const opId = await captureCurrentOpId(ctx.cwd);
     if (!opId) return; // not a jj repo; /undo will report no snapshot
     state.snapshotOpId = opId;
+    ctx.ui.notify(`jj op snapshot - ${opId}`, "info");
     // A new user message moves history forward, so any stale redo target no longer applies.
     state.redoOpId = null;
     state.redoLeafId = null;

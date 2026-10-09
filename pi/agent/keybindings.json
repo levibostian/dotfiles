@@ -1,4 +1,6 @@
 {
   "app.thinking.cycle": [],
-  "app.thinking.toggle": []
+  "app.thinking.toggle": [],
+  "app.message.followUp": "enter",
+  "tui.input.submit": "alt+enter"
 }

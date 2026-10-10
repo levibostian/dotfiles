@@ -1,0 +1,75 @@
+#!/usr/bin/env bash
+#
+# default-apps-sync — make this Mac's file associations match dutis.toml.
+#
+# Safe to run from cron daily: it prints a line and changes nothing while
+# everything already matches. A desktop notification only appears when drift
+# had to be fixed, or when drift needs a human (target app missing, or a type
+# Launch Services refuses to change).
+#
+# Usage:
+#   default-apps-sync            # fix drift
+#   default-apps-sync --dry-run  # show what would change
+set -euo pipefail
+
+CONFIG="${DUTIS_CONFIG:-$HOME/.default-apps/dutis.toml}"
+REQUESTER="default-apps-sync"
+ATTEMPTS=3
+
+notify() { # $1 title, $2 message
+  osascript -e "display notification \"$2\" with title \"$1\"" >/dev/null 2>&1 || true
+}
+
+die() {
+  echo "default-apps-sync: $1" >&2
+  notify "Default apps sync needs attention" "$1"
+  exit 1
+}
+
+command -v dutis >/dev/null 2>&1 || die "dutis is not installed (brew install tsonglew/tap/dutis)"
+command -v jq >/dev/null 2>&1 || die "jq is not installed"
+[ -f "$CONFIG" ] || die "config not found: $CONFIG"
+
+changes=0
+details=""
+
+for attempt in $(seq "$ATTEMPTS"); do
+  report=$(dutis watch "$CONFIG" --once --json) || die "could not read current associations (dutis watch failed)"
+
+  if [ "$(jq -r '.data.report.state' <<<"$report")" = "in_sync" ]; then
+    if [ "$attempt" -eq 1 ]; then
+      echo "default-apps-sync: in sync, nothing to do"
+      exit 0
+    fi
+    # Launch Services keeps serving the previous handler for a moment after a
+    # write, so `apply` can report a verification failure for a change that did
+    # land. A later check finding it converged means the change worked.
+    echo "default-apps-sync: fixed $changes association(s)"
+    echo "$details"
+    notify "Default apps updated" "$changes association(s) re-applied by default-apps-sync"
+    exit 0
+  fi
+
+  if [ "$(jq -r '.data.report.unresolved | length' <<<"$report")" -gt 0 ]; then
+    die "$(jq -r '.data.report.unresolved | length' <<<"$report") association(s) have no installed target app: $(jq -r '[.data.report.unresolved[].extension] | join(", ")' <<<"$report")"
+  fi
+
+  changes=$(jq -r '.data.report.changes | length' <<<"$report")
+  details=$(jq -r '[.data.report.changes[] | "  .\(.extension) \(.current.bundle_id // "unset") -> \(.target.bundle_id)"] | join("\n")' <<<"$report")
+
+  if [ "${1:-}" = "--dry-run" ]; then
+    echo "default-apps-sync: would fix $changes association(s)"
+    echo "$details"
+    exit 0
+  fi
+
+  # Exit 7 = the reviewed digest went stale (e.g. an app was installed in between).
+  # Exit 8 = one or more entries failed, which is also how a lagging read-back
+  # looks; both retry, and the next loop check settles whether it really worked.
+  code=0
+  result=$(dutis apply "$CONFIG" --plan-digest "$(jq -r '.data.report.plan_digest' <<<"$report")" \
+    --requester "$REQUESTER" --yes --json 2>&1) || code=$?
+  [ "$code" -eq 0 ] || sleep 3
+done
+
+die "$changes association(s) still drifted after $ATTEMPTS attempts: $(jq -r '[.error.details.results[]? | select(.status=="failed") | .error // .extension] | first // .error.message' <<<"$result" 2>/dev/null || echo "$result")"

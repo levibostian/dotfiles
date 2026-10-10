@@ -63,6 +63,10 @@
       create: true
       path: homebrew
 
+    ~/.default-apps:
+      create: true
+      path: default-apps
+
     ~/.config/jj:
       create: true
       path: config/jj

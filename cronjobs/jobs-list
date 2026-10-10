@@ -6,3 +6,7 @@
 
 # daily 7am
 0 7 * * * ~/.backup/run-backup > /tmp/cron-backup.log 2>&1
+
+# daily 8am - re-apply file associations only if an app changed them.
+# Stays silent unless there was drift to fix (a notification appears then).
+0 8 * * * ~/.default-apps/default-apps-sync > /tmp/default-apps-sync.log 2>&1

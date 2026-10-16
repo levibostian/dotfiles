@@ -1,4 +1,18 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-jj rebase -s "$(jj-bottom-stack)" -d "$(jj-find-pr-parent-bookmark)" "$@"
+source_ref="$(jj-bottom-stack)"
+source_change_id="$(jj log -r "$source_ref" --no-graph -T 'change_id' | head -n 1)"
+destination="$(jj-find-pr-parent-bookmark)"
+
+if [ -z "$source_change_id" ]; then
+  echo "Error: could not resolve change id from $source_ref" >&2
+  exit 1
+fi
+
+cmd=(jj rebase --ignore-immutable -s "$source_change_id" -d "$destination" "$@")
+printf 'Running:'
+printf ' %q' "${cmd[@]}"
+printf '\n'
+
+"${cmd[@]}"

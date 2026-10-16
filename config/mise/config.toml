@@ -1,5 +1,6 @@
 [tools]
 deno = "latest"
+go = "latest"
 java = "temurin-21"
 lefthook = "latest"
 "npm:pi-acp" = "latest" # https://github.com/svkozak/pi-acp

@@ -15,3 +15,4 @@ export PATH="$PATH:/Applications/Obsidian.app/Contents/MacOS"
 # 
 # binnys - a personal collection of scripts that I want added to path 
 export PATH="$HOME/.binnys:$PATH"
+export PATH="$HOME/Documents/work-scripts:$PATH"

@@ -3,6 +3,7 @@
 # https://dandavison.github.io/delta/configuration.html#jujutsu
 [ui]
 merge-editor = "smerge"
+diff-editor = ["jj-split-cli", "--editor", "zed", "$left", "$right"]
 # pager = "delta"
 # diff-formatter = ":git"
 

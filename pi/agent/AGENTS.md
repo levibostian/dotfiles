@@ -6,10 +6,6 @@
   - File: `gh api repos/{owner}/{repo}/contents/{path}?ref={sha}`
   - PR/issue: `gh pr view ...`, `gh issue view ...`
 - Non-GitHub URLs: `curl -sSL https://markdown.new/<url>`
-- Test command: prefix with `rtk test`
-- Lint command: prefix with `rtk err`
-- Format command: prefix with `rtk err`
-- After change: run requested formatter/linter/tests, fix all errors.
 - Preserve existing comments unless outdated/wrong.
 
 <!-- From: https://github.com/multica-ai/andrej-karpathy-skills/blob/main/skills/karpathy-guidelines/SKILL.md -->

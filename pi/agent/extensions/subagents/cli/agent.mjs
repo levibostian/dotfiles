@@ -21,6 +21,9 @@ const VALID_NAME = /^[\w.-]+$/;
 
 const agentDir = process.env.PI_CODING_AGENT_DIR || join(homedir(), ".pi", "agent");
 const agentsRoot = join(agentDir, AGENT_DIR_NAME);
+// Per-computer tier map: { "low": "provider/model", "medium": ..., "high": ... }.
+// Machine-specific on purpose, so it is gitignored rather than synced.
+const tierMapPath = join(agentsRoot, "models.json");
 
 function fail(message, code = 2) {
   process.stderr.write(`agent: ${message}\n`);
@@ -76,6 +79,39 @@ function loadAgent(name) {
   };
 }
 
+/**
+ * Resolve `model` to a concrete id. A value of `tier:<name>` is looked up in the
+ * per-computer tier map so synced agents stay machine-agnostic.
+ */
+function resolveModel(model) {
+  if (!model || !model.startsWith("tier:")) return model;
+
+  const tier = model.slice("tier:".length).trim();
+  if (!tier) fail('invalid model "tier:" — expected tier:<name>');
+  if (!existsSync(tierMapPath)) {
+    fail(
+      `agent asks for tier "${tier}" but no tier map exists at ${tierMapPath}.\n` +
+        'Create it, e.g. { "low": "provider/fast", "medium": "provider/mid", "high": "provider/strong" }',
+    );
+  }
+
+  let map;
+  try {
+    map = JSON.parse(readFileSync(tierMapPath, "utf8"));
+  } catch (error) {
+    fail(`cannot read ${tierMapPath}: ${error.message}`);
+  }
+  if (!map || typeof map !== "object" || Array.isArray(map)) {
+    fail(`${tierMapPath} must be a JSON object mapping tier name to model id`);
+  }
+
+  const resolved = asString(map[tier]);
+  if (!resolved) {
+    fail(`tier "${tier}" is not defined in ${tierMapPath}. Available: ${Object.keys(map).join(", ") || "none"}`);
+  }
+  return resolved;
+}
+
 function buildPiArgs(agent, name, prompt) {
   const args = ["--print", "--name", `subagent:${name}`];
   if (agent.provider) args.push("--provider", agent.provider);
@@ -129,6 +165,7 @@ if (!existsSync(join(agentsRoot, name))) {
 if (!prompt) fail(`missing task. Usage: agent ${name} "your prompt"`);
 
 const agent = loadAgent(name);
+agent.model = resolveModel(agent.model);
 const piBin = process.env.PI_BIN || "pi";
 const child = spawn(piBin, buildPiArgs(agent, name, prompt), { stdio: ["ignore", "inherit", "inherit"] });
 

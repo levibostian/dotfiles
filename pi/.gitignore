@@ -7,6 +7,9 @@ agent/npm/
 agent/trust.json
 agent/fff/
 agent/models-store.json
+
+# Per-computer subagent tier map (low/medium/high -> model id); differs per machine.
+agent/subagents/models.json
 pi-acp/session-map.json
 
 # the npm:@fgladisch/pi-caveman extension has a '/caveman update' command that git clones the caveman repo into this dir. 

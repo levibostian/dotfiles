@@ -33,16 +33,31 @@ as context. The main agent can then act on it.
 ## Quick start
 
 ```bash
+# 1. On each computer, map tiers to real model IDs (see `pi --list-models`).
+mkdir -p ~/.pi/agent/subagents
+cat > ~/.pi/agent/subagents/models.json <<'EOF'
+{
+  "low": "openrouter/anthropic/claude-haiku-4.5",
+  "medium": "openrouter/anthropic/claude-sonnet-4.5",
+  "high": "openrouter/anthropic/claude-opus-4.8"
+}
+EOF
+
+# 2. Create the agent once. The directory name is the agent name.
 mkdir -p ~/.pi/agent/subagents/code-reviewer
 cat > ~/.pi/agent/subagents/code-reviewer/settings.json <<'EOF'
 {
-  "model": "provider/model-id",
+  "model": "tier:medium",
   "thinking": "high",
   "tools": ["read", "bash", "grep", "find", "ls"]
 }
 EOF
-echo "You are a meticulous code reviewer. Return a prioritized list of concrete fixes." \
-  > ~/.pi/agent/subagents/code-reviewer/SYSTEM.md
+cat > ~/.pi/agent/subagents/code-reviewer/SYSTEM.md <<'EOF'
+You are a meticulous code reviewer. Return a prioritized list of concrete fixes.
+EOF
+
+# 3. Confirm it is discovered (no pi session needed).
+agent --list
 ```
 
 Then in pi, run `/reload` and use it:
@@ -93,25 +108,82 @@ subagent's.
 ## Configuration
 
 Each agent is a directory under `~/.pi/agent/subagents/`. The directory name is
-the agent name, so `code-reviewer/` is invoked as `/agent:code-reviewer`.
+the agent name, so `code-reviewer/` is invoked as `/agent:code-reviewer`. Names
+may contain letters, digits, `_`, `.`, and `-` only — no spaces or colons.
+
+### Creating an agent
+
+1. `mkdir ~/.pi/agent/subagents/<name>` — the name must match `[A-Za-z0-9_.-]+`.
+2. Optionally add `settings.json` and/or `SYSTEM.md`. `SYSTEM.md` is plain Markdown — no frontmatter.
+3. Verify with `agent --list` (or just run it).
+4. Already inside pi? Run `/reload` so `/agent:<name>` appears.
+
+An empty directory is a valid agent: it inherits pi's default model, thinking
+level, tools, and system prompt (from your shared pi settings — not your
+currently selected session model). Add files only to override.
+
+For an agent that must not change files — a reviewer, say — restrict `tools` to
+read-only ones, e.g. `"tools": ["read", "grep", "find", "ls"]`. Leave `edit`,
+`write`, and `bash` out.
+
+```bash
+# Minimal agent — inherits everything, only adds a system prompt.
+mkdir -p ~/.pi/agent/subagents/researcher
+echo "You research topics and return concise, sourced summaries." > ~/.pi/agent/subagents/researcher/SYSTEM.md
+```
+
+To rename or remove an agent, rename or delete its directory and run `/reload`
+inside pi.
 
 | File | Required | Description |
 |---|---|---|
 | `settings.json` | No | Per-agent overrides. See fields below. Missing file = inherit everything. |
-| `SYSTEM.md` | No | Replaces the subagent's system prompt (`--system-prompt`). Missing = pi's default prompt. |
+| `SYSTEM.md` | No | Replaces the subagent's system prompt (`--system-prompt`). Plain Markdown, no frontmatter. Missing = pi's default prompt. |
 
 `settings.json` fields:
 
 | Field | Required | Description |
 |---|---|---|
-| `model` | No | Model ID to run this agent with, e.g. `anthropic/claude-sonnet-4-5`. Default: your session's model. |
+| `model` | No | A concrete model ID (`openrouter/anthropic/claude-sonnet-4.5`), or `tier:<name>` to resolve from this computer's [tier map](#model-tiers-per-computer). Find IDs with `pi --list-models`. Default: pi's configured default model. |
 | `provider` | No | Provider name, only needed when the model ID exists on multiple providers. |
-| `thinking` | No | `off`, `minimal`, `low`, `medium`, `high`, `xhigh`, or `max`. Default: your session's level. |
+| `thinking` | No | `off`, `minimal`, `low`, `medium`, `high`, `xhigh`, or `max`. Default: pi's configured default level. |
 | `tools` | No | Array (or comma-separated string) of tools the agent may use, e.g. `["read", "bash", "grep"]`. Default: pi's defaults. |
 
 Unknown keys are ignored. Credentials (`~/.pi/agent/auth.json`) and custom model
 endpoints (`~/.pi/agent/models.json`) are shared automatically — you never repeat
 auth per agent.
+
+Agents are real pi processes, so your installed packages, extensions, and global
+settings apply to them too. A globally enabled extension that modifies prompts
+(for example a caveman-mode extension) will also affect agent output.
+
+### Model tiers (per computer)
+
+Agent files are synced between machines, but the exact model you have access to
+is not. Instead of hardcoding an ID in every agent, point the agent at a tier:
+
+```json
+{ "model": "tier:medium" }
+```
+
+and map tiers to real model IDs once per computer in
+`~/.pi/agent/subagents/models.json`:
+
+```json
+{
+  "low": "openrouter/anthropic/claude-haiku-4.5",
+  "medium": "openrouter/anthropic/claude-sonnet-4.5",
+  "high": "openrouter/anthropic/claude-opus-4.8"
+}
+```
+
+Tier names are free-form — define whatever scale you like. A value without the
+`tier:` prefix is used as a literal model ID. If an agent asks for a tier that is
+not defined, the run fails with the list of available tiers.
+
+This file is machine-specific, so keep it out of version control (this repo
+already gitignores it). Both `agent` and `/agent:<name>` resolve tiers the same
+way, because the extension runs the same CLI.
 
 ## Development
 

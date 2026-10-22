@@ -1,0 +1,5 @@
+{
+  "model": "tier:medium",
+  "thinking": "high",
+  "tools": ["read", "bash", "ffgrep", "fffind"]
+}
